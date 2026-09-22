@@ -375,6 +375,66 @@ console.log('\n▶ Annuaire : filtre par pays (apostrophes comprises)')
   cleanup()
 }
 
+console.log('\n▶ Filtres : toutes les pages de liste')
+{
+  const pages = [
+    ['/decouvrir', 'Découvrir'], ['/talents', 'Talents'], ['/stylistes', 'Stylistes'],
+    ['/designers', 'Designers'], ['/mannequins', 'Mannequins'], ['/marques', 'Marques'],
+    ['/creations', 'Créations'], ['/evenements', 'Événements'], ['/opportunites', 'Opportunités'],
+    ['/annuaire', 'Horizon Directory'], ['/marketplace', 'Marketplace'], ['/actualites', 'Actualités'],
+  ]
+  /* pages filtrées par puces de catégorie : on compte les cartes plutôt que le compteur */
+  const chipPages = [['/videos', 'Vidéos', '.video-thumb'], ['/partenaires', 'Partenaires', '.card']]
+  for (const [route, nom, card] of chipPages) {
+    const { container } = await mount(route)
+    const carte = () => container.querySelectorAll(card).length
+    const chips = [...container.querySelectorAll('.pill-row .chip')].filter((c, i) => i > 0)
+    const base = carte()
+    let reduit = false
+    for (const chip of chips) {
+      fireEvent.click(chip)
+      await act(async () => {})
+      const actif = chip.classList.contains('active')
+      if (actif && carte() > 0 && carte() < base) { reduit = true; break }
+      fireEvent.click(chips[0] === chip ? chip : chips[0])
+      await act(async () => {})
+      break
+    }
+    await expect(container, `${nom} : une puce de catégorie réduit la liste (${base} → ${carte()})`, reduit)
+    cleanup()
+  }
+
+  for (const [route, nom] of pages) {
+    const { container } = await mount(route)
+    const bar = container.querySelector('.filter-bar')
+    if (!bar) { await expect(container, `${nom} : barre de filtres présente`, false); cleanup(); continue }
+    const count = () => Number((container.querySelector('.filter-count')?.textContent || '').match(/(\d+)/)?.[1] ?? -1)
+    const base = count()
+    const selects = [...bar.querySelectorAll('select')]
+    let reduit = false
+    for (const select of selects) {
+      const option = [...select.options].find((o) => !/^(Tous|Toutes)/i.test(o.value) && o.value !== 'Tous')
+      if (!option) continue
+      typeInto(select, option.value)
+      await act(async () => {})
+      const apres = count()
+      if (apres > 0 && apres < base) { reduit = true; break }
+      // on remet à zéro avant d'essayer le filtre suivant
+      typeInto(select, 'Tous')
+      await act(async () => {})
+    }
+    await expect(container, `${nom} : un filtre réduit bien la liste (${base} → ${count()})`, reduit)
+    const reset = [...container.querySelectorAll('.filter-bar button')].find((b) => /Réinitialiser/.test(txt(b)))
+    await expect(container, `${nom} : le filtre peut être réinitialisé`, !!reset)
+    if (reset) {
+      fireEvent.click(reset)
+      await act(async () => {})
+      await expect(container, `${nom} : la liste complète revient (${count()})`, count() === base)
+    }
+    cleanup()
+  }
+}
+
 /* ---------------------------------- bilan ---------------------------------- */
 console.log(`\n${passed} vérifications réussies, ${failures.length} en échec`)
 if (failures.length) {

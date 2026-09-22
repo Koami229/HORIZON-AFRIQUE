@@ -21,7 +21,7 @@ npm run check:links          # 4 601 liens internes + 362 images : aucun lien mo
 npm run check:a11y           # alt, intitulés accessibles, identifiants uniques, titres h1→h3, champs étiquetés
 npm run check:contrast       # contraste WCAG 2.1 AA des couples texte / fond du système de design
 npm run check:css            # classes CSS utilisées mais non définies : aucune
-npm run check:interactions   # 57/57 : parcours cliquables vérifiés sous jsdom
+npm run check:interactions   # 95/95 : parcours cliquables vérifiés sous jsdom
 ```
 
 ### Ce que couvre `check:contrast`
@@ -69,15 +69,18 @@ pouvoirs de modération) sont marqués « interaction » et couverts par `check:
 
 ### Ce que couvre `check:interactions`
 
-20 parcours réels rendus sous jsdom, avec clics, saisies et assertions sur le DOM :
+22 parcours réels rendus sous jsdom, avec clics, saisies et assertions sur le DOM :
 panier (ajout, quantité, suppression), favoris et « j'aime », assistant Horizon Boost en
 5 étapes (1 000 / 2 700 / 5 500 FCFA), inscription en 4 étapes, filtres Marketplace et par pays,
 onglets du profil marque TOURÉ., suivi et désabonnement d'une marque, prise de contact,
 choix d'une formule d'abonnement, recherche globale (résultats puis navigation),
 messagerie et demande de collaboration, publications, portfolio, paiement (Mobile Money
 et carte), filtre des commandes, menu mobile et modération côté administration, filtre par pays de
-l'annuaire (apostrophes comprises) ; l'inscription contrôle aussi la confirmation du mot de
-passe et la conservation des informations saisies.
+l'annuaire (apostrophes comprises), **et un balayage de toutes les pages de liste** : pour
+chacune, un filtre réduit bien la liste affichée puis le bouton « Réinitialiser » ramène la
+liste complète (ou, pour les pages à puces de catégorie, la puce active réduit la liste).
+L'inscription contrôle aussi la confirmation du mot de passe et la conservation des
+informations saisies.
 
 ## Stack
 
