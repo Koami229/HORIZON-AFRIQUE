@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Avatar, Badge, Btn, Chip, Crumbs, SectionHead, Tabs, useApp } from '../components/ui.jsx'
-import { IMG, boostTargets, creations, currentUser, events, fcfa, productList, products, videos } from '../data.js'
+import { BOOST_DURATIONS, IMG, boostTargets, creations, currentUser, events, fcfa, productList, products, videos } from '../data.js'
 
 /* =====================================================================
    30. PAGE ABONNEMENTS
@@ -147,11 +147,7 @@ export function HorizonBoost() {
   const [duration, setDuration] = useState(24)
   const [pay, setPay] = useState('Mobile Money')
 
-  const durations = [
-    { h: 24, price: 1000, label: '24 h — 1 jour', desc: 'Boost standard — idéal pour une publication ou un produit.' },
-    { h: 72, price: 2700, label: '72 h — 3 jours', desc: 'Bon rapport durée / prix pour une collection ou un événement.' },
-    { h: 168, price: 5500, label: '168 h — 7 jours', desc: 'Visibilité longue durée pour un profil, une marque ou une campagne.' },
-  ]
+  const durations = BOOST_DURATIONS          // grille définie dans src/data.js
   const price = durations.find((d) => d.h === duration).price
 
   const contents = {

@@ -81,8 +81,8 @@ export const IMG = {
 
 /* ------------------------------ Géographie ---------------------------- */
 export const COUNTRIES = [
-  { name: 'Bénin', flag: '🇧🇯', cities: ['Cotonou', 'Porto-Novo', 'Abomey-Calavi', 'Parakou', 'Ouidah'] },
-  { name: "Côte d'Ivoire", flag: '🇨🇮', cities: ['Abidjan', 'Bouaké', 'Yamoussoukro', 'Grand-Bassam'] },
+  { name: 'Bénin', flag: '🇧🇯', cities: ['Cotonou', 'Porto-Novo', 'Abomey-Calavi', 'Abomey', 'Parakou', 'Ouidah'] },
+  { name: 'Côte d’Ivoire', flag: '🇨🇮', cities: ['Abidjan', 'Bouaké', 'Yamoussoukro', 'Grand-Bassam'] },
   { name: 'Sénégal', flag: '🇸🇳', cities: ['Dakar', 'Saint-Louis', 'Thiès', 'Mbour'] },
   { name: 'Nigeria', flag: '🇳🇬', cities: ['Lagos', 'Abuja', 'Ibadan', 'Port Harcourt'] },
   { name: 'Ghana', flag: '🇬🇭', cities: ['Accra', 'Kumasi', 'Tamale'] },
@@ -101,9 +101,15 @@ export const COUNTRIES = [
   { name: 'Guinée', flag: '🇬🇳', cities: ['Conakry', 'Kankan'] },
   { name: 'Niger', flag: '🇳🇪', cities: ['Niamey', 'Agadez'] },
   { name: 'Madagascar', flag: '🇲🇬', cities: ['Antananarivo', 'Toamasina'] },
+  { name: 'Tanzanie', flag: '🇹🇿', cities: ['Dar es Salaam', 'Zanzibar', 'Arusha', 'Dodoma'] },
 ]
 
-export const countryFlag = (name) => COUNTRIES.find((c) => c.name === name)?.flag || '🌍'
+/* Comparaison tolérante : apostrophe droite, apostrophe typographique ou absence
+   d'apostrophe (« Cote dIvoire ») désignent le même pays. */
+const normalizeCountry = (name) => String(name).toLowerCase().replace(/[’'`]/g, '').replace(/\s+/g, ' ').trim()
+export const countryFlag = (name) =>
+  COUNTRIES.find((c) => normalizeCountry(c.name) === normalizeCountry(name))?.flag || '🌍'
+export const isKnownCountry = (name) => COUNTRIES.some((c) => normalizeCountry(c.name) === normalizeCountry(name))
 
 /* ------------------------------ Catégories ---------------------------- */
 export const TALENT_CATEGORIES = [
@@ -139,35 +145,35 @@ export const ACCOUNT_TYPES = [
 /* ------------------------------ Talents ------------------------------- */
 const rawTalents = [
   ['Aïcha Kora', 'Styliste', 'Bénin', 'Cotonou', 'Wax chic', 'Wax chic', 84500, true, 12, 'Directrice artistique de la maison Kora, Aïcha réinvente le pagne béninois en pièces de soirée sculpturales.'],
-  ['Koffi Mensah', 'Designer', 'Ghana', 'Accra', 'Contemporain', 'Design textile', 62300, true, 9, 'Designer textile et fondateur du studio Kente Lab à Accra.'],
-  ['Fatou Diallo', 'Mannequin', 'Sénégal', 'Dakar', 'Editorial', 'Podium', 121400, true, 8, 'Mannequin international, 42 défilés, Dakar Fashion Week, Lagos FW.'],
-  ['Ngozi Okafor', 'Photographe', 'Nigeria', 'Lagos', 'Portrait', 'Mode & portrait', 38600, true, 15, 'Photographe de mode basée à Lagos, direction artistique couleur.'],
-  ['Amara Touré', 'Créateur', 'Côte d’Ivoire', 'Abidjan', 'Luxe artisanal', 'Prêt-à-porter', 51200, false, 7, 'Créateur touareg-abidjanais, travaille le cuir et le bogolan.'],
-  ['Yannick Dossou', 'Photographe', 'Bénin', 'Porto-Novo', 'Reportage', 'Événementiel', 21800, false, 5, 'Reportage mode et culture, basé entre Porto-Novo et Cotonou.'],
-  ['Mariam Sawadogo', 'Maquilleuse', 'Burkina Faso', 'Ouagadougou', 'Beauty', 'Éditorial & défilé', 29400, true, 11, 'Beauty artist, directrice maquillage FESPACO.'],
-  ['Zita Bongo', 'Coiffeur', 'Gabon', 'Libreville', 'Afro', 'Tresses & éditorial', 18700, false, 6, 'Spécialiste coiffures afro-éditoriales et perruques sur mesure.'],
-  ['Emeka Obi', 'Sculpteur', 'Nigeria', 'Abuja', 'Contemporain', 'Bronze & bois', 15200, true, 20, 'Sculpteur bronze, exposé à Lagos, Accra et Dakar.'],
-  ['Sira Camara', 'Illustrateur', 'Mali', 'Bamako', 'Illustration', 'Mode illustrée', 26800, false, 4, 'Illustratrice de mode, plume et encre, éditions Bamako.'],
-  ['Kwame Boateng', 'Designer', 'Ghana', 'Kumasi', 'Minimaliste', 'Design produit', 33100, true, 10, 'Designer produit, mobilier et objets en raphia.'],
-  ['Leila Ben Salah', 'Styliste', 'Tunisie', 'Tunis', 'Méditerranée', 'Broderie', 44200, true, 13, 'Styliste, broderie tunisienne contemporaine.'],
-  ['Amadou Keïta', 'Artisan', 'Mali', 'Ségou', 'Bijoux', 'Or & argent', 12100, true, 22, 'Orfèvre, bijoux filigranes, atelier familial depuis 1954.'],
-  ['Thandiwe Moyo', 'Artiste', 'Afrique du Sud', 'Johannesburg', 'Plasticienne', 'Installation', 57700, true, 18, 'Plasticienne, installations textiles et mémoire.'],
-  ['Cheikh Ndiaye', 'Styliste', 'Sénégal', 'Dakar', 'Traditionnel revisité', 'Bazin & broderie', 71900, true, 16, 'Maison Ndiaye, bazin riche et broderie main.'],
-  ['Adjoa Mensah', 'Créateur', 'Ghana', 'Accra', 'Streetwear', 'Upcycling', 25600, false, 3, 'Upcycling, streetwear à base de tissus recyclés.'],
-  ['Divine Nkurunziza', 'Mannequin', 'Rwanda', 'Kigali', 'Editorial', 'Beauté & podium', 40300, false, 4, 'Mannequin, ambassadrice beauté Kigali.'],
-  ['Anifa Rasoanaivo', 'Artisan', 'Madagascar', 'Antananarivo', 'Vannerie', 'Raphia & soie', 9800, false, 9, 'Vannerie raphia, coopérative de 24 femmes.'],
-  ['Binta Bah', 'Coiffeur', 'Guinée', 'Conakry', 'Afro', 'Coiffure mariage', 14200, false, 7, 'Coiffures de mariage et événements.'],
-  ['Ousmane Sy', 'Photographe', 'Sénégal', 'Saint-Louis', 'Documentaire', 'Mode urbaine', 30500, true, 12, 'Photographe documentaire, séries urbaines.'],
-  ['Ramata Koné', 'Maquilleuse', 'Côte d’Ivoire', 'Abidjan', 'Beauty', 'Mariage & défilé', 22900, false, 8, 'Maquillage mariage, peau noire et métissée.'],
-  ['Chidi Nwosu', 'Illustrateur', 'Nigeria', 'Lagos', 'Concept art', 'Direction artistique', 19800, false, 5, 'Illustrateur concept, capsules capsules digitales.'],
-  ['Zola Dlamini', 'Styliste', 'Afrique du Sud', 'Le Cap', 'Avant-garde', 'Tailleur', 66400, true, 14, 'Tailleur avant-gardiste, Le Cap.'],
-  ['Naïma El Fassi', 'Créateur', 'Maroc', 'Marrakech', 'Luxe artisanal', 'Maroquinerie', 39800, true, 11, 'Maroquinerie de luxe, tanneries de Fès.'],
-  ['Tiguidanké Barry', 'Mannequin', 'Guinée', 'Conakry', 'Editorial', 'Podium & beauté', 27600, false, 3, 'Nouvelle figure du podium guinéen.'],
-  ['Séna Adjovi', 'Designer', 'Bénin', 'Abomey-Calavi', 'Contemporain', 'Design d’espace', 17600, false, 6, 'Designer d’espace, scénographie d’exposition.'],
-  ['Pélagie Zinsou', 'Artisan', 'Bénin', 'Ouidah', 'Poterie', 'Terre cuite', 8400, false, 12, 'Potière, atelier de Ouidah, terre cuite émaillée.'],
-  ['Basile Ahouandjinou', 'Sculpteur', 'Bénin', 'Abomey', 'Traditionnel', 'Bois & bronze', 11300, false, 17, 'Sculpteur bois, inspiration royale d’Abomey.'],
-  ['Kagiso Mokoena', 'Designer', 'Afrique du Sud', 'Johannesburg', 'Industriel', 'Mobilier', 24100, true, 9, 'Designer industriel, mobilier contemporain africain.'],
-  ['Hosni Ben Amor', 'Artisan', 'Tunisie', 'Djerba', 'Céramique', 'Zellige & poterie', 13400, false, 15, 'Céramiste, carreaux de Djerba.'],
+  ['Koffi Mensah', 'Designer', 'Ghana', 'Accra', 'Contemporain', 'Design textile', 62300, true, 9, 'Koffi dirige le studio Kente Lab à Accra, où il développe des textiles techniques tissés à partir de coton ghanéen.'],
+  ['Fatou Diallo', 'Mannequin', 'Sénégal', 'Dakar', 'Editorial', 'Podium', 121400, true, 8, 'Mannequin international basée à Dakar, Fatou a défilé 42 fois, notamment à la Dakar Fashion Week et à la Lagos Fashion Week.'],
+  ['Ngozi Okafor', 'Photographe', 'Nigeria', 'Lagos', 'Portrait', 'Mode & portrait', 38600, true, 15, 'Photographe de mode basée à Lagos, Ngozi assure la direction artistique couleur de ses séries et travaille pour les jeunes maisons nigérianes.'],
+  ['Amara Touré', 'Créateur', 'Côte d’Ivoire', 'Abidjan', 'Luxe artisanal', 'Prêt-à-porter', 51200, false, 7, 'Créateur installé à Abidjan, Amara associe le cuir tanné artisanalement au bogolan malien dans des pièces de prêt-à-porter structurées.'],
+  ['Yannick Dossou', 'Photographe', 'Bénin', 'Porto-Novo', 'Reportage', 'Événementiel', 21800, false, 5, 'Yannick couvre les défilés et les événements culturels entre Porto-Novo et Cotonou, avec un travail documentaire sur la jeunesse urbaine.'],
+  ['Mariam Sawadogo', 'Maquilleuse', 'Burkina Faso', 'Ouagadougou', 'Beauty', 'Éditorial & défilé', 29400, true, 11, 'Beauty artist à Ouagadougou, Mariam signe les maquillages éditoriaux du FESPACO et forme de jeunes professionnelles.'],
+  ['Zita Bongo', 'Coiffeur', 'Gabon', 'Libreville', 'Afro', 'Tresses & éditorial', 18700, false, 6, 'Spécialiste des coiffures afro-éditoriales et des perruques sur mesure, Zita travaille pour les shootings et les mariages de Libreville.'],
+  ['Emeka Obi', 'Sculpteur', 'Nigeria', 'Abuja', 'Contemporain', 'Bronze & bois', 15200, true, 20, 'Sculpteur bronze installé à Abuja, Emeka expose à Lagos, Accra et Dakar ; ses pièces questionnent la mémoire familiale.'],
+  ['Sira Camara', 'Illustrateur', 'Mali', 'Bamako', 'Illustration', 'Mode illustrée', 26800, false, 4, 'Illustratrice de mode à Bamako, Sira dessine à la plume et à l’encre pour la presse et les maisons d’édition africaines.'],
+  ['Kwame Boateng', 'Designer', 'Ghana', 'Kumasi', 'Minimaliste', 'Design produit', 33100, true, 10, 'Designer produit basé à Kumasi, Kwame dessine mobilier et objets du quotidien en raphia et en bois local.'],
+  ['Leila Ben Salah', 'Styliste', 'Tunisie', 'Tunis', 'Méditerranée', 'Broderie', 44200, true, 13, 'Styliste à Tunis, Leila réinterprète la broderie tunisienne en pièces contemporaines produites en petites séries.'],
+  ['Amadou Keïta', 'Artisan', 'Mali', 'Ségou', 'Bijoux', 'Or & argent', 12100, true, 22, 'Orfèvre à Ségou, Amadou perpétue un atelier familial ouvert en 1954 : filigranes d’or et d’argent pour la bijouterie de mariage.'],
+  ['Thandiwe Moyo', 'Artiste', 'Afrique du Sud', 'Johannesburg', 'Plasticienne', 'Installation', 57700, true, 18, 'Plasticienne à Johannesburg, Thandiwe assemble installations textiles et archives familiales pour interroger la mémoire de l’apartheid.'],
+  ['Cheikh Ndiaye', 'Styliste', 'Sénégal', 'Dakar', 'Traditionnel revisité', 'Bazin & broderie', 71900, true, 16, 'Cheikh dirige Maison Ndiaye à Dakar, maison de bazin riche et de broderie main travaillée à l’aiguille.'],
+  ['Adjoa Mensah', 'Créateur', 'Ghana', 'Accra', 'Streetwear', 'Upcycling', 25600, false, 3, 'Créatrice à Accra, Adjoa transforme les chutes de tissus en pièces streetwear en série limitée et forme des couturiers à l’upcycling.'],
+  ['Divine Nkurunziza', 'Mannequin', 'Rwanda', 'Kigali', 'Editorial', 'Beauté & podium', 40300, false, 4, 'Mannequin à Kigali, Divine est ambassadrice beauté pour plusieurs marques et milite pour plus de diversité sur les podiums.'],
+  ['Anifa Rasoanaivo', 'Artisan', 'Madagascar', 'Antananarivo', 'Vannerie', 'Raphia & soie', 9800, false, 9, 'Anifa coordonne une coopérative de 24 artisanes à Antananarivo, spécialisée dans la vannerie raphia et la soie sauvage.'],
+  ['Binta Bah', 'Coiffeur', 'Guinée', 'Conakry', 'Afro', 'Coiffure mariage', 14200, false, 7, 'Coiffeuse à Conakry, Binta est reconnue pour ses coiffures de mariage et ses montages d’événements, en salon comme à domicile.'],
+  ['Ousmane Sy', 'Photographe', 'Sénégal', 'Saint-Louis', 'Documentaire', 'Mode urbaine', 30500, true, 12, 'Photographe documentaire installé à Saint-Louis, Ousmane construit des séries urbaines sur les métiers de la mode et du fleuve.'],
+  ['Ramata Koné', 'Maquilleuse', 'Côte d’Ivoire', 'Abidjan', 'Beauty', 'Mariage & défilé', 22900, false, 8, 'Maquilleuse à Abidjan, Ramata s’est spécialisée dans les peaux noires et métissées, du mariage au défilé.'],
+  ['Chidi Nwosu', 'Illustrateur', 'Nigeria', 'Lagos', 'Concept art', 'Direction artistique', 19800, false, 5, 'Illustrateur concept à Lagos, Chidi dessine les capsules digitales et les identités visuelles de jeunes marques nigérianes.'],
+  ['Zola Dlamini', 'Styliste', 'Afrique du Sud', 'Le Cap', 'Avant-garde', 'Tailleur', 66400, true, 14, 'Tailleur au Cap, Zola construit une silhouette avant-gardiste à partir de chutes de tissus et de costumes détournés.'],
+  ['Naïma El Fassi', 'Créateur', 'Maroc', 'Marrakech', 'Luxe artisanal', 'Maroquinerie', 39800, true, 11, 'Maroquinière à Marrakech, Naïma travaille les peaux des tanneries de Fès pour des pièces de luxe numérotées.'],
+  ['Tiguidanké Barry', 'Mannequin', 'Guinée', 'Conakry', 'Editorial', 'Podium & beauté', 27600, false, 3, 'Nouvelle figure du podium guinéen, Tiguidanké enchaîne les campagnes beauté et les défilés entre Conakry et Dakar.'],
+  ['Séna Adjovi', 'Designer', 'Bénin', 'Abomey-Calavi', 'Contemporain', 'Design d’espace', 17600, false, 6, 'Designer d’espace à Abomey-Calavi, Séna conçoit des scénographies d’exposition et des espaces de vente pour les créateurs.'],
+  ['Pélagie Zinsou', 'Artisan', 'Bénin', 'Ouidah', 'Poterie', 'Terre cuite', 8400, false, 12, 'Potière à Ouidah, Pélagie façonne et émaille des grès utilitaires dans la tradition de la terre cuite béninoise.'],
+  ['Basile Ahouandjinou', 'Sculpteur', 'Bénin', 'Abomey', 'Traditionnel', 'Bois & bronze', 11300, false, 17, 'Sculpteur à Abomey, Basile taille le bois et coule le bronze en s’inspirant de l’iconographie royale du royaume du Dahomey.'],
+  ['Kagiso Mokoena', 'Designer', 'Afrique du Sud', 'Johannesburg', 'Industriel', 'Mobilier', 24100, true, 9, 'Designer industriel à Johannesburg, Kagiso dessine un mobilier contemporain fabriqué avec des ateliers locaux.'],
+  ['Hosni Ben Amor', 'Artisan', 'Tunisie', 'Djerba', 'Céramique', 'Zellige & poterie', 13400, false, 15, 'Céramiste à Djerba, Hosni reproduit les carreaux de zellige et les poteries traditionnelles de l’île.'],
 ]
 
 export const talents = rawTalents.map((t, i) => {
@@ -447,6 +453,12 @@ export const productList = products.map((p, i) => {
 })
 
 /* ------------------------------ Actualités ---------------------------- */
+const ARTICLE_IMG_POOLS = [IMG.garment, IMG.atelier, IMG.runway, IMG.decor, IMG.art, IMG.texture]
+const articleImage = (i) => {
+  const pool = ARTICLE_IMG_POOLS[i % ARTICLE_IMG_POOLS.length]
+  return pool[i % pool.length]
+}
+
 export const articles = [
   ['Le wax entre au musée : la nouvelle vague béninoise', 'Mode', 'Awa Sossou', 3, 'Analyse'],
   ['Portrait : Aïcha Kora, la couture comme manifeste', 'Interviews', 'Sylvain Hodonou', 6, 'Interview'],
@@ -468,7 +480,8 @@ export const articles = [
     date: new Date(2026, 8, 22 - daysAgo).toISOString(),
     readTime: 4 + (i % 6),
     views: 1200 + i * 830,
-    image: [IMG.garment, IMG.atelier, IMG.runway, IMG.decor, IMG.art, IMG.texture][i % 6][i % 5],
+    // indexation sûre : chaque famille d'images a un nombre de visuels différent
+    image: articleImage(i),
     excerpt:
       'La création africaine change d’échelle. Entre héritage artisanal et exigences du marché international, les professionnels du continent structurent de nouvelles filières.',
     body: [
@@ -529,6 +542,14 @@ export const plans = [
     name: 'Horizon Premium', price: 20000, tagline: 'Pour les marques et institutions',
     features: ['Tout Pro', 'Multi-utilisateurs (5 comptes)', 'Campagnes et collections illimitées', 'Accès API et export des données', 'Page marque personnalisée', '10 Boost offerts / mois', 'Accompagnement dédié'],
   },
+]
+
+/* Grille officielle des durées de Boost — source unique de vérité, réutilisée par
+   la page Horizon Boost, l'administration et le contrôle d'intégrité des données. */
+export const BOOST_DURATIONS = [
+  { h: 24, price: 1000, label: '24 h — 1 jour', desc: 'Boost standard — idéal pour une publication ou un produit.' },
+  { h: 72, price: 2700, label: '72 h — 3 jours', desc: 'Bon rapport durée / prix pour une collection ou un événement.' },
+  { h: 168, price: 5500, label: '168 h — 7 jours', desc: 'Visibilité longue durée pour un profil, une marque ou une campagne.' },
 ]
 
 export const boostTargets = [
@@ -704,7 +725,7 @@ export const payments = [
   { id: 'PAY-9011', user: 'Aïcha Kora', type: 'Horizon Boost 24h', amount: 1000, method: 'Mobile Money', date: '2026-09-21', status: 'Payé' },
   { id: 'PAY-9010', user: 'Wax & Co', type: 'Commande #HA-2288', amount: 156000, method: 'Carte bancaire', date: '2026-09-20', status: 'Payé' },
   { id: 'PAY-9009', user: 'Koffi Mensah', type: 'Abonnement Pro', amount: 10000, method: 'Mobile Money', date: '2026-09-19', status: 'En attente' },
-  { id: 'PAY-9008', user: 'Sahara Loom', type: 'Horizon Boost 72h', amount: 3000, method: 'Carte bancaire', date: '2026-09-18', status: 'Payé' },
+  { id: 'PAY-9008', user: 'Sahara Loom', type: 'Horizon Boost 72h', amount: 2700, method: 'Carte bancaire', date: '2026-09-18', status: 'Payé' },
   { id: 'PAY-9007', user: 'Divine Nkurunziza', type: 'Abonnement Starter', amount: 5000, method: 'Mobile Money', date: '2026-09-16', status: 'Échoué' },
 ]
 

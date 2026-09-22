@@ -15,7 +15,7 @@ const aside = (
       </p>
     </div>
     <div className="stack gap-16">
-      {[['48 216', 'Professionnels inscrits'], ['12 407', 'Talents vérifiés'], ['20', 'Pays représentés']].map(([a, b]) => (
+      {[['48 216', 'Professionnels inscrits'], ['12 407', 'Talents vérifiés'], [String(COUNTRIES.length), 'Pays représentés']].map(([a, b]) => (
         <div key={b} className="row gap-12">
           <b style={{ fontFamily: 'var(--display)', fontSize: 22, color: 'var(--gold)', minWidth: 82 }}>{a}</b>
           <span className="small" style={{ color: '#cfccd8' }}>{b}</span>

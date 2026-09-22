@@ -112,10 +112,11 @@ Champs : nom, prénom, nom professionnel / structure, email, téléphone, pays, 
 | Commande | Portée | Résultat |
 | --- | --- | --- |
 | `npm run check:routes` | les 79 écrans rendus en SSR | 79/79 sans erreur |
-| `npm run check:spec` | les 51 sections du cahier des charges, marqueurs et décomptes | 186/186 points conformes |
-| `npm run check:links` | liens internes, images référencées et routes orphelines | 4 599 liens, 362 images, 79 routes atteignables, aucun lien mort |
+| `npm run check:spec` | les 51 sections du cahier des charges, marqueurs et décomptes | 187/187 points conformes |
+| `npm run check:data` | identifiants, catégories, pays, dates, montants, médias de `src/data.js` | 10 familles de règles, aucune incohérence |
+| `npm run check:links` | liens internes, images référencées et routes orphelines | 4 601 liens, 362 images, 79 routes atteignables, aucun lien mort |
 | `npm run check:a11y` | alt, intitulés, identifiants, titres h1→h3, champs étiquetés | aucun problème sur les 7 critères |
 | `npm run check:css` | 169 classes utilisées dans le JSX, 245 définies dans la feuille de style | aucune classe manquante |
-| `npm run check:interactions` | 19 parcours cliquables sous jsdom | 55/55 vérifications réussies |
+| `npm run check:interactions` | 20 parcours cliquables sous jsdom | 57/57 vérifications réussies |
 
-`npm run check` enchaîne les six ; `npm run build` produit `dist/` (559 kB de JS, 29,6 kB de CSS).
+`npm run check` enchaîne les sept ; `npm run build` produit `dist/` (559 kB de JS, 29,6 kB de CSS).

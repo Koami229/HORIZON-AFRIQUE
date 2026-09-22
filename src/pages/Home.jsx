@@ -4,7 +4,7 @@ import {
   ProductCard, SectionHead, SponsorCard, TalentCard, BrandCard, TestimonialCard, VideoCard, useApp,
 } from '../components/ui.jsx'
 import {
-  IMG, TALENT_CATEGORIES, articles, brands, creations, currentUser, fcfa, events, opportunities,
+  COUNTRIES, IMG, TALENT_CATEGORIES, articles, brands, creations, currentUser, fcfa, events, opportunities,
   partners, plans, productList, shortNumber, sponsors, talents, testimonials, videos,
 } from '../data.js'
 
@@ -45,7 +45,7 @@ export default function Home() {
               <div className="hero-stats">
                 <div className="hero-stat"><b>48 216</b><span>Professionnels inscrits</span></div>
                 <div className="hero-stat"><b>12 407</b><span>Talents vérifiés</span></div>
-                <div className="hero-stat"><b>20</b><span>Pays représentés</span></div>
+                <div className="hero-stat"><b>{COUNTRIES.length}</b><span>Pays représentés</span></div>
                 <div className="hero-stat"><b>9 842</b><span>Créations publiées</span></div>
               </div>
             </div>
@@ -254,10 +254,10 @@ export default function Home() {
 
       {/* ============ Pays mis en avant ============ */}
       <section className="container section">
-        <SectionHead eyebrow="Pays mis en avant" title="20 pays, une seule scène créative" action="/annuaire" actionLabel="Explorer par pays" />
+        <SectionHead eyebrow="Pays mis en avant" title={`${COUNTRIES.length} pays, une seule scène créative`} action="/annuaire" actionLabel="Explorer par pays" />
         <div className="pill-row">
-          {['Bénin', 'Sénégal', 'Nigeria', 'Ghana', "Côte d'Ivoire", 'Mali', 'Burkina Faso', 'Togo', 'Cameroun', 'RD Congo', 'Kenya', 'Afrique du Sud', 'Rwanda', 'Maroc', 'Tunisie', 'Éthiopie', 'Gabon', 'Guinée', 'Niger', 'Madagascar'].map((c) => (
-            <CountryChip key={c} name={c} />
+          {COUNTRIES.map((c) => (
+            <CountryChip key={c.name} name={c.name} />
           ))}
         </div>
       </section>

@@ -18,6 +18,7 @@ import { join } from 'node:path'
 import { renderToString } from 'react-dom/server'
 import { MemoryRouter } from 'react-router-dom'
 import App from '../src/App.jsx'
+import { COUNTRIES } from '../src/data.js'
 import { AppProvider } from '../src/components/ui.jsx'
 
 /* Certains éléments du cahier des charges n'apparaissent qu'après un clic (2ᵉ étape
@@ -114,6 +115,7 @@ const SPEC = [
     ['Produits populaires', (p) => p.hasMain('Produits populaires')],
     ['Boutiques recommandées', (p) => p.hasMain('Boutiques recommandées')],
     ['Pays mis en avant', (p) => p.hasMain('Pays mis en avant')],
+    [`compteur de pays aligné sur le référentiel (${COUNTRIES.length})`, (p) => p.hasMain(`${COUNTRIES.length} pays`)],
     ['Partenaires', (p) => p.hasMain('Partenaires')],
     ['Sponsors', (p) => p.hasMain('Sponsors')],
     ['Témoignages', (p) => p.hasMain('Témoignages')],
@@ -275,8 +277,8 @@ const SPEC = [
   { n: 31, t: 'Horizon Boost', r: '/horizon-boost', c: [
     ['tarif 1 000 FCFA / 24 h', (p) => p.has('1 000 FCFA', '24 h')],
     ['7 cibles de boost', (p) => p.has('Profil', 'Publication', 'Produit', 'Collection', 'Vidéo', 'Événement', 'Opportunité')],
-    ['durées 24 h / 72 h / 168 h', (p) => allOf('pages/Pricing.jsx', "'24 h — 1 jour'", "'72 h — 3 jours'", "'168 h — 7 jours'")],
-    ['tarifs 1 000 / 2 700 / 5 500 FCFA', (p) => allOf('pages/Pricing.jsx', 'price: 1000', 'price: 2700', 'price: 5500')],
+    ['durées 24 h / 72 h / 168 h', (p) => allOf('data.js', "'24 h — 1 jour'", "'72 h — 3 jours'", "'168 h — 7 jours'")],
+    ['tarifs 1 000 / 2 700 / 5 500 FCFA', (p) => allOf('data.js', 'price: 1000', 'price: 2700', 'price: 5500')],
     ['étapes aperçu → durée → paiement → confirmation', (p) => allOf('pages/Pricing.jsx', "['Type de contenu', 'Contenu à promouvoir', 'Durée', 'Paiement', 'Confirmation']", 'Aperçu de votre Boost')],
   ] },
   { n: 32, t: 'Tableau de bord utilisateur', r: '/tableau-de-bord', c: [

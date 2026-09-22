@@ -361,6 +361,20 @@ console.log('\n▶ Recherche : ouverture d’un résultat puis retour')
   cleanup()
 }
 
+console.log('\n▶ Annuaire : filtre par pays (apostrophes comprises)')
+{
+  const { container } = await mount('/annuaire')
+  const select = [...container.querySelectorAll('select')].find((el) => [...el.options].some((o) => o.value === 'Côte d’Ivoire'))
+  await expect(container, 'le référentiel des pays propose la Côte d’Ivoire', !!select)
+  if (select) {
+    typeInto(select, 'Côte d’Ivoire')
+    await act(async () => {})
+    const n = Number(txt(container).match(/(\d+) résultat/)?.[1] || 0)
+    await expect(container, `le filtre renvoie des fiches ivoiriennes (${n})`, n > 0)
+  }
+  cleanup()
+}
+
 /* ---------------------------------- bilan ---------------------------------- */
 console.log(`\n${passed} vérifications réussies, ${failures.length} en échec`)
 if (failures.length) {
