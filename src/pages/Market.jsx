@@ -192,9 +192,12 @@ export function Produit() {
 
           <div className="stack gap-12">
             <Btn size="lg" onClick={() => addToCart(p.id, qty)}>Ajouter au panier</Btn>
+            <Btn variant="terra" size="lg" onClick={() => { addToCart(p.id, qty); nav('/panier') }}>Acheter maintenant</Btn>
             <div className="row gap-12">
-              <Btn variant="terra" size="lg" className="grow" onClick={() => { addToCart(p.id, qty); nav('/panier') }}>Acheter maintenant</Btn>
-              <button className="icon-btn" title="Ajouter aux favoris" onClick={() => toggleSave(p.id)}>{saves.has(p.id) ? '★' : '☆'}</button>
+              <Btn variant="outline" className="grow" onClick={() => toggleSave(p.id)}>
+                {saves.has(p.id) ? '★ Dans mes favoris' : '☆ Ajouter aux favoris'}
+              </Btn>
+              <button className="icon-btn" title="Partager la fiche produit" aria-label="Partager la fiche produit" onClick={() => notify('Lien du produit copié 🔗')}>↗</button>
             </div>
             <Btn variant="outline" onClick={() => notify('Message envoyé au vendeur 💬')}>Contacter le vendeur</Btn>
           </div>

@@ -268,7 +268,9 @@ function Footer() {
               Découvrez, publiez, vendez et collaborez partout sur le continent.
             </p>
             <div className="socials">
-              {['Fb', 'Ig', 'Tk', 'In', 'Yt'].map((s) => <a key={s} className="social" href="#" aria-label={s}>{s}</a>)}
+              {[['Ig', 'Instagram'], ['Fb', 'Facebook'], ['Tk', 'TikTok'], ['Yt', 'YouTube'], ['In', 'LinkedIn']].map(([short, name]) => (
+                <a key={short} className="social" href="#" aria-label={name} title={name}>{short}</a>
+              ))}
             </div>
           </div>
           {col('Découvrir', [
@@ -281,16 +283,20 @@ function Footer() {
             ['/partenaires', 'Partenaires'], ['/sponsors', 'Sponsors'], ['/annuaire', 'Annuaire'],
             ['/tableau-de-bord', 'Tableau de bord'], ['/boutique', 'Espace boutique'],
           ])}
-          {col('Informations', [
+          {col('Espaces', [
+            ['/espace-marque', 'Espace marque'], ['/espace-partenaire', 'Espace partenaire'],
+            ['/espace-sponsor', 'Espace sponsor'], ['/administration', 'Administration'],
+            ['/tableau-de-bord', 'Tableau de bord'], ['/boutique', 'Espace boutique'],
+          ])}
+          {col('Ressources', [
+            ['/recherche', 'Recherche globale'], ['/annuaire', 'Annuaire'], ['/favoris', 'Mes favoris'],
+            ['/panier', 'Panier'], ['/abonnements', 'Tarifs & abonnements'], ['/horizon-boost', 'Horizon Boost'],
+          ])}
+          {col('Informations légales', [
             ['/a-propos', 'À propos'], ['/contact', 'Contact'],
             ['/a-propos#conditions', 'Conditions d’utilisation'],
             ['/a-propos#confidentialite', 'Politique de confidentialité'],
             ['/a-propos#communaute', 'Règles de la communauté'],
-          ])}
-          {col('Espaces', [
-            ['/espace-marque', 'Espace marque'], ['/espace-partenaire', 'Espace partenaire'],
-            ['/espace-sponsor', 'Espace sponsor'], ['/administration', 'Administration'],
-            ['/recherche', 'Recherche'], ['/favoris', 'Mes favoris'], ['/panier', 'Panier'],
           ])}
         </div>
         <div className="footer-bottom">
