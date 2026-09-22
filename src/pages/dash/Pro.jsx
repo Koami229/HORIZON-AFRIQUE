@@ -6,8 +6,8 @@ import {
   Avatar, Badge, Btn, EventCard, Meter, Modal, ProductCard, SectionHead, Stat, Tabs, TalentCard, useApp,
 } from '../../components/ui.jsx'
 import {
-  IMG, brands, creations, events, fcfa, fmtDate, fmtShort, opportunities, orders, productList, shortNumber,
-  sponsors, stats, talents,
+  IMG, PRODUCT_CATEGORIES, brands, creations, events, fcfa, fmtDate, fmtShort, opportunities, orders, productList,
+  shortNumber, sponsors, stats, talents,
 } from '../../data.js'
 
 /* =====================================================================
@@ -217,7 +217,7 @@ export function EspaceBoutique({ tab }) {
             <h3>Ajouter un produit</h3>
             <div className="field"><label>Nom du produit</label><input className="input" placeholder="Ex : Robe « Azalaï »" defaultValue="Robe « Azalaï »" /></div>
             <div className="form-grid">
-              <div className="field"><label>Catégorie</label><select className="select">{['Vêtements', 'Sacs', 'Chaussures', 'Bijoux', 'Accessoires', 'Tableaux', 'Art', 'Artisanat', 'Décoration', 'Faits main'].map((c) => <option key={c}>{c}</option>)}</select></div>
+              <div className="field"><label>Catégorie</label><select className="select">{PRODUCT_CATEGORIES.map((c) => <option key={c}>{c}</option>)}</select></div>
               <div className="field"><label>Prix (FCFA)</label><input className="input" type="number" defaultValue={78000} /></div>
             </div>
             <div className="form-grid">

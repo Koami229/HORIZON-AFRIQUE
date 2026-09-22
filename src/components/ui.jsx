@@ -312,7 +312,7 @@ export const CreationTile = ({ c, ratio = '4/5' }) => {
           <span className="tiny muted">{c.author} · {c.flag} {c.country}</span>
         </div>
         <div className="row gap-6">
-          <button className={`like-btn ${liked ? 'on' : ''}`} onClick={() => toggleLike(c.id)}>♥ {shortNumber(c.likes + (liked ? 1 : 0))}</button>
+          <button className={`like-btn ${liked ? 'on' : ''}`} onClick={() => toggleLike(c.id)}>♥ {liked ? (c.likes + 1).toLocaleString('fr-FR') : shortNumber(c.likes)}</button>
           <button className="like-btn" onClick={() => toggleSave(c.id)}>{saves.has(c.id) ? '★' : '☆'}</button>
         </div>
       </div>

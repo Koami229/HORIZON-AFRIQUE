@@ -13,8 +13,17 @@ npm install
 npm run dev             # http://localhost:5173
 npm run build           # build de production dans dist/
 npm run preview         # prévisualiser le build
-npm run check:routes    # vérifie que les 79 routes se rendent sans erreur
+npm run check:routes         # 79/79 : chaque route se rend sans erreur (rendu SSR)
+npm run check:interactions   # 43/43 : parcours cliquables vérifiés sous jsdom
 ```
+
+### Ce que couvre `check:interactions`
+
+13 parcours réels rendus sous jsdom, avec clics, saisies et assertions sur le DOM :
+panier (ajout, quantité, suppression), favoris et « j'aime », assistant Horizon Boost en
+5 étapes (1 000 / 2 700 / 5 500 FCFA), inscription en 4 étapes, filtres Marketplace,
+onglets du profil marque TOURÉ., recherche globale, messagerie, publications, portfolio,
+paiement (Mobile Money et carte), menu mobile et modération côté administration.
 
 ## Stack
 

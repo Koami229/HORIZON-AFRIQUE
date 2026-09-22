@@ -52,7 +52,7 @@ export function Marketplace() {
             <h2 className="mt-8">Créations artisanales, faites main</h2>
             <p className="mb-16">Soutenez directement les artisans du continent : vannerie raphia, bijoux filigranes, cuir tanné naturellement.</p>
             <div className="row gap-12">
-              <Btn onClick={() => setCat('Faits main')}>Voir les produits faits main</Btn>
+              <Btn onClick={() => setCat('Artisanat')}>Voir les produits artisanaux</Btn>
               <Btn to="/horizon-boost" variant="outline">Booster ma boutique</Btn>
             </div>
           </div>
@@ -83,7 +83,7 @@ export function Marketplace() {
 
       <section className="section-sm">
         <SectionHead eyebrow="Créations artisanales" title="Faits main par des artisans" action="/annuaire" actionLabel="Annuaire des artisans" />
-        <div className="grid grid-4">{list.filter((p) => ['Artisanat', 'Décoration', 'Faits main', 'Bijoux'].includes(p.category)).slice(0, 4).map((p) => <ProductCard key={`a-${p.id}`} p={p} />)}</div>
+        <div className="grid grid-4">{list.filter((p) => ['Artisanat', 'Décoration', 'Poterie', 'Textile', 'Bijoux'].includes(p.category)).slice(0, 4).map((p) => <ProductCard key={`a-${p.id}`} p={p} />)}</div>
       </section>
 
       <section className="section-sm">

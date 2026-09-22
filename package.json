@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "check:routes": "esbuild scripts/route-check.jsx --bundle --platform=node --format=cjs --loader:.jsx=jsx --jsx=automatic --outfile=node_modules/.cache/route-check.cjs --log-level=error && node node_modules/.cache/route-check.cjs"
+    "check:routes": "esbuild scripts/route-check.jsx --bundle --platform=node --format=cjs --loader:.jsx=jsx --jsx=automatic --outfile=node_modules/.cache/route-check.cjs --log-level=error && node node_modules/.cache/route-check.cjs",
+    "check:interactions": "esbuild scripts/interaction-check.jsx --bundle --platform=node --format=esm --target=node18 --loader:.jsx=jsx --jsx=automatic --external:jsdom --external:react --external:react-dom --external:react-router-dom --external:@testing-library/react --external:@testing-library/dom --outfile=node_modules/.cache/interaction-check.mjs --log-level=error && node node_modules/.cache/interaction-check.mjs"
   },
   "dependencies": {
     "react": "^18.3.1",
@@ -15,7 +16,10 @@
     "react-router-dom": "^6.26.2"
   },
   "devDependencies": {
+    "@testing-library/dom": "^10.4.2",
+    "@testing-library/react": "^14.3.1",
     "@vitejs/plugin-react": "^4.3.1",
+    "jsdom": "^30.1.0",
     "vite": "^5.4.8"
   }
 }

@@ -124,7 +124,7 @@ export const CREATION_CATEGORIES = ['Mode', 'Art', 'Artisanat', 'Design', 'Déco
 export const EVENT_CATEGORIES = ['Fashion Week', 'Défilés', 'Castings', 'Concours', 'Festivals', 'Expositions', 'Salons', 'Lancements']
 export const OPPORTUNITY_TYPES = ['Offre d’emploi', 'Casting', 'Stage', 'Concours', 'Collaboration', 'Appel à projets', 'Mission']
 export const NEWS_CATEGORIES = ['Mode', 'Art', 'Artisanat', 'Design', 'Interviews', 'Tendances', 'Success Stories', 'Événements']
-export const PRODUCT_CATEGORIES = ['Vêtements', 'Sacs', 'Chaussures', 'Bijoux', 'Accessoires', 'Tableaux', 'Art', 'Artisanat', 'Décoration', 'Faits main']
+export const PRODUCT_CATEGORIES = ['Vêtements', 'Sacs', 'Chaussures', 'Bijoux', 'Accessoires', 'Textile', 'Poterie', 'Tableaux', 'Art', 'Artisanat', 'Décoration']
 export const VIDEO_CATEGORIES = ['Défilés', 'Collections', 'Présentations de marques', 'Interviews', 'Backstage', 'Créations', 'Tutoriels']
 export const STYLES = ['Contemporain', 'Wax chic', 'Minimaliste', 'Luxe artisanal', 'Streetwear', 'Traditionnel revisité', 'Haute couture']
 export const AVAILABILITY = ['Disponible immédiatement', 'Sous 2 semaines', 'Sur rendez-vous', 'Non disponible']
@@ -416,7 +416,7 @@ export const products = [
   ['Sac Wax Bohème', 'Sacs', 39000, 'Wax & Co', 'Sénégal'],
   ['Chemise brodée Bazin', 'Vêtements', 52000, 'Maison Ndiaye', 'Sénégal'],
   ['Tapis Beni Ouarain', 'Décoration', 240000, 'Sahara Loom', 'Maroc'],
-  ['Pot décoratif émaillé', 'Faits main', 29000, 'Pélagie Zinsou', 'Bénin'],
+  ['Pot décoratif émaillé', 'Poterie', 29000, 'Pélagie Zinsou', 'Bénin'],
 ]
 
 export const productImg = (i) => {

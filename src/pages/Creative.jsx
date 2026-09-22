@@ -115,7 +115,7 @@ export function Galerie() {
                   <Link to={c.authorType === 'marque' ? `/marque/${c.authorId}` : `/talent/${talents.find((t) => t.name === c.author)?.id || 'tal-1'}`} className="tiny gold">Voir le créateur →</Link>
                 </div>
                 <div className="row gap-6">
-                  <button className={`like-btn ${liked ? 'on' : ''}`} onClick={() => toggleLike(c.id)}>♥ {shortNumber(c.likes + (liked ? 1 : 0))}</button>
+                  <button className={`like-btn ${liked ? 'on' : ''}`} onClick={() => toggleLike(c.id)}>♥ {liked ? (c.likes + 1).toLocaleString('fr-FR') : shortNumber(c.likes)}</button>
                   <button className="like-btn" onClick={() => setComment(c)}>💬 {c.comments}</button>
                   <button className="like-btn" onClick={() => notify('Lien copié — partagez cette création 🔗')}>↗</button>
                   <button className="like-btn" onClick={() => toggleSave(c.id)}>{saves.has(c.id) ? '★' : '☆'}</button>
