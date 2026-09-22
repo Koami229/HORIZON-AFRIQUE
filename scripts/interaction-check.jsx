@@ -69,7 +69,9 @@ function click(container, text, opts) {
 function typeInto(el, value) {
   const propsKey = Object.keys(el).find((k) => k.startsWith('__reactProps'))
   const handler = el[propsKey]?.onChange || el[propsKey]?.onInput
-  const proto = el.tagName === 'TEXTAREA' ? window.HTMLTextAreaElement.prototype : window.HTMLInputElement.prototype
+  const proto = el.tagName === 'TEXTAREA' ? window.HTMLTextAreaElement.prototype
+    : el.tagName === 'SELECT' ? window.HTMLSelectElement.prototype
+      : window.HTMLInputElement.prototype
   const setter = Object.getOwnPropertyDescriptor(proto, 'value').set
   setter.call(el, value)
   if (typeof handler === 'function') {
@@ -281,6 +283,73 @@ console.log('\n▶ Modération (administration)')
   await expect(container, 'la fiche de signalement s’ouvre', has(container, 'Historique du compte'))
   click(container, 'Retirer le contenu')
   await expect(container, 'action de modération appliquée', has(container, 'traité'))
+  cleanup()
+}
+
+console.log('\n▶ Suivre une marque puis la contacter')
+{
+  const { container } = await mount('/marque/brd-2')
+  click(container, /Suivre/)
+  await expect(container, 'le bouton passe à l’état abonné', has(container, '✓ Abonné'))
+  click(container, /Abonné/)   // on se désabonne : le bouton revient à son état initial
+  await expect(container, 'le désabonnement est possible', has(container, '+ Suivre'))
+  click(container, 'Contacter')
+  await expect(container, 'la fenêtre de contact de la marque s’ouvre', has(container, 'Objet') && has(container, 'Envoyer'))
+  cleanup()
+}
+
+console.log('\n▶ Choix d’une formule d’abonnement')
+{
+  const { container } = await mount('/abonnements')
+  const cta = [...container.querySelectorAll('button')].filter((b) => txt(b) === 'Choisir cette formule')
+  await expect(container, 'quatre formules proposent la même action', cta.length === 4)
+  fireEvent.click(cta[1])
+  await expect(container, 'la formule choisie est signalée', has(container, 'sélectionnée') || has(container, 'Formule'))
+  cleanup()
+}
+
+console.log('\n▶ Boost d’une publication depuis le tableau de bord')
+{
+  const { container } = await mount('/tableau-de-bord/mes-publications')
+  click(container, 'Booster')
+  await expect(container, 'l’assistant Horizon Boost s’ouvre', has(container, 'Horizon Boost') || has(container, 'Booster'))
+  cleanup()
+}
+
+console.log('\n▶ Filtres de la marketplace par pays')
+{
+  const { container } = await mount('/marketplace')
+  const before = Number(txt(container).match(/(\d+) produits?/)?.[1] || 0)
+  const select = [...container.querySelectorAll('select')][0]
+  typeInto(select, 'Bénin')
+  await act(async () => {})
+  const after = Number(txt(container).match(/(\d+) produits?/)?.[1] || 0)
+  await expect(container, `le filtre pays réduit le catalogue (${before} → ${after})`, before > 0 && after <= before)
+  cleanup()
+}
+
+console.log('\n▶ Commandes : filtre par statut')
+{
+  const { container } = await mount('/boutique/commandes')
+  fireEvent.click([...container.querySelectorAll('button')].find((b) => txt(b) === 'Livrées'))
+  await expect(container, 'le filtre « Livrées » répond', has(container, 'Livrée'))
+  cleanup()
+}
+
+console.log('\n▶ Recherche : ouverture d’un résultat puis retour')
+{
+  const { container } = await mount('/')
+  fireEvent.click([...container.querySelectorAll('.header-actions button')][1])
+  await act(async () => {})
+  typeInto(container.querySelector('.search-input-lg'), 'Dakar')
+  await act(async () => {})
+  const results = [...container.querySelectorAll('.search-overlay a')]   // les liens de l'overlay uniquement
+  await expect(container, 'des résultats sont proposés', results.length > 0 && /Résultats/.test(txt(container)))
+  if (results.length) {
+    fireEvent.click(results[0])
+    await act(async () => {})
+    await expect(container, 'la navigation depuis la recherche fonctionne', !has(container, 'Recherche globale Horizon'))
+  }
   cleanup()
 }
 

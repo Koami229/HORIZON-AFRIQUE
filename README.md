@@ -13,12 +13,13 @@ npm install
 npm run dev             # http://localhost:5173
 npm run build           # build de production dans dist/
 npm run preview         # prévisualiser le build
-npm run check                # les cinq contrôles ci-dessous, à la suite
+npm run check                # les six contrôles ci-dessous, à la suite
 npm run check:routes         # 79/79 : chaque route se rend sans erreur (rendu SSR)
 npm run check:spec           # 185/185 : les 51 sections du cahier des charges sont présentes
 npm run check:links          # 4 598 liens internes + 362 images : aucun lien mort, aucun visuel manquant
 npm run check:a11y           # alt, intitulés accessibles, identifiants uniques sur les 79 écrans
-npm run check:interactions   # 43/43 : parcours cliquables vérifiés sous jsdom
+npm run check:css            # classes CSS utilisées mais non définies : aucune
+npm run check:interactions   # 53/53 : parcours cliquables vérifiés sous jsdom
 ```
 
 ### Ce que couvre `check:spec`
@@ -33,11 +34,13 @@ pouvoirs de modération) sont marqués « interaction » et couverts par `check:
 
 ### Ce que couvre `check:interactions`
 
-13 parcours réels rendus sous jsdom, avec clics, saisies et assertions sur le DOM :
+19 parcours réels rendus sous jsdom, avec clics, saisies et assertions sur le DOM :
 panier (ajout, quantité, suppression), favoris et « j'aime », assistant Horizon Boost en
-5 étapes (1 000 / 2 700 / 5 500 FCFA), inscription en 4 étapes, filtres Marketplace,
-onglets du profil marque TOURÉ., recherche globale, messagerie, publications, portfolio,
-paiement (Mobile Money et carte), menu mobile et modération côté administration.
+5 étapes (1 000 / 2 700 / 5 500 FCFA), inscription en 4 étapes, filtres Marketplace et par pays,
+onglets du profil marque TOURÉ., suivi et désabonnement d'une marque, prise de contact,
+choix d'une formule d'abonnement, recherche globale (résultats puis navigation),
+messagerie et demande de collaboration, publications, portfolio, paiement (Mobile Money
+et carte), filtres de commandes, menu mobile et modération côté administration.
 
 ## Stack
 
