@@ -1,0 +1,21 @@
+{
+  "name": "horizon-afrique",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check:routes": "esbuild scripts/route-check.jsx --bundle --platform=node --format=cjs --loader:.jsx=jsx --jsx=automatic --outfile=node_modules/.cache/route-check.cjs --log-level=error && node node_modules/.cache/route-check.cjs"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.1",
+    "vite": "^5.4.8"
+  }
+}

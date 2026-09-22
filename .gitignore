@@ -1,0 +1,11 @@
+node_modules
+dist
+dist-ssr
+.vite
+*.local
+.DS_Store
+image-search/
+_contact.jpg
+_gen.jpg
+ssrcheck.jsx
+npm-debug.log*
