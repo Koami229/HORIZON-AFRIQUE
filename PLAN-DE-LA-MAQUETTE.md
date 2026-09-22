@@ -117,7 +117,7 @@ Champs : nom, prénom, nom professionnel / structure, email, téléphone, pays, 
 | `npm run check:links` | liens internes, images référencées et routes orphelines | 4 601 liens, 362 images, 79 routes atteignables, aucun lien mort |
 | `npm run check:a11y` | alt, intitulés, identifiants, titres h1→h3, champs étiquetés | aucun problème sur les 7 critères |
 | `npm run check:contrast` | contraste WCAG 2.1 AA des couples texte / fond de la palette | 24 couples conformes |
-| `npm run check:css` | 169 classes utilisées dans le JSX, 245 définies dans la feuille de style | aucune classe manquante |
-| `npm run check:interactions` | 23 parcours cliquables sous jsdom, filtres des 14 pages de liste, arithmétique du panier | 104/104 vérifications réussies |
+| `npm run check:css` | classes manquantes, CSS mort, responsive des grilles (1180 / 1080 / 980 / 640 px) | aucune classe manquante, 16 mises en page reprises sur mobile |
+| `npm run check:interactions` | 24 parcours cliquables sous jsdom, filtres des 14 pages de liste, arithmétique du panier | 116/116 vérifications réussies |
 
 `npm run check` enchaîne les huit ; `npm run build` produit `dist/` (559 kB de JS, 29,6 kB de CSS).

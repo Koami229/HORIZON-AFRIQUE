@@ -20,9 +20,19 @@ npm run check:data           # intégrité du jeu de données : identifiants, ca
 npm run check:links          # 4 601 liens internes + 362 images : aucun lien mort, aucune route orpheline
 npm run check:a11y           # alt, intitulés accessibles, identifiants uniques, titres h1→h3, champs étiquetés
 npm run check:contrast       # contraste WCAG 2.1 AA des couples texte / fond du système de design
-npm run check:css            # classes CSS utilisées mais non définies : aucune
-npm run check:interactions   # 104/104 : parcours cliquables vérifiés sous jsdom
+npm run check:css            # classes manquantes, CSS mort et couverture responsive des grilles
+npm run check:interactions   # 116/116 : parcours cliquables vérifiés sous jsdom
 ```
+
+### Ce que couvre `check:css`
+
+Trois vérifications sur `src/styles.css` contre les 19 fichiers JSX : les classes utilisées dans
+le JSX mais absentes de la feuille de style (aucune), les classes définies mais jamais employées
+(jetons de bibliothèque conservés : `gap-4`, `grid-6`, `gradient-text`, `stepper`…), et la
+**couverture responsive** : toute mise en page qui empile deux colonnes fractionnaires ou
+réserve une colonne fixe de 200 px et plus doit être reprise dans une media query, sinon la
+maquette déborderait sur téléphone. Les grilles `auto-fill`/`minmax` et les colonnes d'icône
+sont fluides et exemptées. Les points de rupture déclarés sont 1180, 1080, 980 et 640 px.
 
 ### Ce que couvre `check:contrast`
 

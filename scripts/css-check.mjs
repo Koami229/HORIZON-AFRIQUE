@@ -1,5 +1,7 @@
-/* Audit de la feuille de style : classes utilisées dans le JSX mais jamais définies,
-   et classes définies mais jamais utilisées (CSS mort).
+/* Audit de la feuille de style :
+     - classes utilisées dans le JSX mais jamais définies ;
+     - classes définies mais jamais utilisées (CSS mort) ;
+     - couverture responsive des mises en page multi-colonnes.
    Usage : npm run check:css  */
 import { readFileSync, readdirSync, statSync } from 'node:fs'
 import { join, extname } from 'node:path'
@@ -71,4 +73,57 @@ for (const c of missing) {
 
 console.log(`\nClasses définies mais jamais utilisées : ${unused.length ? unused.join(', ') : 'aucune'}`)
 
-process.exitCode = missing.length ? 1 : 0
+/* --------------------- couverture responsive des grilles ---------------------
+   Toute mise en page multi-colonnes déclarée hors media query doit être reprise dans
+   au moins une media query qui réduit le nombre de colonnes : sans cela, la maquette
+   déborde sur un écran de téléphone. Les grilles `auto-fill`/`minmax` sont fluides par
+   construction et donc exemptées. */
+const base = cssSource.replace(/@media[^{]*\{[\s\S]*?\n\}/g, '')
+const mediaBlocks = [...cssSource.matchAll(/@media[^{]*\{([\s\S]*?)\n\}/g)].map((m) => m[1])
+const mediaText = mediaBlocks.join('\n')
+
+/* Une mise en page est « à risque » sur petit écran si elle empile au moins deux colonnes
+   fractionnaires (1fr 1fr, repeat(3, 1fr)…) ou réserve une colonne fixe large (≥ 200 px).
+   Les grilles `auto-fill`/`minmax`, les colonnes d'icône (26px 1fr) et les colonnes
+   uniques restent fluides et sont donc exemptées. */
+const riskyLayout = (body) => {
+  const decl = /grid-template-columns:\s*([^;]+)/.exec(body)?.[1]
+  if (!decl) return false
+  if (/auto-fill|auto-fit/.test(decl)) return false
+  const repeat = /repeat\(\s*(\d+)/.exec(decl)
+  if (repeat) return Number(repeat[1]) >= 2
+  const tracks = decl.trim().split(/\s+(?![^(]*\))/)
+  const fractions = tracks.filter((t) => /[\d.]+fr/.test(t)).length
+  const grandeFixe = tracks.some((t) => /^\d+(?:\.\d+)?px$/.test(t) && Number.parseFloat(t) >= 200)
+  return fractions >= 2 || grandeFixe
+}
+
+const multiColumn = [...new Set(
+  [...base.matchAll(/([^{}]+)\{([^}]*)\}/g)].flatMap(([, selectors, body]) => {
+    if (!riskyLayout(body)) return []
+    return selectors.split(',').map((sel) => sel.trim().match(/^\.([\w-]+)$/)?.[1]).filter(Boolean)
+  })
+)]
+
+const sansMobile = multiColumn.filter((name) => !new RegExp(`\\.${name}(?![\\w-])`).test(mediaText)
+  || !mediaBlocks.some((b) => new RegExp(`\\.${name}(?![\\w-])`).test(b) && /grid-template-columns|columns:/.test(b)))
+
+const breakpoints = [...new Set([...cssSource.matchAll(/@media \(max-width: (\d+)px\)/g)].map((m) => Number(m[1])))].sort((a, b) => b - a)
+const menuMobile = /\.nav\s*\{\s*display:\s*none/.test(mediaText) && /\.burger\s*\{[^}]*display:\s*grid/.test(mediaText)
+
+console.log(`\nMises en page multi-colonnes détectées : ${multiColumn.length ? multiColumn.join(', ') : 'aucune'}`)
+console.log(`Points de rupture déclarés : ${breakpoints.map((b) => `${b} px`).join(', ') || 'aucun'}`)
+
+const responsiveIssues = []
+if (sansMobile.length) responsiveIssues.push(`sans reprise mobile : ${sansMobile.join(', ')}`)
+if (breakpoints.length < 3) responsiveIssues.push(`moins de trois points de rupture (${breakpoints.length})`)
+if (!menuMobile) responsiveIssues.push('le menu principal ne bascule pas vers le menu mobile (burger)')
+
+if (responsiveIssues.length) {
+  console.log(`\n${responsiveIssues.length} problème(s) de responsive :`)
+  for (const issue of responsiveIssues) console.log(`  ✗ ${issue}`)
+} else {
+  console.log(`\n✅ Responsive : chaque mise en page multi-colonnes est reprise sous ${breakpoints.join(' px, ')} px et le menu bascule vers le burger.`)
+}
+
+process.exitCode = (missing.length || responsiveIssues.length) ? 1 : 0

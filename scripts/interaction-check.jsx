@@ -491,6 +491,78 @@ console.log('\n▶ Panier : arithmétique et livraison offerte')
   cleanup()
 }
 
+console.log('\n▶ Espace boutique : publication d’un produit')
+{
+  const { container } = await mount('/boutique/ajouter')
+  const nom = container.querySelector('input.input')
+  typeInto(nom, 'Boubou brodé Horizon')
+  await act(async () => {})
+  await expect(container, 'le nom du produit est saisi', nom.value === 'Boubou brodé Horizon')
+  click(container, 'Publier le produit')
+  await expect(container, 'la publication est confirmée', has(container, 'publié dans la marketplace'))
+  cleanup()
+}
+
+console.log('\n▶ Administration : actions sur un utilisateur')
+{
+  const { container } = await mount('/administration/utilisateurs')
+  click(container, /^Valider$/)
+  await expect(container, 'la validation d’un compte est confirmée', has(container, 'validé'))
+  click(container, /^Suspendre$/)
+  await expect(container, 'la suspension d’un compte est confirmée', has(container, 'suspendu'))
+  click(container, 'Profil')
+  await expect(container, 'la fiche utilisateur s’ouvre', has(container, 'Suspendre le compte') || has(container, 'Fermer'))
+  cleanup()
+}
+
+console.log('\n▶ Tableau de bord : changement de formule')
+{
+  const { container } = await mount('/tableau-de-bord/abonnement')
+  await expect(container, 'la formule actuelle est signalée', has(container, 'Formule actuelle'))
+  const cta = [...container.querySelectorAll('button')].find((b) => txt(b) === 'Choisir cette formule')
+  fireEvent.click(cta)
+  await act(async () => {})
+  await expect(container, 'le changement de formule est confirmé', has(container, 'Formule actuelle'))
+  cleanup()
+}
+
+console.log('\n▶ Recherche : filtre par type de contenu')
+{
+  const { container } = await mount('/recherche')
+  typeInto(container.querySelector('input.input'), 'wax')
+  await act(async () => {})
+  const onglets = [...container.querySelectorAll('button.tab')]
+  await expect(container, 'les types de contenu sont proposés', onglets.length >= 3)
+  const talentsTab = onglets.find((t) => /Talent/.test(txt(t)))
+  if (talentsTab) {
+    const avant = container.querySelectorAll('a[href^="/talent/"]').length
+    fireEvent.click(talentsTab)
+    await act(async () => {})
+    await expect(container, `le filtre « ${txt(talentsTab)} » restreint les résultats aux talents`, container.querySelectorAll('a[href^="/talent/"]').length >= avant)
+  }
+  cleanup()
+}
+
+console.log('\n▶ Favoris : onglets comptés et retrait d’un favori')
+{
+  const { container } = await mount('/favoris')
+  const onglet = () => [...container.querySelectorAll('button.tab')].find((b) => txt(b).startsWith('Produits enregistrés'))
+  const total = () => Number((txt(onglet()).match(/\((\d+)\)/) || [])[1] ?? -1)
+  const base = total()
+  await expect(container, `l’onglet « Produits enregistrés » affiche son compteur (${base})`, base > 0)
+
+  fireEvent.click(onglet())
+  await act(async () => {})
+  const cartes = container.querySelectorAll('a[href^="/produit/"]').length
+  await expect(container, `les produits enregistrés sont affichés (${cartes})`, cartes === base)
+
+  const etoile = [...container.querySelectorAll('.like-btn')].find((b) => txt(b) === '★')
+  fireEvent.click(etoile)
+  await act(async () => {})
+  await expect(container, `le retrait décrémente le compteur (${base} → ${total()})`, total() === base - 1)
+  cleanup()
+}
+
 /* ---------------------------------- bilan ---------------------------------- */
 console.log(`\n${passed} vérifications réussies, ${failures.length} en échec`)
 if (failures.length) {

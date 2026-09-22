@@ -537,6 +537,7 @@ tbody tr:hover { background: rgba(255, 255, 255, 0.025); }
   .sidebar { position: static; }
   .auth-aside { display: none; }
   .profile-cover { height: 190px; }
+  .nav-more-panel { width: min(470px, calc(100vw - 32px)); }
   .mobile-nav { display: flex; flex-wrap: wrap; gap: 8px; }
   .mobile-open { border-top: 1px solid var(--line); padding: 16px 0 20px; background: var(--ink-2); }
 }
