@@ -9,9 +9,9 @@ import { join } from 'node:path'
 import {
   AVAILABILITY, BOOST_DURATIONS, COUNTRIES, CREATION_CATEGORIES, EVENT_CATEGORIES, IMG,
   NEWS_CATEGORIES, OPPORTUNITY_TYPES, PRODUCT_CATEGORIES, TALENT_CATEGORIES, VIDEO_CATEGORIES,
-  articles, boostTargets, brands, collaborations, conversations, creations, currentUser, events,
-  isKnownCountry, notifications, opportunities, orders, partners, payments, plans, productList,
-  sponsors, talents, testimonials, videos,
+  FREE_SHIPPING_FROM, articles, boostTargets, brands, collaborations, conversations, creations,
+  currentUser, events, isKnownCountry, notifications, opportunities, orders, partners, payments,
+  plans, productList, sponsors, talents, testimonials, videos,
 } from '../src/data.js'
 
 const problems = []
@@ -116,6 +116,8 @@ tested('montants conformes à la grille officielle', () => {
   const tarifs = plans.map((p) => p.price)
   if (tarifs.join(',') !== '0,5000,10000,20000') fail('montants', `tarifs des formules inattendus : ${tarifs.join(', ')}`)
   if (boostTargets.length !== 7) fail('montants', `cibles de Boost : ${boostTargets.length} au lieu de 7`)
+  if (!isNum(FREE_SHIPPING_FROM) || FREE_SHIPPING_FROM <= 0) fail('montants', 'seuil de livraison offerte invalide')
+  if (FREE_SHIPPING_FROM > 500000) fail('montants', `seuil de livraison offerte invraisemblable : ${FREE_SHIPPING_FROM} FCFA`)
   if (BOOST_DURATIONS.map((d) => d.h).join(',') !== '24,72,168') fail('montants', 'durées de Boost inattendues')
   if (prix.join(',') !== '1000,2700,5500') fail('montants', `tarifs de Boost inattendus : ${prix.join(', ')}`)
 })

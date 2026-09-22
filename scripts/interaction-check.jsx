@@ -435,6 +435,62 @@ console.log('\n▶ Filtres : toutes les pages de liste')
   }
 }
 
+console.log('\n▶ Panier : arithmétique et livraison offerte')
+{
+  const { container } = await mount('/produit/prd-4')     // Sac cuir de Fès
+  const fiche = container.querySelector('main')
+  const prix = Number(([...fiche.querySelectorAll('b.gold')][0]?.textContent || '').replace(/[^\d]/g, ''))
+  const nom = txt(fiche.querySelector('h1'))
+  click(container, 'Ajouter au panier')
+  await act(async () => {})
+  click(container, /^Panier/)
+  await act(async () => {})
+
+  const nombre = (t) => Number((t.match(/([\d\s]+)/)?.[1] || '0').replace(/\s/g, ''))
+  const lire = (libelle) => {
+    const ligne = [...container.querySelectorAll('.between')].find((el) => txt(el).startsWith(libelle))
+    return txt(ligne || '')
+  }
+  const sousTotal = () => nombre(lire('Sous-total').replace('Sous-total', ''))
+  const livraison = () => (/Offerte/.test(lire('Frais de livraison')) ? 0 : nombre(lire('Frais de livraison').replace('Frais de livraison', '')))
+  const total = () => nombre(lire('Total').replace('Total', ''))
+
+  await expect(container, `total = sous-total + livraison (${sousTotal()} + ${livraison()} = ${total()})`, total() === sousTotal() + livraison())
+
+  // on retire d'abord les deux lignes de démonstration pour repartir du produit ajouté
+  for (const titre of ['Robe « Azalaï »', 'Bague filigrane Ségou']) {
+    const l = [...container.querySelectorAll('.panel')].find((el) => txt(el).includes(titre))
+    if (l) { fireEvent.click(l.querySelector('button[title="Retirer"]')); await act(async () => {}) }
+  }
+  await expect(container, `panier réduit au produit ajouté (${sousTotal()})`, sousTotal() === prix)
+  await expect(container, `la livraison est facturée sous le seuil (${livraison()} FCFA)`, livraison() === 5500 && total() === prix + 5500)
+
+  // on agit sur la ligne du produit ajouté (le panier de démonstration contient déjà des articles)
+  const ligne = [...container.querySelectorAll('.panel')].find((el) => txt(el).includes(nom))
+  const plus = ligne && [...ligne.querySelectorAll('button')].find((b) => txt(b) === '+')
+  const avant = sousTotal()
+  fireEvent.click(plus)
+  await act(async () => {})
+  await expect(container, `une unité de plus de « ${nom} » ajoute ${prix} FCFA (${avant} → ${sousTotal()})`, sousTotal() === avant + prix)
+
+  while (sousTotal() < 250000 && [...container.querySelectorAll('.panel')].find((el) => txt(el).includes(nom))) {
+    const l = [...container.querySelectorAll('.panel')].find((el) => txt(el).includes(nom))
+    fireEvent.click([...l.querySelectorAll('button')].find((b) => txt(b) === '+'))
+    await act(async () => {})
+  }
+  await expect(container, `le seuil de livraison offerte est atteint (${sousTotal()})`, sousTotal() >= 250000)
+  await expect(container, 'les frais de livraison passent à « Offerte »', /Offerte/.test(lire('Frais de livraison')))
+  await expect(container, 'le total ne compte plus la livraison', total() === sousTotal())
+  await expect(container, 'le bandeau annonce la livraison offerte', has(container, 'Livraison offerte'))
+
+  // retirer une ligne met à jour le total
+  const avantSuppression = sousTotal()
+  fireEvent.click(ligne.querySelector('button[title="Retirer"]'))
+  await act(async () => {})
+  await expect(container, `la ligne retirée sort du sous-total (${avantSuppression} → ${sousTotal()})`, sousTotal() < avantSuppression)
+  cleanup()
+}
+
 /* ---------------------------------- bilan ---------------------------------- */
 console.log(`\n${passed} vérifications réussies, ${failures.length} en échec`)
 if (failures.length) {

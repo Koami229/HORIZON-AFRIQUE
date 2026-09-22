@@ -742,6 +742,9 @@ export const testimonials = [
 export const news_highlights = articles.slice(0, 6)
 
 /* ------------------------------ Utilitaires --------------------------- */
+/* Seuil de livraison offerte, annoncé dans le panier et la marketplace. */
+export const FREE_SHIPPING_FROM = 250000
+
 export const fcfa = (n) => `${new Intl.NumberFormat('fr-FR').format(n)} FCFA`
 export const shortNumber = (n) => (n >= 1000 ? `${(n / 1000).toFixed(n >= 10000 ? 0 : 1).replace('.0', '')} k` : `${n}`)
 export const fmtDate = (d) =>

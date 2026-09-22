@@ -5,7 +5,8 @@ import {
   Tabs, useApp, useFilterState,
 } from '../components/ui.jsx'
 import {
-  COUNTRIES, IMG, PRODUCT_CATEGORIES, brands, fcfa, fmtShort, productList, shortNumber,
+  COUNTRIES, FREE_SHIPPING_FROM, IMG, PRODUCT_CATEGORIES, brands, fcfa, fmtShort, productList,
+  shortNumber,
 } from '../data.js'
 
 const STORES = [...new Set(productList.map((p) => p.shop))]
@@ -318,7 +319,9 @@ export function Panier() {
   const { cart, setQty, removeFromCart } = useApp()
   const items = cart.map((c) => ({ ...c, product: productList.find((p) => p.id === c.id) })).filter((c) => c.product)
   const subtotal = items.reduce((n, i) => n + i.product.price * i.qty, 0)
-  const shipping = items.reduce((n, i) => n + i.product.shipping, 0)
+  // livraison offerte au-delà du seuil annoncé dans la page
+  const freeShipping = subtotal >= FREE_SHIPPING_FROM
+  const shipping = freeShipping ? 0 : items.reduce((n, i) => n + i.product.shipping, 0)
   const total = subtotal + shipping
 
   return (
@@ -357,14 +360,16 @@ export function Panier() {
               </div>
             </div>
 
-            <div className="notice"><span>🚚</span><span className="small">Livraison calculée selon le poids et la destination. Offerte à partir de 250 000 FCFA d’achat.</span></div>
+            <div className={`notice${freeShipping ? ' green' : ''}`}><span>🚚</span><span className="small">{freeShipping
+              ? `Livraison offerte : votre panier dépasse ${fcfa(FREE_SHIPPING_FROM)} d’achat.`
+              : `Livraison calculée selon le poids et la destination. Offerte à partir de ${fcfa(FREE_SHIPPING_FROM)} d’achat.`}</span></div>
           </div>
 
           <aside className="panel">
             <h2 className="h-sub">Récapitulatif</h2>
             <div className="stack gap-12 small">
               <div className="between"><span className="muted">Sous-total</span><b>{fcfa(subtotal)}</b></div>
-              <div className="between"><span className="muted">Frais de livraison</span><b>{fcfa(shipping)}</b></div>
+              <div className="between"><span className="muted">Frais de livraison</span><b className={freeShipping ? 'green' : ''}>{freeShipping ? 'Offerte' : fcfa(shipping)}</b></div>
               <div className="between"><span className="muted">Remise</span><b className="green">— 0 FCFA</b></div>
             </div>
             <div className="divider" />

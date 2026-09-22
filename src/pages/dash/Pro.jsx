@@ -6,8 +6,8 @@ import {
   Avatar, Badge, Btn, EventCard, Meter, Modal, ProductCard, SectionHead, Stat, Tabs, TalentCard, useApp,
 } from '../../components/ui.jsx'
 import {
-  IMG, PRODUCT_CATEGORIES, brands, creations, events, fcfa, fmtDate, fmtShort, opportunities, orders, productList,
-  shortNumber, sponsors, stats, talents,
+  FREE_SHIPPING_FROM, IMG, PRODUCT_CATEGORIES, brands, creations, events, fcfa, fmtDate, fmtShort,
+  opportunities, orders, productList, shortNumber, sponsors, stats, talents,
 } from '../../data.js'
 
 /* =====================================================================
@@ -320,6 +320,14 @@ export function EspaceBoutique({ tab }) {
               ))}
             </div>
             <Btn variant="outline" size="sm" className="mt-16" onClick={() => notify('Nouvelle zone ajoutée 🚚')}>+ Ajouter une zone</Btn>
+            <div className="divider" />
+            <h3 className="card-h">Seuil de livraison offerte</h3>
+            <p className="small muted">Au-delà de ce montant d’achat, les frais de livraison sont offerts automatiquement dans le panier.</p>
+            <div className="row gap-12">
+              <input className="input" style={{ maxWidth: 180 }} defaultValue={String(FREE_SHIPPING_FROM)} aria-label="Seuil de livraison offerte en FCFA" />
+              <span className="small muted">{fcfa(FREE_SHIPPING_FROM)}</span>
+              <Btn variant="dark" size="sm" onClick={() => notify('Seuil de livraison offerte mis à jour 🚚')}>Enregistrer</Btn>
+            </div>
           </div>
           <aside className="panel">
             <h2 className="h-sub">Transporteurs partenaires</h2>
