@@ -126,7 +126,7 @@ export const Stat = ({ label, value, delta, up, icon }) => (
       {icon && <span className="ico">{icon}</span>}
     </div>
     <b>{value}</b>
-    {delta && <span className="delta" style={{ color: up ? 'var(--green)' : 'var(--terra)' }}>{up ? '▲' : '▼'} {delta}</span>}
+    {delta && <span className="delta" style={{ color: up ? 'var(--green-soft)' : 'var(--terra-soft)' }}>{up ? '▲' : '▼'} {delta}</span>}
   </div>
 )
 

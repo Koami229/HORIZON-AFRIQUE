@@ -213,7 +213,7 @@ export function MonProfil() {
               {[['Photo de profil', true], ['Biographie', true], ['Portfolio (6/8 visuels)', false], ['Réseaux sociaux', true], ['Vérification d’identité', false]].map(([l, ok]) => (
                 <div key={l} className="between">
                   <span className="muted">{l}</span>
-                  <span style={{ color: ok ? 'var(--green)' : 'var(--terra)' }}>{ok ? '✓' : '!'}</span>
+                  <span style={{ color: ok ? 'var(--green-soft)' : 'var(--terra-soft)' }}>{ok ? '✓' : '!'}</span>
                 </div>
               ))}
             </div>

@@ -13,13 +13,16 @@
   --line-strong: rgba(255, 255, 255, 0.16);
   --text: #f6f4ef;
   --muted: #a7a4b2;
-  --muted-2: #7d7b8a;
+  --muted-2: #908e9c;   /* texte tertiaire : 4,78:1 sur --surface-3 (WCAG AA) */
   --gold: #e3b04b;
   --gold-soft: #f0cd82;
   --gold-deep: #b8862a;
   --terra: #c4552e;
+  --terra-soft: #f0a184;   /* version claire pour le texte sur fond sombre */
   --indigo: #4a5fa8;
   --green: #2f8a63;
+  --green-soft: #86ddb4;   /* version claire pour le texte et les badges */
+  --indigo-soft: #a9b8e8;
   --rose: #b8476f;
   --radius: 18px;
   --radius-sm: 12px;
@@ -228,9 +231,9 @@ p { margin: 0 0 1em; color: var(--muted); }
   font-size: 11px; font-weight: 700; letter-spacing: 0.02em; text-transform: uppercase;
 }
 .badge-gold { background: rgba(227, 176, 75, 0.16); color: var(--gold-soft); border: 1px solid rgba(227, 176, 75, 0.35); }
-.badge-terra { background: rgba(196, 85, 46, 0.18); color: #f0a184; border: 1px solid rgba(196, 85, 46, 0.4); }
-.badge-indigo { background: rgba(74, 95, 168, 0.2); color: #a9b8e8; border: 1px solid rgba(74, 95, 168, 0.42); }
-.badge-green { background: rgba(47, 138, 99, 0.18); color: #86ddb4; border: 1px solid rgba(47, 138, 99, 0.42); }
+.badge-terra { background: rgba(196, 85, 46, 0.18); color: var(--terra-soft); border: 1px solid rgba(196, 85, 46, 0.4); }
+.badge-indigo { background: rgba(74, 95, 168, 0.2); color: var(--indigo-soft); border: 1px solid rgba(74, 95, 168, 0.42); }
+.badge-green { background: rgba(47, 138, 99, 0.18); color: var(--green-soft); border: 1px solid rgba(47, 138, 99, 0.42); }
 .badge-muted { background: var(--surface-2); color: var(--muted); border: 1px solid var(--line); }
 .verified { display: inline-grid; place-items: center; width: 17px; height: 17px; border-radius: 50%; background: var(--gold); color: #17130c; font-size: 10px; font-weight: 800; }
 .tag { font-size: 11px; padding: 3px 9px; border-radius: 7px; background: var(--surface-2); color: var(--muted); }
@@ -324,7 +327,7 @@ p { margin: 0 0 1em; color: var(--muted); }
 .field { display: flex; flex-direction: column; gap: 7px; margin-bottom: 16px; }
 .field label { font-size: 12.5px; font-weight: 600; color: #dedbe6; }
 .field .hint { font-size: 11.5px; color: var(--muted-2); }
-.field .hint.red { color: #f0a184; }
+.field .hint.red { color: var(--terra-soft); }
 .input, .select, .textarea {
   width: 100%; background: var(--ink-2); border: 1px solid var(--line-strong); color: var(--text);
   padding: 12px 14px; border-radius: 12px; font-size: 14px; transition: 0.16s;

@@ -13,15 +13,26 @@ npm install
 npm run dev             # http://localhost:5173
 npm run build           # build de production dans dist/
 npm run preview         # prévisualiser le build
-npm run check                # les sept contrôles ci-dessous, à la suite
+npm run check                # les huit contrôles ci-dessous, à la suite
 npm run check:routes         # 79/79 : chaque route se rend sans erreur (rendu SSR)
 npm run check:spec           # 187/187 : les 51 sections du cahier des charges sont présentes
 npm run check:data           # intégrité du jeu de données : identifiants, catégories, dates, montants, médias
 npm run check:links          # 4 601 liens internes + 362 images : aucun lien mort, aucune route orpheline
 npm run check:a11y           # alt, intitulés accessibles, identifiants uniques, titres h1→h3, champs étiquetés
+npm run check:contrast       # contraste WCAG 2.1 AA des couples texte / fond du système de design
 npm run check:css            # classes CSS utilisées mais non définies : aucune
 npm run check:interactions   # 57/57 : parcours cliquables vérifiés sous jsdom
 ```
+
+### Ce que couvre `check:contrast`
+
+La palette est lue directement dans `src/styles.css` (`:root`) et chaque couple texte / fond
+réellement utilisé par les composants est évalué selon WCAG 2.1 AA : 4,5:1 pour le texte
+courant, 3:1 pour les éléments d'interface et le grand texte. Les jetons décoratifs
+(`--terra`, `--green`, `--indigo`, `--rose`) sont réservés aux fonds, dégradés et barres ;
+les jetons clairs correspondants (`--terra-soft`, `--green-soft`, `--indigo-soft`) portent
+le texte. Le contraste du texte tertiaire (`--muted-2`) a été relevé à 4,78:1 sur le fond le
+plus clair du thème.
 
 ### Ce que couvre `check:data`
 

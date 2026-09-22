@@ -11,10 +11,11 @@
     "check:interactions": "esbuild scripts/interaction-check.jsx --bundle --platform=node --format=esm --target=node18 --loader:.jsx=jsx --jsx=automatic --external:jsdom --external:react --external:react-dom --external:react-router-dom --external:@testing-library/react --external:@testing-library/dom --outfile=node_modules/.cache/interaction-check.mjs --log-level=error && node node_modules/.cache/interaction-check.mjs",
     "check:links": "esbuild scripts/link-check.jsx --bundle --platform=node --format=esm --target=node18 --loader:.jsx=jsx --jsx=automatic --external:react --external:react-dom --external:react-router-dom --outfile=node_modules/.cache/link-check.mjs --log-level=error && node node_modules/.cache/link-check.mjs",
     "check:a11y": "esbuild scripts/a11y-check.jsx --bundle --platform=node --format=esm --target=node18 --loader:.jsx=jsx --jsx=automatic --external:react --external:react-dom --external:react-router-dom --outfile=node_modules/.cache/a11y-check.mjs --log-level=error && node node_modules/.cache/a11y-check.mjs",
-    "check": "npm run check:routes && npm run check:spec && npm run check:data && npm run check:links && npm run check:a11y && npm run check:css && npm run check:interactions",
+    "check": "npm run check:routes && npm run check:spec && npm run check:data && npm run check:links && npm run check:a11y && npm run check:contrast && npm run check:css && npm run check:interactions",
     "check:spec": "esbuild scripts/spec-check.jsx --bundle --platform=node --format=esm --target=node18 --loader:.jsx=jsx --jsx=automatic --external:react --external:react-dom --external:react-router-dom --outfile=node_modules/.cache/spec-check.mjs --log-level=error && node node_modules/.cache/spec-check.mjs",
     "check:css": "node scripts/css-check.mjs",
-    "check:data": "esbuild scripts/data-check.jsx --bundle --platform=node --format=esm --target=node18 --loader:.jsx=jsx --jsx=automatic --external:react --external:react-dom --external:react-router-dom --outfile=node_modules/.cache/data-check.mjs --log-level=error && node node_modules/.cache/data-check.mjs"
+    "check:data": "esbuild scripts/data-check.jsx --bundle --platform=node --format=esm --target=node18 --loader:.jsx=jsx --jsx=automatic --external:react --external:react-dom --external:react-router-dom --outfile=node_modules/.cache/data-check.mjs --log-level=error && node node_modules/.cache/data-check.mjs",
+    "check:contrast": "node scripts/contrast-check.mjs"
   },
   "dependencies": {
     "react": "^18.3.1",
