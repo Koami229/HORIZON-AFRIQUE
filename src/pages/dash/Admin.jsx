@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link, NavLink, Outlet } from 'react-router-dom'
 import { DashHead } from './Shell.jsx'
 import {
-  Avatar, Badge, Btn, Meter, Modal, Stat, Tabs, useApp,
+  Avatar, Badge, Btn, Meter, Modal, SectionHead, Stat, Tabs, useApp,
 } from '../../components/ui.jsx'
 import {
   COUNTRIES, IMG, PRODUCT_CATEGORIES, TALENT_CATEGORIES, adminStats, brands, creations, events, fcfa,
@@ -167,6 +167,44 @@ export function AdminDashboard() {
             </tbody>
           </table>
         </div>
+      </div>
+
+      <SectionHead eyebrow="Administration" title="Les 25 modules de la plateforme"
+        action="/administration/referentiel" actionLabel="Référentiels" />
+      <div className="grid grid-4 section-sm">
+        {[
+          ['📊', 'Tableau de bord', '/administration', 'Vue générale'],
+          ['👥', 'Utilisateurs', '/administration/utilisateurs', '48 620 comptes'],
+          ['🎨', 'Talents & profils', '/administration/utilisateurs', '12 480 profils'],
+          ['🏷️', 'Marques', '/administration/utilisateurs', '964 marques'],
+          ['🛍️', 'Boutiques', '/boutique', '1 240 boutiques'],
+          ['🏛️', 'Partenaires', '/partenaires', '186 institutions'],
+          ['✦', 'Sponsors', '/sponsors', '92 sponsors'],
+          ['✔️', 'Vérifications', '/administration/verifications', '12 en attente'],
+          ['📝', 'Publications', '/administration/contenus', '18 402 publications'],
+          ['🖼️', 'Créations & galerie', '/administration/contenus', '32 180 médias'],
+          ['🎬', 'Vidéos', '/administration/contenus', '4 210 vidéos'],
+          ['💬', 'Commentaires', '/administration/moderation', '96 400 commentaires'],
+          ['🚩', 'Signalements', '/administration/moderation', '24 ouverts'],
+          ['🚫', 'Sanctions & rôles', '/administration/utilisateurs', '36 sanctions'],
+          ['⭐', 'Abonnements', '/administration/abonnements', '8 420 abonnés'],
+          ['💳', 'Paiements', '/administration/paiements', '2,4 Md FCFA'],
+          ['📦', 'Commandes', '/boutique/commandes', '3 180 commandes'],
+          ['🚀', 'Horizon Boost', '/administration/boost', '412 boosts actifs'],
+          ['📈', 'Statistiques globales', '/administration', '12 mois'],
+          ['📄', 'Rapports & exports', '/administration', 'Ces rapports'],
+          ['🌍', 'Pays', '/administration/referentiel', '24 pays'],
+          ['🧵', 'Catégories & métiers', '/administration/referentiel', '11 catégories'],
+          ['🔔', 'Notifications globales', '/administration/referentiel', '6 modèles'],
+          ['⚙️', 'Paramètres plateforme', '/tableau-de-bord/parametres', 'Règles & sécurité'],
+          ['🕓', 'Journal d’activité', '/administration/moderation', 'Temps réel'],
+        ].map(([ico, title, to, meta]) => (
+          <Link key={title} to={to} className="panel" style={{ textAlign: 'left' }}>
+            <div style={{ fontSize: 22 }}>{ico}</div>
+            <b style={{ display: 'block', marginTop: 8 }}>{title}</b>
+            <span className="tiny muted">{meta}</span>
+          </Link>
+        ))}
       </div>
     </>
   )

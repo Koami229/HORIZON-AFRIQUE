@@ -20,6 +20,7 @@ export function Evenements() {
     { key: 'country', label: 'Pays', options: COUNTRIES.map((c) => c.name), get: (e) => e.country },
     { key: 'city', label: 'Ville', options: ALL_CITIES, get: (e) => e.city },
     { key: 'period', label: 'Date', options: ['Septembre 2026', 'Octobre 2026', 'Novembre 2026', 'Décembre 2026'], get: (e) => new Date(e.start).toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' }).replace(/^./, (m) => m.toUpperCase()) },
+    { key: 'category', label: 'Catégorie', options: EVENT_CATEGORIES, get: (e) => e.category },
   ], [])
   const { state, setState, result } = useFilterState(filters, events)
   const list = cat === 'Tous les types' ? result : result.filter((e) => e.category === cat)
@@ -218,6 +219,7 @@ export function Opportunites() {
     { key: 'city', label: 'Ville', options: ALL_CITIES, get: (o) => o.city },
     { key: 'domain', label: 'Domaine', options: [...new Set(opportunities.map((o) => o.domain))], get: (o) => o.domain },
     { key: 'deadline', label: 'Date limite', options: ['Moins de 15 jours', '15 à 30 jours', 'Plus de 30 jours'], get: (o) => (o.daysLeft < 15 ? 'Moins de 15 jours' : o.daysLeft <= 30 ? '15 à 30 jours' : 'Plus de 30 jours') },
+    { key: 'type', label: 'Type', options: OPPORTUNITY_TYPES, get: (o) => o.type },
   ], [])
   const { state, setState, result } = useFilterState(filters, opportunities)
   const list = type === 'Tous les types' ? result : result.filter((o) => o.type === type)

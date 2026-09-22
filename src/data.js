@@ -120,7 +120,7 @@ export const TALENT_CATEGORIES = [
   { name: 'Créateurs', slug: 'createurs', icon: '🌟', count: 704, desc: 'Créateurs multidisciplinaires et jeunes marques.' },
 ]
 
-export const CREATION_CATEGORIES = ['Mode', 'Art', 'Artisanat', 'Design', 'Décoration', 'Accessoires']
+export const CREATION_CATEGORIES = ['Mode', 'Art', 'Artisanat', 'Design', 'Décoration', 'Accessoires', 'Textile']
 export const EVENT_CATEGORIES = ['Fashion Week', 'Défilés', 'Castings', 'Concours', 'Festivals', 'Expositions', 'Salons', 'Lancements']
 export const OPPORTUNITY_TYPES = ['Offre d’emploi', 'Casting', 'Stage', 'Concours', 'Collaboration', 'Appel à projets', 'Mission']
 export const NEWS_CATEGORIES = ['Mode', 'Art', 'Artisanat', 'Design', 'Interviews', 'Tendances', 'Success Stories', 'Événements']

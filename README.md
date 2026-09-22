@@ -13,12 +13,23 @@ npm install
 npm run dev             # http://localhost:5173
 npm run build           # build de production dans dist/
 npm run preview         # prévisualiser le build
-npm run check                # les quatre contrôles ci-dessous, à la suite
+npm run check                # les cinq contrôles ci-dessous, à la suite
 npm run check:routes         # 79/79 : chaque route se rend sans erreur (rendu SSR)
-npm run check:links          # 4 053 liens internes + 362 images : aucun lien mort, aucun visuel manquant
+npm run check:spec           # 185/185 : les 51 sections du cahier des charges sont présentes
+npm run check:links          # 4 598 liens internes + 362 images : aucun lien mort, aucun visuel manquant
 npm run check:a11y           # alt, intitulés accessibles, identifiants uniques sur les 79 écrans
 npm run check:interactions   # 43/43 : parcours cliquables vérifiés sous jsdom
 ```
+
+### Ce que couvre `check:spec`
+
+Chaque section du cahier des charges est vérifiée sur le HTML réellement rendu : intitulés,
+boutons et champs attendus, mais aussi les décomptes annoncés — 16 entrées de menu latéral,
+9 onglets d'espace partenaire, 7 onglets d'espace sponsor, 25 modules d'administration,
+12 puces de catégories Marketplace, 8 entrées d'espace boutique, 9 files de notifications,
+5 groupes de liens et 5 réseaux sociaux au pied de page, 4 boutons « Choisir cette formule ».
+Les éléments qui n'apparaissent qu'après un clic (étapes d'inscription, de paiement, de Boost,
+pouvoirs de modération) sont marqués « interaction » et couverts par `check:interactions`.
 
 ### Ce que couvre `check:interactions`
 

@@ -14,7 +14,7 @@ export function Abonnements() {
     {
       name: 'Horizon Free', price: 0, tagline: 'Gratuit — pour découvrir',
       features: ['Profil public complet', '3 publications par mois', 'Accès illimité à la galerie et aux vidéos', 'Messagerie limitée à 5 conversations', 'Participation aux événements', '0 Boost inclus'],
-      cta: 'Commencer gratuitement',
+      cta: 'Choisir cette formule',
     },
     {
       name: 'Horizon Starter', price: 5000, tagline: '5 000 FCFA / mois', badge: 'Populaire',
@@ -60,11 +60,12 @@ export function Abonnements() {
               <div className="amount">{p.price === 0 ? 'Gratuit' : fcfa(price)}</div>
               <span className="tiny muted">{p.price === 0 ? 'pour toujours' : cycle.includes('Annuel') ? 'par an (facturé annuellement)' : 'par mois'}</span>
               <ul>{p.features.map((f) => <li key={f}>{f}</li>)}</ul>
+              {currentPlan === p.name && <div className="mb-8"><Badge tone="green">✓ Formule actuelle</Badge></div>}
               <Btn
                 variant={p.badge ? 'primary' : 'outline'} className="btn-block"
                 onClick={() => { setPlan(p.name); notify(`Formule ${p.name} sélectionnée — redirection vers le paiement 💳`) }}
               >
-                {currentPlan === p.name ? '✓ Formule actuelle' : p.cta}
+                {p.cta}
               </Btn>
             </div>
           )
@@ -147,9 +148,9 @@ export function HorizonBoost() {
   const [pay, setPay] = useState('Mobile Money')
 
   const durations = [
-    { h: 24, price: 1000, label: '24 heures', desc: 'Boost standard — idéal pour une publication ou un produit.' },
-    { h: 72, price: 2700, label: '3 jours', desc: 'Bon rapport durée / prix pour une collection ou un événement.' },
-    { h: 168, price: 5500, label: '7 jours', desc: 'Visibilité longue durée pour un profil, une marque ou une campagne.' },
+    { h: 24, price: 1000, label: '24 h — 1 jour', desc: 'Boost standard — idéal pour une publication ou un produit.' },
+    { h: 72, price: 2700, label: '72 h — 3 jours', desc: 'Bon rapport durée / prix pour une collection ou un événement.' },
+    { h: 168, price: 5500, label: '168 h — 7 jours', desc: 'Visibilité longue durée pour un profil, une marque ou une campagne.' },
   ]
   const price = durations.find((d) => d.h === duration).price
 

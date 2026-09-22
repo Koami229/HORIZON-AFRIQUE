@@ -71,6 +71,8 @@ function Header({ onSearch }) {
           </nav>
 
           <div className="header-actions">
+          <Link to="/connexion" className="chip header-auth">Connexion</Link>
+          <Link to="/inscription" className="chip chip-soft header-auth">Inscription</Link>
             <button className="icon-btn burger" title="Menu" onClick={() => toggle('burger')}>☰</button>
             <button className="icon-btn" title="Rechercher" onClick={onSearch}>🔍</button>
 

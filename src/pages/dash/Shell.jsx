@@ -9,6 +9,7 @@ const MENUS = {
       ['/tableau-de-bord', 'Tableau de bord', '📊'],
       ['/tableau-de-bord/profil', 'Mon profil', '👤'],
       ['/tableau-de-bord/portfolio', 'Mon portfolio', '🖼️'],
+      ['/favoris', 'Mes favoris', '⭐'],
     ] },
     { group: 'Mes contenus', items: [
       ['/tableau-de-bord/mes-publications', 'Mes publications', '📝'],

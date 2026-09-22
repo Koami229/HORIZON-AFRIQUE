@@ -409,9 +409,21 @@ export function Commandes() {
 /* =====================================================================
    42. ESPACE PARTENAIRE
    ===================================================================== */
+/* 42. Espace Partenaire — 9 modules */
+const PARTNER_TABS = [
+  'Tableau de bord', 'Profil de l’organisation', 'Programmes & appels', 'Opportunités', 'Événements',
+  'Collaborations', 'Recherche de talents', 'Statistiques', 'Paramètres',
+]
+const keyOfPartner = (v) => ({
+  'Tableau de bord': 'vue', 'Profil de l’organisation': 'profil', 'Programmes & appels': 'programmes',
+  'Opportunités': 'opportunites', 'Événements': 'evenements', 'Collaborations': 'collaborations',
+  'Recherche de talents': 'talents', 'Statistiques': 'stats', 'Paramètres': 'parametres',
+}[v])
+const labelOfPartner = (k) => PARTNER_TABS.find((t) => keyOfPartner(t) === k) || 'Tableau de bord'
+
 export function EspacePartenaire({ tab }) {
   const { notify } = useApp()
-  const [section, setSection] = useState(tab || 'vue')
+  const [section, setSection] = useState(keyOfPartner(({ opportunites: 'Opportunités', evenements: 'Événements', talents: 'Recherche de talents' }[tab]) || 'Tableau de bord') || tab || 'vue')
 
   return (
     <>
@@ -423,9 +435,9 @@ export function EspacePartenaire({ tab }) {
       </div>
 
       <div className="panel mb-24">
-        <Tabs tabs={['Tableau de bord', 'Profil de l’organisation', 'Opportunités', 'Événements', 'Collaborations', 'Recherche de talents']}
-          value={tab ? ({ opportunites: 'Opportunités', evenements: 'Événements', talents: 'Recherche de talents' }[tab] || 'Tableau de bord') : ({ vue: 'Tableau de bord' }[section] || 'Tableau de bord')}
-          onChange={(v) => setSection(({ 'Tableau de bord': 'vue', 'Profil de l’organisation': 'profil', 'Opportunités': 'opportunites', 'Événements': 'evenements', 'Collaborations': 'collaborations', 'Recherche de talents': 'talents' })[v])} />
+        <Tabs tabs={PARTNER_TABS}
+          value={labelOfPartner(section)}
+          onChange={(v) => setSection(keyOfPartner(v))} />
       </div>
 
       {section === 'vue' && (
@@ -546,20 +558,72 @@ export function EspacePartenaire({ tab }) {
           <div className="grid grid-4">{talents.slice(0, 8).map((t) => <TalentCard key={t.id} t={t} />)}</div>
         </>
       )}
+
+      {section === 'programmes' && (
+        <>
+          <SectionHead eyebrow="Soutien aux créateurs" title="Programmes & appels à candidatures"
+            action="/opportunites" actionLabel="Voir les opportunités publiques" />
+          <div className="grid grid-3">
+            {[
+              ['Bourses Création 2027', 'Financement', '15 bourses de 1 500 000 FCFA', 'Ouvert jusqu’au 30 novembre', 'Bourses'],
+              ['Résidence d’atelier — Ouidah', 'Formation', '3 mois d’accompagnement en atelier', '12 places', 'Bourses'],
+              ['Appel à projets Mode durable', 'Subvention', 'Subventions de 500 000 à 3 000 000 FCFA', 'Dossier en ligne', 'Appels'],
+              ['Programme Jeunes Marques', 'Accélération', 'Structuration et accès aux salons', '8 marques retenues', 'Programmes'],
+              ['Fonds Artisanat & Territoire', 'Financement', 'Équipement des coopératives', 'Clôture le 15 octobre', 'Dons'],
+              ['Prix de l’Innovation Textile', 'Concours', 'Doté de 2 000 000 FCFA', 'Cérémonie en décembre', 'Concours'],
+            ].map(([name, type, desc, meta, tag]) => (
+              <div key={name} className="panel">
+                <div className="between"><Badge tone="gold">{tag}</Badge><span className="tiny muted-2">{type}</span></div>
+                <b style={{ display: 'block', marginTop: 10 }}>{name}</b>
+                <p className="small muted mt-8 mb-12">{desc}</p>
+                <div className="between small"><span className="muted-2">{meta}</span><button className="link-arrow" onClick={() => notify(`Candidatures — ${name}`)}>Candidater →</button></div>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+
+      {section === 'stats' && <Statistiques />}
+
+      {section === 'parametres' && (
+        <div className="split">
+          <div className="panel">
+            <h3>Paramètres de l’organisation</h3>
+            <div className="field"><label>Visibilité du profil</label><select className="select"><option>Public</option><option>Visible des talents vérifiés</option><option>Privé</option></select></div>
+            <div className="field"><label>Notifications</label><select className="select"><option>Toutes les candidatures</option><option>Candidatures qualifiées uniquement</option><option>Aucune</option></select></div>
+            <div className="field"><label>Adresse de contact</label><input className="input" defaultValue="contact@culture.bj" /></div>
+            <div className="field"><label>Signature des publications</label><input className="input" defaultValue="Ministère de la Culture du Bénin — Horizon Afrique" /></div>
+            <Btn onClick={() => notify('Paramètres du partenaire enregistrés ✅')}>Enregistrer</Btn>
+          </div>
+          <div className="panel">
+            <h3>Équipe & rôles</h3>
+            <div className="stack gap-12">
+              {[['Awa Sossou', 'Administratrice', 'Accès complet'], ['Kwesi Ampofo', 'Chargé de programmes', 'Programmes et candidatures'], ['Naomi Wanjiru', 'Communication', 'Publications et événements']].map(([n, r, a]) => (
+                <div key={n} className="between">
+                  <div className="stack"><b style={{ fontSize: 13.5 }}>{n}</b><span className="tiny muted">{r}</span></div>
+                  <span className="tiny muted-2">{a}</span>
+                </div>
+              ))}
+            </div>
+            <div className="divider" />
+            <Btn variant="outline" size="sm" onClick={() => notify('Invitation envoyée à un membre de l’équipe ✉️')}>+ Inviter un membre</Btn>
+          </div>
+        </div>
+      )}
     </>
   )
 }
 
 /* =====================================================================
-   43. ESPACE SPONSOR
+   43. ESPACE SPONSOR — 7 modules
    ===================================================================== */
 export function EspaceSponsor({ tab }) {
   const { notify } = useApp()
   const [section, setSection] = useState(tab || 'vue')
   const s = sponsors[1]
 
-  const tabs = ['Tableau de bord', 'Profil de l’entreprise', 'Campagnes', 'Talents soutenus', 'Événements sponsorisés', 'Statistiques']
-  const keyOf = (v) => ({ 'Tableau de bord': 'vue', 'Profil de l’entreprise': 'profil', 'Campagnes': 'campagnes', 'Talents soutenus': 'talents', 'Événements sponsorisés': 'evenements', 'Statistiques': 'stats' }[v])
+  const tabs = ['Tableau de bord', 'Profil de l’entreprise', 'Campagnes', 'Talents soutenus', 'Événements sponsorisés', 'Statistiques', 'Facturation']
+  const keyOf = (v) => ({ 'Tableau de bord': 'vue', 'Profil de l’entreprise': 'profil', 'Campagnes': 'campagnes', 'Talents soutenus': 'talents', 'Événements sponsorisés': 'evenements', 'Statistiques': 'stats', 'Facturation': 'facturation' }[v])
   const labelOf = (k) => tabs.find((t) => keyOf(t) === k) || 'Tableau de bord'
 
   return (
@@ -686,6 +750,40 @@ export function EspaceSponsor({ tab }) {
       )}
 
       {section === 'stats' && <Statistiques />}
+
+      {section === 'facturation' && (
+        <>
+          <SectionHead eyebrow="Budget sponsoring" title="Facturation & engagements"
+            action="/abonnements" actionLabel="Voir les formules" />
+          <div className="grid grid-4 section-sm">
+            {[['Budget annuel', fcfa(s.amount)], ['Engagé', fcfa(Math.round(s.amount * 0.68))], ['Factures réglées', '9 / 12'], ['Prochaine échéance', '15 octobre']].map(([l, v]) => (
+              <div key={l} className="kpi"><b style={{ fontSize: 19 }}>{v}</b><span>{l}</span></div>
+            ))}
+          </div>
+          <div className="panel">
+            <div className="panel-title"><b>Factures et conventions</b><Btn variant="outline" size="sm" onClick={() => notify('Facture PDF téléchargée 📄')}>Télécharger</Btn></div>
+            <div className="table-wrap">
+              <table>
+                <thead><tr><th>Référence</th><th>Objet</th><th>Période</th><th>Montant</th><th>Statut</th></tr></thead>
+                <tbody>
+                  {[['FA-2026-041', 'Campagne Boost Jeunes Créateurs', 'Janvier — Mars', 3400000, 'Réglée'],
+                    ['FA-2026-058', 'Fashion Week Connect', 'Avril — Juin', 5200000, 'Réglée'],
+                    ['FA-2026-071', 'Écoles & Talents', 'Juillet — Septembre', 2800000, 'En cours'],
+                    ['FA-2026-084', 'Prix de l’Innovation Textile', 'Octobre — Décembre', 4100000, 'À venir']].map(([ref, obj, per, amount, status]) => (
+                    <tr key={ref}>
+                      <td><b>{ref}</b></td>
+                      <td>{obj}</td>
+                      <td className="muted">{per}</td>
+                      <td>{fcfa(amount)}</td>
+                      <td><Badge tone={status === 'Réglée' ? 'green' : status === 'En cours' ? 'gold' : 'muted'}>{status}</Badge></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </>
+      )}
     </>
   )
 }
