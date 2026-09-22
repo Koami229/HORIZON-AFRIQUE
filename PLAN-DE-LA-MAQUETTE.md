@@ -106,3 +106,14 @@ Champs : nom, prénom, nom professionnel / structure, email, téléphone, pays, 
   « Découvrir la plateforme », « Créer mon profil », puis les 17 sections (talents, marques, collections,
   créations, actualités, vidéos, événements, opportunités, produits, boutiques, pays, partenaires, sponsors,
   témoignages, abonnements, Horizon Boost, footer).
+
+## Contrôles automatiques
+
+| Commande | Portée | Résultat |
+| --- | --- | --- |
+| `npm run check:routes` | les 79 écrans rendus en SSR | 79/79 sans erreur |
+| `npm run check:links` | 4 053 liens internes et 362 références d'images sur 72 écrans | aucun lien mort, aucun visuel manquant |
+| `npm run check:a11y` | alt, intitulés de boutons et de liens, identifiants uniques | aucun problème détecté |
+| `npm run check:interactions` | 13 parcours cliquables sous jsdom | 43/43 vérifications réussies |
+
+`npm run check` enchaîne les quatre ; `npm run build` produit `dist/` (551 kB de JS, 29,5 kB de CSS).

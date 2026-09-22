@@ -1,5 +1,13 @@
 /* Vérifie que chaque route de la maquette se rend sans erreur (rendu SSR via react-dom/server).
    Usage : npm run check:routes  */
+/* Sortie lisible : on masque les avertissements attendus de React Router en SSR. */
+{
+  const warn = console.warn, error = console.error
+  const noise = /useLayoutEffect does nothing on the server|React Router Future Flag|not wrapped in act/
+  console.warn = (...a) => { if (!noise.test(String(a[0]))) warn(...a) }
+  console.error = (...a) => { if (!noise.test(String(a[0]))) error(...a) }
+}
+
 import { renderToString } from 'react-dom/server'
 import { MemoryRouter } from 'react-router-dom'
 import App from '../src/App.jsx'

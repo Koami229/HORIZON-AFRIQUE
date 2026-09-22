@@ -129,7 +129,7 @@ export function Produit() {
           <img src={img} alt={p.name} style={{ width: '100%', borderRadius: 'var(--radius)', aspectRatio: '1', objectFit: 'cover' }} />
           <div className="grid grid-4" style={{ gap: 12 }}>
             {p.gallery.map((g, i) => (
-              <button key={i} onClick={() => setImg(g)} style={{ padding: 0, border: img === g ? '2px solid var(--gold)' : '1px solid var(--line)', borderRadius: 12, overflow: 'hidden', background: 'none' }}>
+              <button key={i} onClick={() => setImg(g)} aria-label={`Afficher la photo ${i + 1} de ${p.name}`} title={`Photo ${i + 1}`} style={{ padding: 0, border: img === g ? '2px solid var(--gold)' : '1px solid var(--line)', borderRadius: 12, overflow: 'hidden', background: 'none' }}>
                 <img src={g} alt="" className="ratio-1" style={{ borderRadius: 10 }} loading="lazy" />
               </button>
             ))}

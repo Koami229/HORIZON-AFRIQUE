@@ -13,7 +13,10 @@ npm install
 npm run dev             # http://localhost:5173
 npm run build           # build de production dans dist/
 npm run preview         # prévisualiser le build
+npm run check                # les quatre contrôles ci-dessous, à la suite
 npm run check:routes         # 79/79 : chaque route se rend sans erreur (rendu SSR)
+npm run check:links          # 4 053 liens internes + 362 images : aucun lien mort, aucun visuel manquant
+npm run check:a11y           # alt, intitulés accessibles, identifiants uniques sur les 79 écrans
 npm run check:interactions   # 43/43 : parcours cliquables vérifiés sous jsdom
 ```
 
