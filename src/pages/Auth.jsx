@@ -75,6 +75,9 @@ export function Connexion() {
           <div className="divider" />
           <p className="small center-text mb-16">Pas encore de compte ?</p>
           <Btn to="/inscription" variant="outline" className="btn-block">Créer un compte</Btn>
+          <p className="small center-text mt-12 mb-0">
+            Vous hésitez ? <Link to="/type-de-compte" className="gold strong">Comparer les 5 types de compte</Link>
+          </p>
 
           <div className="notice mt-24">
             <span>ℹ️</span>
@@ -124,7 +127,7 @@ export function Inscription() {
 
           {step === 1 && (
             <>
-              <h3>Quel type de compte souhaitez-vous créer ?</h3>
+              <h2 className="h-sub">Quel type de compte souhaitez-vous créer ?</h2>
               <div className="stack gap-12">
                 {ACCOUNT_TYPES.map((t) => (
                   <button key={t.key} className={`account-type ${type === t.key ? 'active' : ''}`} onClick={() => setType(t.key)}>
@@ -142,7 +145,7 @@ export function Inscription() {
 
           {step === 2 && (
             <>
-              <h3>Informations personnelles</h3>
+              <h2 className="h-sub">Informations personnelles</h2>
               <div className="form-grid">
                 <div className="field"><label>Nom</label><input className="input" value={form.lastName} onChange={set('lastName')} required /></div>
                 <div className="field"><label>Prénom</label><input className="input" value={form.firstName} onChange={set('firstName')} required /></div>
@@ -192,7 +195,7 @@ export function Inscription() {
 
           {step === 3 && (
             <>
-              <h3>Profil professionnel</h3>
+              <h2 className="h-sub">Profil professionnel</h2>
               <div className="form-grid">
                 <div className="field">
                   <label>Catégorie</label>

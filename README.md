@@ -16,11 +16,23 @@ npm run preview         # prévisualiser le build
 npm run check                # les six contrôles ci-dessous, à la suite
 npm run check:routes         # 79/79 : chaque route se rend sans erreur (rendu SSR)
 npm run check:spec           # 186/186 : les 51 sections du cahier des charges sont présentes
-npm run check:links          # 4 598 liens internes + 362 images : aucun lien mort, aucun visuel manquant
-npm run check:a11y           # alt, intitulés accessibles, identifiants uniques sur les 79 écrans
+npm run check:links          # 4 599 liens internes + 362 images : aucun lien mort, aucune route orpheline
+npm run check:a11y           # alt, intitulés accessibles, identifiants uniques, titres h1→h3, champs étiquetés
 npm run check:css            # classes CSS utilisées mais non définies : aucune
 npm run check:interactions   # 55/55 : parcours cliquables vérifiés sous jsdom
 ```
+
+### Ce que couvrent `check:links` et `check:a11y`
+
+- **Liens** : les 4 599 liens internes du rendu pointent tous vers une route déclarée, les
+  362 images référencées existent dans `public/img/`, et **les 79 routes sont atteignables** —
+  aucun écran n'est orphelin (contrôle inverse : chaque route est cherchée dans les `href`
+  rendus puis dans les chemins écrits dans le JSX, y compris les tableaux de navigation).
+- **Accessibilité**, sept critères sur les 79 écrans : `alt` des images, intitulés de boutons
+  et de liens, identifiants HTML uniques, **un seul `h1` par écran**, **aucun niveau de titre
+  sauté** (h1 → h2 → h3, la feuille de style conservant les tailles d'origine via `.h-sub` et
+  `.card-h`) et **aucun champ de saisie sans libellé** (`label`, `aria-label`, `placeholder`
+  ou `title`).
 
 ### Ce que couvre `check:spec`
 

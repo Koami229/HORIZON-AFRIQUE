@@ -133,7 +133,7 @@ export const Stat = ({ label, value, delta, up, icon }) => (
 export const EmptyState = ({ title, sub, action, actionLabel = 'Explorer' }) => (
   <div className="empty">
     <div style={{ fontSize: 30, marginBottom: 10 }}>🧭</div>
-    <h3>{title}</h3>
+    <h2 className="h-sub">{title}</h2>
     <p>{sub}</p>
     {action && <Btn to={action} variant="outline" size="sm">{actionLabel}</Btn>}
   </div>
@@ -153,7 +153,7 @@ export const Modal = ({ open, onClose, title, children, footer }) => {
     <div className="modal-backdrop" onClick={onClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
         <div className="between mb-16">
-          <h3 className="mb-0">{title}</h3>
+          <h2 className="mb-0 h-sub">{title}</h2>
           <button className="icon-btn" onClick={onClose}>✕</button>
         </div>
         {children}
@@ -182,7 +182,7 @@ export function FilterBar({ filters, state, setState, count, children }) {
     <div className="filter-bar">
       <span className="upper muted-2" style={{ marginRight: 4 }}>Filtres</span>
       {filters.map((f) => (
-        <select key={f.key} value={state[f.key] ?? 'Tous'} onChange={(e) => setState({ ...state, [f.key]: e.target.value })}>
+        <select key={f.key} aria-label={`Filtre ${f.label}`} value={state[f.key] ?? 'Tous'} onChange={(e) => setState({ ...state, [f.key]: e.target.value })}>
           <option value="Tous">{f.label} : Tous</option>
           {f.options.map((o) => <option key={o} value={o}>{o}</option>)}
         </select>

@@ -66,6 +66,11 @@ h1, h2, h3, h4 { font-family: var(--display); font-weight: 600; letter-spacing: 
 h1 { font-size: clamp(2rem, 4vw, 3.4rem); }
 h2 { font-size: clamp(1.5rem, 2.6vw, 2.2rem); }
 h3 { font-size: 1.18rem; }
+/* Structure de titres : les sous-titres de panneaux (ex-h3) et les titres d'encarts
+   (ex-h4) gardent exactement la taille qu'ils avaient avant la remise à niveau des
+   niveaux h1 → h2 → h3. */
+.h-sub { font-size: 1.18rem; }
+.card-h { font-size: 1rem; }
 p { margin: 0 0 1em; color: var(--muted); }
 ::selection { background: var(--gold); color: #111; }
 

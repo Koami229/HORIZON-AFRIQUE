@@ -214,7 +214,7 @@ export function EspaceBoutique({ tab }) {
       {section === 'ajouter' && (
         <div className="split">
           <div className="panel">
-            <h3>Ajouter un produit</h3>
+            <h2 className="h-sub">Ajouter un produit</h2>
             <div className="field"><label>Nom du produit</label><input className="input" placeholder="Ex : Robe « Azalaï »" defaultValue="Robe « Azalaï »" /></div>
             <div className="form-grid">
               <div className="field"><label>Catégorie</label><select className="select">{PRODUCT_CATEGORIES.map((c) => <option key={c}>{c}</option>)}</select></div>
@@ -244,7 +244,7 @@ export function EspaceBoutique({ tab }) {
 
           <aside className="stack gap-16">
             <div className="panel">
-              <h3>Aperçu de la fiche</h3>
+              <h2 className="h-sub">Aperçu de la fiche</h2>
               <img src={productList[0].image} alt="" className="ratio-1 mb-16" />
               <b>Robe « Azalaï »</b>
               <div className="row gap-8 mt-8"><b className="gold">{fcfa(78000)}</b><span className="tiny muted-2">Stock : 12</span></div>
@@ -269,7 +269,7 @@ export function EspaceBoutique({ tab }) {
                   <td><Badge tone={p.stock < 6 ? 'terra' : p.stock < 15 ? 'gold' : 'green'}>{p.stock < 6 ? 'Stock faible' : p.stock < 15 ? 'À surveiller' : 'Disponible'}</Badge></td>
                   <td>
                     <div className="row gap-8">
-                      <input className="input" style={{ width: 74, padding: '6px 10px' }} type="number" defaultValue={p.stock} />
+                      <input className="input" style={{ width: 74, padding: '6px 10px' }} type="number" aria-label={`Stock de ${p.name}`} defaultValue={p.stock} />
                       <button className="btn btn-dark btn-xs" onClick={() => notify('Stock mis à jour 📦')}>Mettre à jour</button>
                     </div>
                   </td>
@@ -304,12 +304,12 @@ export function EspaceBoutique({ tab }) {
         </>
       )}
 
-      {section === 'stats' && <Statistiques />}
+      {section === 'stats' && <Statistiques embedded />}
 
       {section === 'livraison' && (
         <div className="split">
           <div className="panel">
-            <h3>Zones et frais de livraison</h3>
+            <h2 className="h-sub">Zones et frais de livraison</h2>
             <div className="stack gap-12">
               {[['Cotonou et environs', 1500, '24 h'], ['Bénin (hors Cotonou)', 2500, '48 h'], ['UEMOA (Togo, Nigéria, Niger…)', 6500, '3-5 jours'], ['Reste de l’Afrique', 12000, '5-9 jours'], ['International', 25000, '7-14 jours']].map(([z, f, d]) => (
                 <div key={z} className="list-row">
@@ -322,7 +322,7 @@ export function EspaceBoutique({ tab }) {
             <Btn variant="outline" size="sm" className="mt-16" onClick={() => notify('Nouvelle zone ajoutée 🚚')}>+ Ajouter une zone</Btn>
           </div>
           <aside className="panel">
-            <h3>Transporteurs partenaires</h3>
+            <h2 className="h-sub">Transporteurs partenaires</h2>
             <div className="stack gap-12">
               {[['DHL Express', 'International'], ['Speedaf', 'Afrique de l’Ouest'], ['Transporteurs locaux', 'Cotonou & Bénin']].map(([n, z]) => (
                 <div key={n} className="list-row">
@@ -333,7 +333,7 @@ export function EspaceBoutique({ tab }) {
               ))}
             </div>
             <div className="divider" />
-            <h4>Retours</h4>
+            <h3 className="card-h">Retours</h3>
             <div className="checkbox mb-8"><input type="checkbox" defaultChecked /><span className="small">Autoriser les retours sous 14 jours</span></div>
             <div className="checkbox"><input type="checkbox" defaultChecked /><span className="small">Retour gratuit pour l’acheteur</span></div>
           </aside>
@@ -472,7 +472,7 @@ export function EspacePartenaire({ tab }) {
       {section === 'profil' && (
         <div className="split">
           <div className="panel">
-            <h3>Profil de l’organisation</h3>
+            <h2 className="h-sub">Profil de l’organisation</h2>
             <div className="field"><label>Nom de l’organisation</label><input className="input" defaultValue="Ministère de la Culture du Bénin" /></div>
             <div className="form-grid">
               <div className="field"><label>Type</label><select className="select"><option>Institution publique</option><option>École / université</option><option>Incubateur</option><option>Média</option><option>Agence</option></select></div>
@@ -486,7 +486,7 @@ export function EspacePartenaire({ tab }) {
             <Btn onClick={() => notify('Profil de l’organisation mis à jour ✅')}>Enregistrer</Btn>
           </div>
           <aside className="panel">
-            <h3>Visibilité du partenaire</h3>
+            <h2 className="h-sub">Visibilité du partenaire</h2>
             <div className="stack gap-12 small">
               <div className="between"><span className="muted">Vues du profil</span><b>12 408</b></div>
               <div className="between"><span className="muted">Talents suivis</span><b>248</b></div>
@@ -551,8 +551,8 @@ export function EspacePartenaire({ tab }) {
         <>
           <div className="filter-bar">
             <input className="input" placeholder="Rechercher un talent (métier, ville, spécialité…)" />
-            <select><option>Profession : Toutes</option>{['Styliste', 'Designer', 'Mannequin', 'Photographe', 'Artisan'].map((p) => <option key={p}>{p}</option>)}</select>
-            <select><option>Pays : Tous</option><option>Bénin</option><option>Sénégal</option><option>Nigeria</option></select>
+            <select aria-label="Filtrer par profession"><option>Profession : Toutes</option>{['Styliste', 'Designer', 'Mannequin', 'Photographe', 'Artisan'].map((p) => <option key={p}>{p}</option>)}</select>
+            <select aria-label="Filtrer par pays"><option>Pays : Tous</option><option>Bénin</option><option>Sénégal</option><option>Nigeria</option></select>
             <Btn size="sm">Rechercher</Btn>
           </div>
           <div className="grid grid-4">{talents.slice(0, 8).map((t) => <TalentCard key={t.id} t={t} />)}</div>
@@ -583,12 +583,12 @@ export function EspacePartenaire({ tab }) {
         </>
       )}
 
-      {section === 'stats' && <Statistiques />}
+      {section === 'stats' && <Statistiques embedded />}
 
       {section === 'parametres' && (
         <div className="split">
           <div className="panel">
-            <h3>Paramètres de l’organisation</h3>
+            <h2 className="h-sub">Paramètres de l’organisation</h2>
             <div className="field"><label>Visibilité du profil</label><select className="select"><option>Public</option><option>Visible des talents vérifiés</option><option>Privé</option></select></div>
             <div className="field"><label>Notifications</label><select className="select"><option>Toutes les candidatures</option><option>Candidatures qualifiées uniquement</option><option>Aucune</option></select></div>
             <div className="field"><label>Adresse de contact</label><input className="input" defaultValue="contact@culture.bj" /></div>
@@ -596,7 +596,7 @@ export function EspacePartenaire({ tab }) {
             <Btn onClick={() => notify('Paramètres du partenaire enregistrés ✅')}>Enregistrer</Btn>
           </div>
           <div className="panel">
-            <h3>Équipe & rôles</h3>
+            <h2 className="h-sub">Équipe & rôles</h2>
             <div className="stack gap-12">
               {[['Awa Sossou', 'Administratrice', 'Accès complet'], ['Kwesi Ampofo', 'Chargé de programmes', 'Programmes et candidatures'], ['Naomi Wanjiru', 'Communication', 'Publications et événements']].map(([n, r, a]) => (
                 <div key={n} className="between">
@@ -661,7 +661,7 @@ export function EspaceSponsor({ tab }) {
       {section === 'profil' && (
         <div className="split">
           <div className="panel">
-            <h3>Profil de l’entreprise</h3>
+            <h2 className="h-sub">Profil de l’entreprise</h2>
             <div className="field"><label>Nom de l’entreprise</label><input className="input" defaultValue={s.name} /></div>
             <div className="form-grid">
               <div className="field"><label>Type de sponsoring</label><select className="select"><option>Sponsor principal</option><option>Sponsor d’événements</option><option>Sponsor de projets</option><option>Sponsor culturel</option></select></div>
@@ -675,7 +675,7 @@ export function EspaceSponsor({ tab }) {
             <Btn onClick={() => notify('Profil entreprise mis à jour ✅')}>Enregistrer</Btn>
           </div>
           <aside className="panel">
-            <h3>Impact du sponsoring</h3>
+            <h2 className="h-sub">Impact du sponsoring</h2>
             <div className="stack gap-12 small">
               <div className="between"><span className="muted">Talents accompagnés</span><b>{s.talents}</b></div>
               <div className="between"><span className="muted">Événements soutenus</span><b>9</b></div>
@@ -749,7 +749,7 @@ export function EspaceSponsor({ tab }) {
         </div>
       )}
 
-      {section === 'stats' && <Statistiques />}
+      {section === 'stats' && <Statistiques embedded />}
 
       {section === 'facturation' && (
         <>

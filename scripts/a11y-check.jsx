@@ -2,7 +2,9 @@
    Vérifie, sur le HTML rendu de chaque écran :
      - les <img> sans attribut alt ;
      - les <button> et <a> sans intitulé accessible (texte, aria-label ou title) ;
-     - les identifiants HTML dupliqués dans une même page.
+     - les identifiants HTML dupliqués dans une même page ;
+     - la structure de titres : un seul h1 par écran, aucun niveau sauté ;
+     - les champs de saisie sans libellé (label, aria-label, placeholder ou title).
    Usage : npm run check:a11y  */
 {
   const warn = console.warn, error = console.error
@@ -39,7 +41,7 @@ const routes = [
   '/administration/verifications', '/administration/referentiel',
 ]
 
-const issues = { images: [], boutons: [], liens: [], ids: [] }
+const issues = { images: [], boutons: [], liens: [], ids: [], titres: [], structure: [], champs: [] }
 const strip = (html) => html.replace(/<[^>]+>/g, ' ').replace(/&[a-z]+;/g, ' ').replace(/\s+/g, ' ').trim()
 
 for (const route of routes) {
@@ -70,6 +72,29 @@ for (const route of routes) {
     if (!label && !/aria-label=|title=/.test(attrs)) issues.liens.push([route, attrs.slice(0, 110)])
   }
 
+  /* --- structure de titres et libellés de champs : sur le contenu principal --- */
+  const mainStart = html.indexOf('<main')
+  const main = mainStart >= 0 ? html.slice(mainStart, html.indexOf('</main>')) : html
+
+  const niveaux = [...main.matchAll(/<h([1-6])[^>]*>/g)].map((m) => Number(m[1]))
+  const h1 = niveaux.filter((n) => n === 1).length
+  if (h1 !== 1) issues.titres.push([route, `${h1} titre(s) h1`, niveaux.join('')])
+  for (let i = 1; i < niveaux.length; i++) {
+    if (niveaux[i] - niveaux[i - 1] > 1) {
+      issues.structure.push([route, `niveau sauté ${niveaux[i - 1]} → ${niveaux[i]}`, niveaux.join('')])
+      break
+    }
+  }
+
+  for (const m of main.matchAll(/<(input|select|textarea)\b[^>]*>/g)) {
+    const tag = m[0]
+    if (/type="(hidden|checkbox|radio|submit)"/.test(tag)) continue
+    if (/aria-label=|placeholder=|title=/.test(tag)) continue
+    const before = main.slice(0, m.index)
+    const bloc = before.lastIndexOf('<div class="field"')
+    if (!(bloc >= 0 && before.slice(bloc).includes('<label'))) issues.champs.push([route, tag.slice(0, 100)])
+  }
+
   const ids = [...html.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1])
   const dupes = [...new Set(ids.filter((id, i) => ids.indexOf(id) !== i))]
   if (dupes.length) issues.ids.push([route, dupes.join(', ')])
@@ -95,6 +120,9 @@ const total = report('Images sans alt', issues.images)
   + report('Boutons sans intitulé accessible', issues.boutons)
   + report('Liens sans intitulé accessible', issues.liens)
   + report('Identifiants HTML dupliqués', issues.ids)
+  + report('Écrans sans un titre h1 unique', issues.titres)
+  + report('Niveaux de titre sautés', issues.structure)
+  + report('Champs sans libellé accessible', issues.champs)
 
 console.log(`\n${total === 0 ? '✅ Aucun problème d’accessibilité détecté sur les critères vérifiés.' : `⚠️ ${total} cas à revoir.`}`)
 process.exitCode = total ? 1 : 0

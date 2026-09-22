@@ -162,7 +162,7 @@ export default function Home() {
             </div>
           </div>
           <aside className="stack gap-16">
-            <h3 className="mb-0">Les plus lus</h3>
+            <h2 className="mb-0 h-sub">Les plus lus</h2>
             {articles.slice(3, 7).map((a, i) => (
               <Link key={a.id} to={`/actualites/${a.id}`} className="row gap-12">
                 <b className="muted-2" style={{ fontFamily: 'var(--display)', fontSize: 20, width: 20 }}>{i + 1}</b>
@@ -202,11 +202,11 @@ export default function Home() {
             </div>
           </div>
           <aside className="panel">
-            <h3>Créez votre alerte</h3>
+            <h2 className="h-sub">Créez votre alerte</h2>
             <p className="small">Recevez par email les opportunités correspondant à votre profil et à votre pays.</p>
             <div className="stack gap-12 mt-16">
               <input className="input" placeholder="Votre adresse email" defaultValue={currentUser.email} />
-              <select className="select" defaultValue="Mode"><option>Mode</option><option>Art</option><option>Artisanat</option><option>Design</option><option>Photographie</option></select>
+              <select className="select" aria-label="Catégorie d’intérêt" defaultValue="Mode"><option>Mode</option><option>Art</option><option>Artisanat</option><option>Design</option><option>Photographie</option></select>
               <Btn onClick={() => notify('Alerte créée : vous recevrez les opportunités par email ✅')}>Créer mon alerte</Btn>
             </div>
             <div className="divider" />
@@ -294,7 +294,7 @@ export default function Home() {
             <div key={p.name} className={`price-card ${p.name === 'Horizon Starter' ? 'featured' : ''}`}>
               {p.badge && <div style={{ position: 'absolute', top: 18, right: 18 }}><Badge tone="gold">{p.badge}</Badge></div>}
               <span className="upper muted-2">{p.tagline}</span>
-              <h3 className="mt-8">{p.name}</h3>
+              <h2 className="mt-8 h-sub">{p.name}</h2>
               <div className="amount">{p.price === 0 ? 'Gratuit' : fcfa(p.price)}</div>
               <span className="tiny muted">{p.price === 0 ? 'pour toujours' : 'par mois'}</span>
               <ul>{p.features.slice(0, 5).map((f) => <li key={f}>{f}</li>)}</ul>
@@ -336,7 +336,7 @@ export default function Home() {
       <section className="container section">
         <div className="panel center-text" style={{ padding: 52, background: 'linear-gradient(135deg, rgba(227,176,75,0.12), rgba(196,85,46,0.12), rgba(74,95,168,0.12))' }}>
           <span className="upper gold">Rejoignez le mouvement</span>
-          <h1 className="mt-8" style={{ fontSize: 'clamp(1.8rem, 3.4vw, 2.8rem)' }}>Votre talent mérite un horizon plus large.</h1>
+          <h2 className="mt-8" style={{ fontSize: 'clamp(1.8rem, 3.4vw, 2.8rem)' }}>Votre talent mérite un horizon plus large.</h2>
           <p style={{ maxWidth: '60ch', margin: '0 auto 26px' }}>
             Créez votre profil gratuitement, publiez vos créations et connectez-vous à des milliers de professionnels,
             marques et institutions à travers l’Afrique.

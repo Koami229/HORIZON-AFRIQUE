@@ -56,7 +56,7 @@ export function Abonnements() {
             <div key={p.name} className={`price-card ${p.badge ? 'featured' : ''}`}>
               {p.badge && <div style={{ position: 'absolute', top: 18, right: 18 }}><Badge tone="gold">{p.badge}</Badge></div>}
               <span className="upper muted-2">{p.tagline}</span>
-              <h3 className="mt-8">{p.name}</h3>
+              <h2 className="mt-8 h-sub">{p.name}</h2>
               <div className="amount">{p.price === 0 ? 'Gratuit' : fcfa(price)}</div>
               <span className="tiny muted">{p.price === 0 ? 'pour toujours' : cycle.includes('Annuel') ? 'par an (facturé annuellement)' : 'par mois'}</span>
               <ul>{p.features.map((f) => <li key={f}>{f}</li>)}</ul>
@@ -204,7 +204,7 @@ export function HorizonBoost() {
 
           {step === 1 && (
             <>
-              <h3>Que souhaitez-vous promouvoir ?</h3>
+              <h2 className="h-sub">Que souhaitez-vous promouvoir ?</h2>
               <div className="grid grid-4">
                 {boostTargets.map((t) => (
                   <button key={t.key} className={`boost-card ${target === t.key ? 'active' : ''}`} onClick={() => { setTarget(t.key); setStep(2) }}>
@@ -220,7 +220,7 @@ export function HorizonBoost() {
           {step === 2 && target && (
             <>
               <div className="between mb-16">
-                <h3 className="mb-0">Sélectionnez le contenu à promouvoir</h3>
+                <h2 className="mb-0 h-sub">Sélectionnez le contenu à promouvoir</h2>
                 <Badge tone="gold">{boostTargets.find((t) => t.key === target)?.label}</Badge>
               </div>
               <div className="grid grid-3">
@@ -240,7 +240,7 @@ export function HorizonBoost() {
 
           {step === 3 && (
             <>
-              <h3>Choisissez la durée du Boost</h3>
+              <h2 className="h-sub">Choisissez la durée du Boost</h2>
               <div className="grid grid-3">
                 {durations.map((d) => (
                   <button key={d.h} className={`boost-card ${duration === d.h ? 'active' : ''}`} onClick={() => setDuration(d.h)}>
@@ -266,7 +266,7 @@ export function HorizonBoost() {
           {step === 4 && (
             <div className="split">
               <div>
-                <h3>Moyen de paiement</h3>
+                <h2 className="h-sub">Moyen de paiement</h2>
                 <div className="grid grid-2 mb-24">
                   {[['Mobile Money', '📱'], ['Carte bancaire', '💳']].map(([m, ico]) => (
                     <button key={m} className="account-type" style={{ borderColor: pay === m ? 'var(--gold)' : undefined, background: pay === m ? 'rgba(227,176,75,0.08)' : undefined }} onClick={() => setPay(m)}>
@@ -292,7 +292,7 @@ export function HorizonBoost() {
               </div>
 
               <aside className="panel">
-                <h3>Aperçu de votre Boost</h3>
+                <h2 className="h-sub">Aperçu de votre Boost</h2>
                 {content && (
                   <img src={contents[target].find((c) => c.id === content)?.img} alt="" className="ratio-16 mb-16" />
                 )}

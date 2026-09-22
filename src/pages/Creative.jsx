@@ -44,7 +44,7 @@ export function Creations() {
       </div>
 
       <FilterBar filters={filters} state={state} setState={setState} count={sorted.length}>
-        <select value={sort} onChange={(e) => setSort(e.target.value)}>
+        <select aria-label="Trier les créations" value={sort} onChange={(e) => setSort(e.target.value)}>
           <option>Popularité</option><option>Récentes</option><option>Vues</option>
         </select>
       </FilterBar>
@@ -185,7 +185,7 @@ export function Videos() {
         </div>
         <aside className="stack gap-16">
           <div className="panel">
-            <h3>Les plus vues</h3>
+            <h2 className="h-sub">Les plus vues</h2>
             <div className="stack gap-12">
               {[...videos].sort((a, b) => b.views - a.views).slice(0, 5).map((v, i) => (
                 <Link key={v.id} to={`/videos/${v.id}`} className="row gap-12">
@@ -200,7 +200,7 @@ export function Videos() {
             </div>
           </div>
           <div className="panel">
-            <h3>Publier une vidéo</h3>
+            <h2 className="h-sub">Publier une vidéo</h2>
             <p className="small">Défilés, coulisses, tutoriels : partagez votre savoir-faire avec la communauté.</p>
             <Btn to="/tableau-de-bord/mes-videos" className="btn-block mt-8">Ajouter une vidéo</Btn>
           </div>
@@ -246,7 +246,7 @@ export function VideoDetail() {
             </p>
           </div>
 
-          <h3 className="mt-32">Commentaires <span className="muted small">(128)</span></h3>
+          <h2 className="mt-32 h-sub">Commentaires <span className="muted small">(128)</span></h2>
           <div className="stack gap-12">
             {[['Awa Sossou', 'Quel défilé ! Les coupes sont magnifiques.'], ['Kojo Mensah', 'Merci pour le partage, très inspirant.'], ['Zola Dlamini', 'Hâte de voir la suite de la collection.']].map(([n, t]) => (
               <div key={n} className="list-row">
@@ -262,7 +262,7 @@ export function VideoDetail() {
         </div>
 
         <aside className="stack gap-16">
-          <h3>À suivre</h3>
+          <h2 className="h-sub">À suivre</h2>
           {videos.filter((x) => x.id !== v.id).slice(0, 5).map((x) => (
             <Link key={x.id} to={`/videos/${x.id}`} className="row gap-12">
               <img src={x.thumb} alt="" style={{ width: 92, height: 58, objectFit: 'cover', borderRadius: 10 }} loading="lazy" />
@@ -357,7 +357,7 @@ export function Fil() {
 
         <aside className="stack gap-16">
           <div className="panel">
-            <h3>Suggestions à suivre</h3>
+            <h2 className="h-sub">Suggestions à suivre</h2>
             <div className="stack gap-12">
               {talents.slice(6, 10).map((t) => (
                 <Link key={t.id} to={`/talent/${t.id}`} className="row gap-12">
@@ -369,13 +369,13 @@ export function Fil() {
             </div>
           </div>
           <div className="panel">
-            <h3>Tendances</h3>
+            <h2 className="h-sub">Tendances</h2>
             <div className="pill-row">
               {['#WaxChic', '#DakarFW26', '#MadeInAfrica', '#ArtisanatDurable', '#CotonouCrée', '#CastingMode'].map((h) => <span key={h} className="tag">{h}</span>)}
             </div>
           </div>
           <div className="panel">
-            <h3>Produits populaires</h3>
+            <h2 className="h-sub">Produits populaires</h2>
             <div className="grid grid-2">{productList.slice(0, 2).map((p) => <ProductCard key={p.id} p={p} />)}</div>
           </div>
         </aside>

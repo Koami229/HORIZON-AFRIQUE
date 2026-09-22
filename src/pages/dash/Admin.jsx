@@ -82,7 +82,7 @@ export function AdminDashboard() {
   return (
     <>
       <DashHead title="Tableau de bord administrateur" sub="Vue générale de la plateforme : utilisateurs, contenus, revenus et modération."
-        children={<><select className="input" style={{ width: 160 }} defaultValue="30 derniers jours"><option>7 derniers jours</option><option>30 derniers jours</option><option>12 derniers mois</option></select><Btn variant="outline" size="sm">Exporter le rapport</Btn></>} />
+        children={<><select className="input" aria-label="Période analysée" style={{ width: 160 }} defaultValue="30 derniers jours"><option>7 derniers jours</option><option>30 derniers jours</option><option>12 derniers mois</option></select><Btn variant="outline" size="sm">Exporter le rapport</Btn></>} />
 
       <div className="grid grid-4 mb-24">
         {adminStats.map((s) => <Stat key={s.label} {...s} />)}
@@ -245,8 +245,8 @@ export function AdminUtilisateurs() {
 
       <div className="filter-bar">
         <input className="input" placeholder="Rechercher un utilisateur…" value={q} onChange={(e) => setQ(e.target.value)} />
-        <select><option>Pays : Tous</option>{COUNTRIES.map((c) => <option key={c.name}>{c.name}</option>)}</select>
-        <select><option>Statut : Tous</option><option>Actif</option><option>Vérifié</option><option>En attente</option><option>Suspendu</option></select>
+        <select aria-label="Filtrer par pays"><option>Pays : Tous</option>{COUNTRIES.map((c) => <option key={c.name}>{c.name}</option>)}</select>
+        <select aria-label="Filtrer par statut"><option>Statut : Tous</option><option>Actif</option><option>Vérifié</option><option>En attente</option><option>Suspendu</option></select>
         <Btn size="sm">Filtrer</Btn>
       </div>
 
@@ -925,9 +925,9 @@ export function AdminReferentiel() {
       {tab === 'Notifications' && (
         <div className="grid grid-2">
           <div className="panel">
-            <h3>Envoyer une notification globale</h3>
+            <h2 className="h-sub">Envoyer une notification globale</h2>
             <div className="field"><label>Cible</label>
-              <select className="select"><option>Tous les utilisateurs</option><option>Talents uniquement</option><option>Marques et boutiques</option><option>Partenaires et sponsors</option><option>Abonnés payants</option></select>
+              <select className="select" aria-label="Segment d’utilisateurs"><option>Tous les utilisateurs</option><option>Talents uniquement</option><option>Marques et boutiques</option><option>Partenaires et sponsors</option><option>Abonnés payants</option></select>
             </div>
             <div className="field"><label>Titre</label><input className="input" defaultValue="Nouvelle version de l’application mobile" /></div>
             <div className="field"><label>Message</label><textarea className="textarea" defaultValue="Découvrez les nouveautés : messagerie améliorée, statistiques détaillées et paiement Wave disponible." /></div>
@@ -937,7 +937,7 @@ export function AdminReferentiel() {
             </div>
           </div>
           <div className="panel">
-            <h3>Dernières notifications envoyées</h3>
+            <h2 className="h-sub">Dernières notifications envoyées</h2>
             <div className="stack gap-12">
               {notifications.slice(0, 5).map((n) => (
                 <div key={n.id} className="list-row">
@@ -954,7 +954,7 @@ export function AdminReferentiel() {
       {tab === 'Paramètres' && (
         <div className="grid grid-2">
           <div className="panel">
-            <h3>Paramètres généraux</h3>
+            <h2 className="h-sub">Paramètres généraux</h2>
             <div className="field"><label>Nom de la plateforme</label><input className="input" defaultValue="Horizon Afrique" /></div>
             <div className="form-grid">
               <div className="field"><label>Devise par défaut</label><select className="select"><option>FCFA (XOF)</option><option>USD</option><option>EUR</option></select></div>
@@ -968,7 +968,7 @@ export function AdminReferentiel() {
             <Btn onClick={() => notify('Paramètres enregistrés ✅')}>Enregistrer</Btn>
           </div>
           <div className="panel">
-            <h3>Modération & sécurité</h3>
+            <h2 className="h-sub">Modération & sécurité</h2>
             <div className="stack gap-12">
               {[['Validation manuelle des nouveaux profils', true], ['Vérification obligatoire des marques', true], ['Filtrage automatique des mots interdits', true], ['Modération des commentaires avant publication', false], ['Double authentification obligatoire (admin)', true]].map(([l, on]) => (
                 <div key={l} className="list-row">
@@ -978,7 +978,7 @@ export function AdminReferentiel() {
               ))}
             </div>
             <div className="divider" />
-            <h4>Journal d’activité admin</h4>
+            <h3 className="card-h">Journal d’activité admin</h3>
             <div className="stack gap-8 small">
               {[['Awa Sossou', 'a validé 12 profils', 'il y a 2 h'], ['Kwesi Ampofo', 'a supprimé 3 contenus', 'il y a 5 h'], ['Système', 'sauvegarde quotidienne terminée', 'hier']].map(([w, a, t2]) => (
                 <div key={a} className="between"><span className="muted"><b style={{ color: 'var(--text)' }}>{w}</b> {a}</span><span className="tiny muted-2">{t2}</span></div>

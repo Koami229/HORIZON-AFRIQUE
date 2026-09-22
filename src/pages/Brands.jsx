@@ -121,7 +121,7 @@ export function BrandProfile() {
               <div className="split mb-32">
                 <div className="panel">
                   <div className="between mb-16">
-                    <h3 className="mb-0">Dernière publication</h3>
+                    <h2 className="mb-0 h-sub">Dernière publication</h2>
                     <Badge tone="gold">✦ Boost</Badge>
                   </div>
                   <div className="row gap-16">
@@ -143,7 +143,7 @@ export function BrandProfile() {
 
                 <aside className="stack gap-16">
                   <div className="panel">
-                    <h4>Informations</h4>
+                    <h3 className="card-h">Informations</h3>
                     <div className="stack gap-10 small">
                       <div className="between"><span className="muted">Catégorie</span><b>{b.category}</b></div>
                       <div className="between"><span className="muted">Pays</span><b>{b.flag} {b.country}</b></div>
@@ -160,7 +160,7 @@ export function BrandProfile() {
                     </div>
                   </div>
                   <div className="panel" style={{ background: 'linear-gradient(135deg, rgba(227,176,75,0.12), rgba(196,85,46,0.1))' }}>
-                    <h4>Booster cette marque</h4>
+                    <h3 className="card-h">Booster cette marque</h3>
                     <p className="small">Gagnez jusqu’à 8× plus de vues sur vos publications et collections pendant 24 h.</p>
                     <Btn to="/horizon-boost" variant="primary" size="sm" className="btn-block">Horizon Boost — 1 000 FCFA</Btn>
                   </div>
@@ -188,7 +188,7 @@ export function BrandProfile() {
           {tab === 'À propos' && (
             <div className="split">
               <div>
-                <h3>Notre histoire</h3>
+                <h2 className="h-sub">Notre histoire</h2>
                 <p>{b.bio}</p>
                 <p>
                   Depuis {b.since}, la maison développe une production locale et responsable : matières tracées,
@@ -200,13 +200,13 @@ export function BrandProfile() {
                     <div key={a} className="panel"><b>{a}</b><p className="small mb-0 mt-8">{c}</p></div>
                   ))}
                 </div>
-                <h3 className="mt-32">Nos valeurs</h3>
+                <h2 className="mt-32 h-sub">Nos valeurs</h2>
                 <div className="row gap-12 wrap">
                   {['Traçabilité', 'Artisanat local', 'Séries limitées', 'Éco-responsable', 'Made in Africa'].map((v) => <span key={v} className="chip chip-soft">{v}</span>)}
                 </div>
               </div>
               <aside className="panel">
-                <h3>Contact</h3>
+                <h2 className="h-sub">Contact</h2>
                 <div className="stack gap-12 small">
                   <div className="between"><span className="muted">Email</span><b>{b.contact.email}</b></div>
                   <div className="between"><span className="muted">Téléphone</span><b>{b.contact.phone}</b></div>
@@ -304,7 +304,7 @@ export function BrandProfile() {
                 ))}
               </div>
               <aside className="panel">
-                <h3>Satisfaction clients</h3>
+                <h2 className="h-sub">Satisfaction clients</h2>
                 <div className="row gap-16 mb-16">
                   <b style={{ fontFamily: 'var(--display)', fontSize: 42 }}>4,8</b>
                   <div className="stack"><Stars value={5} /><span className="tiny muted">312 avis vérifiés</span></div>
@@ -352,7 +352,7 @@ export function BrandProfile() {
           <div className="stack"><b>{b.name}</b><span className="tiny muted">Répond en moyenne en 2 heures</span></div>
         </div>
         <div className="field"><label>Objet</label>
-          <select className="select"><option>Demande d’information</option><option>Commande sur mesure</option><option>Collaboration</option><option>Presse</option></select>
+          <select className="select" aria-label="Objet de la demande"><option>Demande d’information</option><option>Commande sur mesure</option><option>Collaboration</option><option>Presse</option></select>
         </div>
         <div className="field"><label>Message</label><textarea className="textarea" placeholder="Bonjour, je souhaiterais…" /></div>
       </Modal>

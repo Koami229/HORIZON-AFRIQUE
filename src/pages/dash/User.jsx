@@ -142,7 +142,7 @@ export function MonProfil() {
       <div className="split">
         <div className="stack gap-24">
           <div className="panel">
-            <h3>Informations personnelles</h3>
+            <h2 className="h-sub">Informations personnelles</h2>
             <div className="row gap-16 mb-24">
               <Avatar src={currentUser.avatar} size="xl" ring />
               <div className="stack gap-8">
@@ -181,7 +181,7 @@ export function MonProfil() {
           </div>
 
           <div className="panel">
-            <h3>Coordonnées</h3>
+            <h2 className="h-sub">Coordonnées</h2>
             <div className="form-grid">
               <div className="field"><label>Adresse email</label><input className="input" value={form.email} onChange={set('email')} /></div>
               <div className="field"><label>Téléphone</label><input className="input" value={form.phone} onChange={set('phone')} /></div>
@@ -196,7 +196,7 @@ export function MonProfil() {
 
         <aside className="stack gap-16">
           <div className="panel">
-            <h3>Aperçu public</h3>
+            <h2 className="h-sub">Aperçu public</h2>
             <img src={IMG.garment[0]} alt="" className="ratio-16 mb-16" />
             <div className="row gap-12">
               <Avatar src={currentUser.avatar} size="md" ring />
@@ -206,7 +206,7 @@ export function MonProfil() {
             <Btn to="/talent/tal-1" variant="outline" size="sm" className="btn-block">Voir mon profil public</Btn>
           </div>
           <div className="panel">
-            <h3>Complétion du profil</h3>
+            <h2 className="h-sub">Complétion du profil</h2>
             <div className="between mb-8"><span className="small muted">Progression</span><b className="gold">85 %</b></div>
             <Meter value={85} />
             <div className="stack gap-8 small mt-16">
@@ -219,7 +219,7 @@ export function MonProfil() {
             </div>
           </div>
           <div className="panel" style={{ background: 'linear-gradient(135deg, rgba(227,176,75,0.14), rgba(74,95,168,0.12))' }}>
-            <h4>Devenir profil vérifié</h4>
+            <h3 className="card-h">Devenir profil vérifié</h3>
             <p className="small">Obtenez le badge ✓ et jusqu’à 3× plus de demandes de collaboration.</p>
             <Btn to="/tableau-de-bord/abonnement" size="sm" className="btn-block">Passer à Horizon Pro</Btn>
           </div>
@@ -336,7 +336,7 @@ export function MesPublications() {
         children={<Btn size="sm" onClick={() => notify('Publication programmée 📅')}>📅 Programmer</Btn>} />
 
       <div className="panel mb-24">
-        <h3>Créer une publication</h3>
+        <h2 className="h-sub">Créer une publication</h2>
         <textarea className="textarea" placeholder="Que souhaitez-vous partager aujourd’hui ?" value={text} onChange={(e) => setText(e.target.value)} />
         <div className="between wrap gap-12 mt-12">
           <div className="pill-row">
@@ -532,7 +532,7 @@ export function MesOpportunites() {
       </div>
 
       <div className="panel">
-        <h3>Candidatures récentes</h3>
+        <h2 className="h-sub">Candidatures récentes</h2>
         <div className="table-wrap">
           <table>
             <thead><tr><th>Candidat</th><th>Profil</th><th>Opportunité</th><th>Date</th><th>Statut</th><th>Actions</th></tr></thead>
@@ -775,12 +775,20 @@ export function Notifications() {
 /* =====================================================================
    39. PAGE STATISTIQUES
    ===================================================================== */
-export function Statistiques() {
+/* `embedded` : la page est affichée dans un espace (boutique, partenaire, sponsor) qui a
+   déjà son propre titre h1 — on n'en ajoute pas un second. */
+export function Statistiques({ embedded = false }) {
   const max = Math.max(...stats.series)
   return (
     <>
-      <DashHead title="Statistiques" sub="Analysez la performance de votre profil, de vos contenus et de votre boutique."
-        children={<><select className="input" style={{ width: 150 }} defaultValue="30 derniers jours"><option>7 derniers jours</option><option>30 derniers jours</option><option>3 derniers mois</option><option>12 derniers mois</option></select><Btn variant="outline" size="sm">Exporter en CSV</Btn></>} />
+      {!embedded && <DashHead title="Statistiques" sub="Analysez la performance de votre profil, de vos contenus et de votre boutique."
+        children={<><select className="input" aria-label="Période analysée" style={{ width: 150 }} defaultValue="30 derniers jours"><option>7 derniers jours</option><option>30 derniers jours</option><option>3 derniers mois</option><option>12 derniers mois</option></select><Btn variant="outline" size="sm">Exporter en CSV</Btn></>} />}
+      {embedded && (
+        <div className="between mb-16">
+          <span className="muted small">Analysez la performance de votre activité sur la période choisie.</span>
+          <select className="input" aria-label="Période analysée" style={{ width: 150 }} defaultValue="30 derniers jours"><option>7 derniers jours</option><option>30 derniers jours</option><option>3 derniers mois</option><option>12 derniers mois</option></select>
+        </div>
+      )}
 
       <div className="grid grid-4 mb-24">
         {stats.overview.map((s) => <Stat key={s.label} {...s} />)}
@@ -901,7 +909,7 @@ export function MonAbonnement() {
           <div key={p.name} className={`price-card ${p.name === plan ? 'featured' : ''}`}>
             {p.badge && <div style={{ position: 'absolute', top: 18, right: 18 }}><Badge tone="gold">{p.badge}</Badge></div>}
             <span className="upper muted-2">{p.tagline}</span>
-            <h3 className="mt-8">{p.name}</h3>
+            <h2 className="mt-8 h-sub">{p.name}</h2>
             <div className="amount" style={{ fontSize: 30 }}>{p.price === 0 ? 'Gratuit' : fcfa(p.price)}</div>
             <ul>{p.features.slice(0, 4).map((f) => <li key={f}>{f}</li>)}</ul>
             <Btn variant={p.name === plan ? 'dark' : 'outline'} className="btn-block" onClick={() => { setPlan(p.name); notify(`Formule ${p.name} activée ✅`) }}>
@@ -1010,7 +1018,7 @@ export function MonBoost() {
 
       <div className="grid grid-2">
         <div className="panel">
-          <h3>Ce qui fonctionne le mieux</h3>
+          <h2 className="h-sub">Ce qui fonctionne le mieux</h2>
           <div className="stack gap-16">
             {[['Produits', 92], ['Collections', 78], ['Profil', 64], ['Publications', 52]].map(([l, v]) => (
               <div key={l}><div className="between small"><span className="muted">{l}</span><b>{v}%</b></div><Meter value={v} /></div>
@@ -1018,7 +1026,7 @@ export function MonBoost() {
           </div>
         </div>
         <div className="panel" style={{ background: 'linear-gradient(135deg, rgba(227,176,75,0.14), rgba(196,85,46,0.1))' }}>
-          <h3>Conseil Horizon</h3>
+          <h2 className="h-sub">Conseil Horizon</h2>
           <p className="small">Vos produits boostés génèrent 3× plus de clics que vos publications. Programmez un Boost de 3 jours sur votre prochaine collection pour maximiser les ventes du lancement.</p>
           <Btn size="sm" to="/horizon-boost" className="btn-block">Programmer un Boost de 3 jours</Btn>
         </div>
@@ -1047,7 +1055,7 @@ export function Parametres() {
 
       {tab === 'Informations personnelles' && (
         <div className="panel">
-          <h3>Informations personnelles</h3>
+          <h2 className="h-sub">Informations personnelles</h2>
           <div className="form-grid">
             <div className="field"><label>Prénom</label><input className="input" defaultValue={currentUser.firstName} /></div>
             <div className="field"><label>Nom</label><input className="input" defaultValue={currentUser.lastName} /></div>
@@ -1061,7 +1069,7 @@ export function Parametres() {
             <div className="field"><label>Ville</label><input className="input" defaultValue={currentUser.city} /></div>
           </div>
           <div className="divider" />
-          <h4>Suppression du compte</h4>
+          <h3 className="card-h">Suppression du compte</h3>
           <p className="small">La suppression est définitive : profil, publications et statistiques seront effacés sous 30 jours.</p>
           <Btn variant="danger" size="sm" onClick={() => notify('Demande de suppression enregistrée — un email de confirmation vous a été envoyé')}>Demander la suppression de mon compte</Btn>
         </div>
@@ -1070,20 +1078,20 @@ export function Parametres() {
       {tab === 'Sécurité' && (
         <div className="grid grid-2">
           <div className="panel">
-            <h3>Mot de passe</h3>
+            <h2 className="h-sub">Mot de passe</h2>
             <div className="field"><label>Mot de passe actuel</label><input className="input" type="password" placeholder="••••••••" /></div>
             <div className="field"><label>Nouveau mot de passe</label><input className="input" type="password" placeholder="8 caractères minimum" /></div>
             <div className="field"><label>Confirmer le nouveau mot de passe</label><input className="input" type="password" /></div>
             <Btn size="sm" onClick={() => notify('Mot de passe mis à jour 🔒')}>Mettre à jour le mot de passe</Btn>
           </div>
           <div className="panel">
-            <h3>Double authentification</h3>
+            <h2 className="h-sub">Double authentification</h2>
             <div className="list-row mb-16">
               <span style={{ fontSize: 19 }}>🔐</span>
               <div className="grow stack"><b style={{ fontSize: 13.5 }}>Validation en deux étapes</b><span className="tiny muted">Code envoyé par SMS à {currentUser.phone}</span></div>
               <button className={`switch ${switches.deuxfa ? 'on' : ''}`} onClick={() => t('deuxfa')} />
             </div>
-            <h4 className="mt-24">Sessions actives</h4>
+            <h3 className="mt-24 card-h">Sessions actives</h3>
             <div className="stack gap-12">
               {[['Chrome — Cotonou, Bénin', 'Session actuelle'], ['Application mobile — Android', 'il y a 2 jours']].map(([d, t2]) => (
                 <div key={d} className="between small">
@@ -1098,7 +1106,7 @@ export function Parametres() {
 
       {tab === 'Notifications' && (
         <div className="panel">
-          <h3>Préférences de notification</h3>
+          <h2 className="h-sub">Préférences de notification</h2>
           <div className="stack gap-12">
             {[['email', 'Notifications par email', 'Abonnés, j’aime, commentaires et messages'], ['push', 'Notifications push', 'Sur votre navigateur et votre application mobile'], ['sms', 'Notifications par SMS', 'Uniquement les messages importants'], ['news', 'Newsletter hebdomadaire', 'Sélection de la rédaction Horizon']].map(([k, l, d]) => (
               <div key={k} className="list-row">
@@ -1108,7 +1116,7 @@ export function Parametres() {
             ))}
           </div>
           <div className="divider" />
-          <h4>Recevoir des alertes pour</h4>
+          <h3 className="card-h">Recevoir des alertes pour</h3>
           <div className="pill-row">
             {['Nouveaux abonnés', 'J’aime', 'Commentaires', 'Messages', 'Collaborations', 'Opportunités', 'Événements', 'Commandes'].map((l) => <span key={l} className="chip chip-soft">{l}</span>)}
           </div>
@@ -1117,7 +1125,7 @@ export function Parametres() {
 
       {tab === 'Confidentialité' && (
         <div className="panel">
-          <h3>Confidentialité</h3>
+          <h2 className="h-sub">Confidentialité</h2>
           <div className="stack gap-12">
             {[['publique', 'Profil public', 'Votre profil apparaît dans les recherches et l’annuaire'], ['messages', 'Accepter les messages de tous', 'Sinon, seuls les profils vérifiés peuvent vous écrire'], ['offres', 'Partager mon email avec les marques', 'Pour recevoir des propositions de collaboration']].map(([k, l, d]) => (
               <div key={k} className="list-row">
@@ -1127,7 +1135,7 @@ export function Parametres() {
             ))}
           </div>
           <div className="divider" />
-          <h4>Mes données</h4>
+          <h3 className="card-h">Mes données</h3>
           <div className="row gap-12">
             <Btn variant="outline" size="sm" onClick={() => notify('Export de vos données en préparation 📦')}>Exporter mes données</Btn>
             <Btn variant="ghost" size="sm">Consulter la politique de confidentialité</Btn>
@@ -1137,7 +1145,7 @@ export function Parametres() {
 
       {tab === 'Langue' && (
         <div className="panel">
-          <h3>Langue et région</h3>
+          <h2 className="h-sub">Langue et région</h2>
           <div className="form-grid">
             <div className="field"><label>Langue de l’interface</label><select className="select"><option>Français</option><option>English</option><option>Português</option><option>Swahili</option><option>العربية</option></select></div>
             <div className="field"><label>Devise d’affichage</label><select className="select"><option>FCFA (XOF)</option><option>Naira (NGN)</option><option>Cedi (GHS)</option><option>Dirham (MAD)</option><option>Dollar (USD)</option></select></div>
@@ -1151,7 +1159,7 @@ export function Parametres() {
 
       {tab === 'Abonnement' && (
         <div className="panel">
-          <h3>Abonnement</h3>
+          <h2 className="h-sub">Abonnement</h2>
           <div className="between mb-16">
             <div className="stack"><b style={{ fontSize: 15 }}>{currentUser.plan}</b><span className="small muted">10 000 FCFA par mois · renouvellement automatique</span></div>
             <Badge tone="green">Actif</Badge>
@@ -1165,7 +1173,7 @@ export function Parametres() {
 
       {tab === 'Paiement' && (
         <div className="panel">
-          <h3>Moyens de paiement</h3>
+          <h2 className="h-sub">Moyens de paiement</h2>
           <div className="stack gap-12">
             <div className="list-row">
               <span style={{ fontSize: 19 }}>📱</span>

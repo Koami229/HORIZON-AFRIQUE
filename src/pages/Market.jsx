@@ -218,7 +218,7 @@ export function Produit() {
           {tab === 'Description' && (
             <div className="split">
               <div>
-                <h3>À propos de cette pièce</h3>
+                <h2 className="h-sub">À propos de cette pièce</h2>
                 <p>{p.description}</p>
                 <p>
                   Chaque pièce est numérotée et accompagnée d’un certificat d’authenticité. Les teintures sont réalisées
@@ -231,7 +231,7 @@ export function Produit() {
                 </div>
               </div>
               <aside className="panel">
-                <h3>Fiche technique</h3>
+                <h2 className="h-sub">Fiche technique</h2>
                 <div className="stack gap-10 small">
                   <div className="between"><span className="muted">Référence</span><b>{p.id.toUpperCase()}</b></div>
                   <div className="between"><span className="muted">Stock</span><b>{p.stock} unités</b></div>
@@ -254,7 +254,7 @@ export function Produit() {
                 ))}
               </div>
               <aside className="panel">
-                <h3>Note globale</h3>
+                <h2 className="h-sub">Note globale</h2>
                 <div className="row gap-16">
                   <b style={{ fontFamily: 'var(--display)', fontSize: 42 }}>{p.rating}</b>
                   <div className="stack"><Stars value={Number(p.rating)} /><span className="tiny muted">{p.reviews} avis</span></div>
@@ -271,7 +271,7 @@ export function Produit() {
           {tab === 'Livraison & retours' && (
             <div className="grid grid-2">
               <div className="panel">
-                <h3>Livraison</h3>
+                <h2 className="h-sub">Livraison</h2>
                 <p className="small">Expédition sous 48 h ouvrées depuis {p.country}. Délais indicatifs : 2 à 4 jours en Afrique de l’Ouest, 5 à 9 jours pour le reste du continent, 7 à 14 jours à l’international.</p>
                 <div className="stack gap-8 small">
                   <div className="between"><span className="muted">Cotonou → Abidjan</span><b>3 jours</b></div>
@@ -280,7 +280,7 @@ export function Produit() {
                 </div>
               </div>
               <div className="panel">
-                <h3>Retours</h3>
+                <h2 className="h-sub">Retours</h2>
                 <p className="small">Retour gratuit sous 14 jours si la pièce n’a pas été portée et conserve son étiquette. Les pièces sur mesure ne sont pas éligibles au retour.</p>
                 <div className="pill-row">
                   {['14 jours', 'Frais offerts', 'Remboursement 72 h'].map((t) => <span key={t} className="tag">{t}</span>)}
@@ -350,7 +350,7 @@ export function Panier() {
             ))}
 
             <div className="panel">
-              <h4>Code promotionnel</h4>
+              <h2 className="card-h">Code promotionnel</h2>
               <div className="row gap-12">
                 <input className="input" placeholder="Ex : HORIZON10" />
                 <Btn variant="outline">Appliquer</Btn>
@@ -361,7 +361,7 @@ export function Panier() {
           </div>
 
           <aside className="panel">
-            <h3>Récapitulatif</h3>
+            <h2 className="h-sub">Récapitulatif</h2>
             <div className="stack gap-12 small">
               <div className="between"><span className="muted">Sous-total</span><b>{fcfa(subtotal)}</b></div>
               <div className="between"><span className="muted">Frais de livraison</span><b>{fcfa(shipping)}</b></div>
@@ -447,21 +447,21 @@ export function Paiement() {
         <div>
           {step === 1 && (
             <div className="panel">
-              <h3>Adresse de livraison</h3>
+              <h2 className="h-sub">Adresse de livraison</h2>
               <div className="form-grid">
                 <div className="field"><label>Nom complet</label><input className="input" defaultValue="Aïcha Kora" /></div>
                 <div className="field"><label>Téléphone</label><input className="input" defaultValue="+229 96 45 12 88" /></div>
               </div>
               <div className="form-grid">
                 <div className="field"><label>Pays</label>
-                  <select className="select">{COUNTRIES.map((c) => <option key={c.name}>{c.name}</option>)}</select>
+                  <select className="select" aria-label="Pays de livraison">{COUNTRIES.map((c) => <option key={c.name}>{c.name}</option>)}</select>
                 </div>
                 <div className="field"><label>Ville</label><input className="input" defaultValue="Cotonou" /></div>
               </div>
               <div className="field"><label>Adresse complète</label><input className="input" placeholder="Quartier, rue, repère…" defaultValue="Quartier Fidjrossè, rue des Artisans" /></div>
               <div className="field"><label>Instructions de livraison (optionnel)</label><input className="input" placeholder="Ex : appeler avant de livrer" /></div>
 
-              <h3 className="mt-24">Mode de livraison</h3>
+              <h2 className="mt-24 h-sub">Mode de livraison</h2>
               <div className="stack gap-12">
                 {[['Standard (3-5 jours)', 2500], ['Express (24-48 h)', 6500], ['Retrait en boutique', 0]].map(([label, price]) => (
                   <button key={label} className="list-row" style={{ borderColor: delivery === label ? 'var(--gold)' : undefined, background: delivery === label ? 'rgba(227,176,75,0.08)' : undefined }} onClick={() => setDelivery(label)}>
@@ -477,7 +477,7 @@ export function Paiement() {
 
           {step === 2 && (
             <div className="panel">
-              <h3>Moyen de paiement</h3>
+              <h2 className="h-sub">Moyen de paiement</h2>
               <div className="grid grid-2 mb-24">
                 {[['Mobile Money', '📱', 'MTN MoMo, Moov Money, Orange Money'], ['Carte bancaire', '💳', 'Visa, Mastercard, GIM-UEMOA']].map(([label, ico, sub]) => (
                   <button key={label} className="account-type" style={{ borderColor: payment === label ? 'var(--gold)' : undefined, background: payment === label ? 'rgba(227,176,75,0.08)' : undefined }} onClick={() => setPayment(label)}>
@@ -516,7 +516,7 @@ export function Paiement() {
         </div>
 
         <aside className="panel">
-          <h3>Votre commande</h3>
+          <h2 className="h-sub">Votre commande</h2>
           {items.length === 0 && <p className="small muted">Panier vide — commande de démonstration.</p>}
           <div className="stack gap-12">
             {(items.length ? items : productList.slice(0, 2).map((p) => ({ id: p.id, qty: 1, product: p }))).map((i) => (

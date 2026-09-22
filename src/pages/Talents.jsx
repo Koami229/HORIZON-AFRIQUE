@@ -105,7 +105,7 @@ export function Stylistes() {
       </div>
 
       <FilterBar filters={filters} state={state} setState={setState} count={sorted.length}>
-        <select value={sort} onChange={(e) => setSort(e.target.value)}>
+        <select aria-label="Trier les talents" value={sort} onChange={(e) => setSort(e.target.value)}>
           <option>Popularité</option><option>Nouveaux</option><option>A → Z</option>
         </select>
       </FilterBar>
@@ -322,16 +322,16 @@ export function TalentProfile() {
           {tab === 'À propos' && (
             <div className="split">
               <div>
-                <h3>Biographie</h3>
+                <h2 className="h-sub">Biographie</h2>
                 <p>{t.bio}</p>
                 <p>Basé(e) à {t.city} ({t.country}), {t.name} travaille avec des marques, institutions et médias à travers le continent. Le studio collabore régulièrement avec des artisans locaux pour garantir des pièces produites de manière responsable.</p>
                 <div className="grid grid-2 mt-24">
-                  <div className="panel"><span className="upper muted-2">Spécialité</span><h3 className="mb-0 mt-8">{t.specialty}</h3></div>
-                  <div className="panel"><span className="upper muted-2">Style signature</span><h3 className="mb-0 mt-8">{t.style}</h3></div>
+                  <div className="panel"><span className="upper muted-2">Spécialité</span><h2 className="mb-0 mt-8 h-sub">{t.specialty}</h2></div>
+                  <div className="panel"><span className="upper muted-2">Style signature</span><h2 className="mb-0 mt-8 h-sub">{t.style}</h2></div>
                 </div>
               </div>
               <aside className="panel">
-                <h3>Informations</h3>
+                <h2 className="h-sub">Informations</h2>
                 <div className="stack gap-12 small">
                   <div className="between"><span className="muted">Profession</span><b>{t.job}</b></div>
                   <div className="between"><span className="muted">Pays</span><b>{t.flag} {t.country}</b></div>
@@ -341,7 +341,7 @@ export function TalentProfile() {
                   <div className="between"><span className="muted">Membre depuis</span><b>2024</b></div>
                 </div>
                 <div className="divider" />
-                <h4 className="mb-8">Réseaux</h4>
+                <h3 className="mb-8 card-h">Réseaux</h3>
                 <div className="pill-row">
                   <span className="tag">Instagram {t.social.instagram}</span>
                   <span className="tag">TikTok {t.social.tiktok}</span>
@@ -432,7 +432,7 @@ export function TalentProfile() {
                 ))}
               </div>
               <aside className="panel">
-                <h3>Note globale</h3>
+                <h2 className="h-sub">Note globale</h2>
                 <div className="row gap-16">
                   <b style={{ fontFamily: 'var(--display)', fontSize: 42 }}>{t.rating}</b>
                   <div className="stack">
@@ -483,7 +483,7 @@ export function TalentProfile() {
         footer={<><Btn onClick={() => { setCollab(false); notify('Demande de collaboration envoyée ✅') }}>Envoyer la demande</Btn><Btn variant="ghost" onClick={() => setCollab(false)}>Annuler</Btn></>}
       >
         <div className="field"><label>Type de collaboration</label>
-          <select className="select"><option>Collection capsule</option><option>Shooting éditorial</option><option>Défilé</option><option>Formation / atelier</option><option>Autre</option></select>
+          <select className="select" aria-label="Type de collaboration"><option>Collection capsule</option><option>Shooting éditorial</option><option>Défilé</option><option>Formation / atelier</option><option>Autre</option></select>
         </div>
         <div className="form-grid">
           <div className="field"><label>Budget estimé</label><input className="input" placeholder="Ex : 1 500 000 FCFA" /></div>

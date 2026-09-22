@@ -145,43 +145,43 @@ export function Recherche() {
 
         {total > 0 && (tab === 'Tout' || tab === 'Talents') && results.Talents.length > 0 && (
           <>
-            <h3 className="mt-24">Talents <span className="muted small">({results.Talents.length})</span></h3>
+            <h2 className="mt-24 h-sub">Talents <span className="muted small">({results.Talents.length})</span></h2>
             <div className="grid grid-4">{results.Talents.slice(0, tab === 'Tout' ? 4 : 30).map((t) => <TalentCard key={t.id} t={t} />)}</div>
           </>
         )}
         {total > 0 && (tab === 'Tout' || tab === 'Marques') && results.Marques.length > 0 && (
           <>
-            <h3 className="mt-32">Marques <span className="muted small">({results.Marques.length})</span></h3>
+            <h2 className="mt-32 h-sub">Marques <span className="muted small">({results.Marques.length})</span></h2>
             <div className="grid grid-3">{results.Marques.slice(0, tab === 'Tout' ? 3 : 30).map((b) => <BrandCard key={b.id} b={b} />)}</div>
           </>
         )}
         {total > 0 && (tab === 'Tout' || tab === 'Produits') && results.Produits.length > 0 && (
           <>
-            <h3 className="mt-32">Produits <span className="muted small">({results.Produits.length})</span></h3>
+            <h2 className="mt-32 h-sub">Produits <span className="muted small">({results.Produits.length})</span></h2>
             <div className="grid grid-4">{results.Produits.slice(0, tab === 'Tout' ? 4 : 30).map((p) => <ProductCard key={p.id} p={p} />)}</div>
           </>
         )}
         {total > 0 && (tab === 'Tout' || tab === 'Créations') && results.Créations.length > 0 && (
           <>
-            <h3 className="mt-32">Créations <span className="muted small">({results.Créations.length})</span></h3>
+            <h2 className="mt-32 h-sub">Créations <span className="muted small">({results.Créations.length})</span></h2>
             <div className="grid grid-4">{results.Créations.slice(0, tab === 'Tout' ? 4 : 30).map((c) => <CreationTile key={c.id} c={c} />)}</div>
           </>
         )}
         {total > 0 && (tab === 'Tout' || tab === 'Vidéos') && results.Vidéos.length > 0 && (
           <>
-            <h3 className="mt-32">Vidéos <span className="muted small">({results.Vidéos.length})</span></h3>
+            <h2 className="mt-32 h-sub">Vidéos <span className="muted small">({results.Vidéos.length})</span></h2>
             <div className="grid grid-3">{results.Vidéos.slice(0, tab === 'Tout' ? 3 : 30).map((v) => <VideoCard key={v.id} v={v} />)}</div>
           </>
         )}
         {total > 0 && (tab === 'Tout' || tab === 'Événements') && results.Événements.length > 0 && (
           <>
-            <h3 className="mt-32">Événements <span className="muted small">({results.Événements.length})</span></h3>
+            <h2 className="mt-32 h-sub">Événements <span className="muted small">({results.Événements.length})</span></h2>
             <div className="grid grid-3">{results.Événements.slice(0, tab === 'Tout' ? 3 : 30).map((e) => <EventCard key={e.id} e={e} />)}</div>
           </>
         )}
         {total > 0 && (tab === 'Tout' || tab === 'Opportunités') && results.Opportunités.length > 0 && (
           <>
-            <h3 className="mt-32">Opportunités <span className="muted small">({results.Opportunités.length})</span></h3>
+            <h2 className="mt-32 h-sub">Opportunités <span className="muted small">({results.Opportunités.length})</span></h2>
             <div className="stack gap-12">{results.Opportunités.slice(0, tab === 'Tout' ? 4 : 30).map((o) => (
               <Link key={o.id} to={`/opportunites/${o.id}`} className="list-row">
                 <div className="grow"><b>{o.title}</b><div className="tiny muted">{o.org} · {o.flag} {o.country} · {o.city}</div></div>
@@ -192,7 +192,7 @@ export function Recherche() {
         )}
         {total > 0 && (tab === 'Tout' || tab === 'Articles') && results.Articles.length > 0 && (
           <>
-            <h3 className="mt-32">Articles <span className="muted small">({results.Articles.length})</span></h3>
+            <h2 className="mt-32 h-sub">Articles <span className="muted small">({results.Articles.length})</span></h2>
             <div className="grid grid-3">{results.Articles.slice(0, tab === 'Tout' ? 3 : 30).map((a) => <ArticleCard key={a.id} a={a} />)}</div>
           </>
         )}

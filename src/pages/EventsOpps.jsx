@@ -96,7 +96,7 @@ export function EvenementDetail() {
             {e.price > 0 && <Btn variant="primary" size="sm" className="btn-block mt-12" onClick={() => notify('Redirection vers le paiement du billet 🎟️')}>Acheter un billet</Btn>}
           </div>
           <div className="panel">
-            <h4>Informations pratiques</h4>
+            <h2 className="card-h">Informations pratiques</h2>
             <div className="stack gap-10 small">
               <div className="between"><span className="muted">Ouverture des portes</span><b>1 h avant</b></div>
               <div className="between"><span className="muted">Dress code</span><b>Tenue africaine chic</b></div>
@@ -123,7 +123,7 @@ export function EvenementDetail() {
           {tab === 'Description' && (
             <div className="split">
               <div>
-                <h3>À propos de l’événement</h3>
+                <h2 className="h-sub">À propos de l’événement</h2>
                 <p>{e.description}</p>
                 <p>
                   L’événement réunit des professionnels de toute l’Afrique : créateurs, marques, mannequins, photographes,
@@ -136,7 +136,7 @@ export function EvenementDetail() {
                 </div>
               </div>
               <aside className="panel">
-                <h3>Organisateur</h3>
+                <h2 className="h-sub">Organisateur</h2>
                 <div className="row gap-12 mb-16">
                   <div className="logo-mark" style={{ width: 46, height: 46, borderRadius: 13, fontSize: 15 }}>{e.organizer.slice(0, 2).toUpperCase()}</div>
                   <div className="stack"><b>{e.organizer}</b><span className="tiny muted">{e.flag} {e.country}</span></div>
@@ -162,7 +162,7 @@ export function EvenementDetail() {
           {tab === 'Partenaires & sponsors' && (
             <div className="grid grid-2">
               <div className="panel">
-                <h4>Partenaires</h4>
+                <h3 className="card-h">Partenaires</h3>
                 <div className="stack gap-12">
                   {partners.slice(0, 4).map((p) => (
                     <div key={p.id} className="row gap-12">
@@ -173,7 +173,7 @@ export function EvenementDetail() {
                 </div>
               </div>
               <div className="panel">
-                <h4>Sponsors</h4>
+                <h3 className="card-h">Sponsors</h3>
                 <div className="stack gap-12">
                   {sponsors.slice(0, 4).map((s) => (
                     <div key={s.id} className="row gap-12">
@@ -292,20 +292,20 @@ export function OpportuniteDetail() {
               <span>👥 {o.applicants} candidatures</span>
             </div>
 
-            <h3>Description du poste</h3>
+            <h2 className="h-sub">Description du poste</h2>
             <p>{o.description}</p>
 
-            <h3 className="mt-24">Missions</h3>
+            <h2 className="mt-24 h-sub">Missions</h2>
             <ul className="stack gap-8" style={{ paddingLeft: 18 }}>
               {o.missions.map((m) => <li key={m} className="small" style={{ color: 'var(--muted)' }}>{m}</li>)}
             </ul>
 
-            <h3 className="mt-24">Conditions</h3>
+            <h2 className="mt-24 h-sub">Conditions</h2>
             <ul className="stack gap-8" style={{ paddingLeft: 18 }}>
               {o.conditions.map((c) => <li key={c} className="small" style={{ color: 'var(--muted)' }}>{c}</li>)}
             </ul>
 
-            <h3 className="mt-24">Compétences recherchées</h3>
+            <h2 className="mt-24 h-sub">Compétences recherchées</h2>
             <div className="pill-row">{o.skills.map((s) => <span key={s} className="chip chip-soft">{s}</span>)}</div>
 
             <div className="divider" />
@@ -331,7 +331,7 @@ export function OpportuniteDetail() {
             </div>
           </div>
           <div className="panel">
-            <h4>À propos de l’organisation</h4>
+            <h3 className="card-h">À propos de l’organisation</h3>
             <div className="row gap-12 mb-16">
               <div className="logo-mark" style={{ width: 46, height: 46, borderRadius: 13, fontSize: 15 }}>{o.org.slice(0, 2).toUpperCase()}</div>
               <div className="stack"><b>{o.org}</b><span className="tiny muted">{o.flag} {o.country}</span></div>
@@ -340,7 +340,7 @@ export function OpportuniteDetail() {
             <Btn to="/annuaire" variant="outline" size="sm" className="btn-block">Voir la fiche</Btn>
           </div>
           <div className="panel">
-            <h4>Statistiques de l’offre</h4>
+            <h3 className="card-h">Statistiques de l’offre</h3>
             <div className="stack gap-12 small">
               <div className="between"><span className="muted">Vues</span><b>{1200 + o.applicants * 12}</b></div>
               <div className="between"><span className="muted">Candidatures</span><b>{o.applicants}</b></div>

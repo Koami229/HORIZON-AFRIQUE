@@ -49,7 +49,7 @@ export function Actualites() {
             </div>
           </Link>
           <aside className="stack gap-16">
-            <h3 className="mb-0">Les plus lus</h3>
+            <h2 className="mb-0 h-sub">Les plus lus</h2>
             {articles.slice(0, 4).map((a, i) => (
               <Link key={a.id} to={`/actualites/${a.id}`} className="row gap-12">
                 <b className="muted-2" style={{ fontFamily: 'var(--display)', fontSize: 20, width: 20 }}>{i + 1}</b>
@@ -126,7 +126,7 @@ export function Article() {
           « La création africaine n’a plus besoin d’être traduite : elle est comprise dans le monde entier. »
         </blockquote>
 
-        <h3 className="mt-32">Commentaires ({12})</h3>
+        <h2 className="mt-32 h-sub">Commentaires ({12})</h2>
         <div className="stack gap-12">
           {[['Koffi Mensah', 'Article très complet, merci pour cette analyse.'], ['Awa Sossou', 'Exactement le sujet qu’il fallait traiter.']].map(([n, t]) => (
             <div key={n} className="list-row">
@@ -183,7 +183,7 @@ export function Partenaires() {
               ['Marques & agences', 'Accédez à un vivier de talents vérifiés et lancez vos campagnes en quelques clics.'],
             ].map(([t, d]) => (
               <div key={t}>
-                <h3>{t}</h3>
+                <h2 className="h-sub">{t}</h2>
                 <p className="small">{d}</p>
               </div>
             ))}
@@ -311,12 +311,12 @@ export function APropos() {
         <div className="stack gap-16">
           <div className="panel">
             <span className="upper gold">Vision</span>
-            <h3 className="mt-8">Faire de l’Afrique la première scène créative mondiale</h3>
+            <h2 className="mt-8 h-sub">Faire de l’Afrique la première scène créative mondiale</h2>
             <p className="mb-0">Nous croyons qu’un styliste de Cotonou, une artisane de Ségou ou un mannequin de Kigali doit pouvoir atteindre le même public qu’une maison européenne.</p>
           </div>
           <div className="panel">
             <span className="upper gold">Mission</span>
-            <h3 className="mt-8">Donner des outils professionnels à chaque créateur</h3>
+            <h2 className="mt-8 h-sub">Donner des outils professionnels à chaque créateur</h2>
             <p className="mb-0">Portfolio, vitrine, boutique, paiements mobile money, statistiques, opportunités et collaborations : tout au même endroit.</p>
           </div>
         </div>
@@ -377,19 +377,19 @@ export function APropos() {
       <section className="section" id="conditions">
         <Tabs tabs={['Conditions d’utilisation', 'Politique de confidentialité', 'Règles de la communauté']} value="Conditions d’utilisation" onChange={() => {}} />
         <div className="panel mt-16">
-          <h3>Conditions d’utilisation</h3>
+          <h2 className="h-sub">Conditions d’utilisation</h2>
           <p className="small">
             L’utilisation de Horizon Afrique implique l’acceptation des présentes conditions. Les contenus publiés
             restent la propriété de leurs auteurs ; l’utilisateur garantit détenir les droits sur les images, vidéos et
             textes qu’il publie. Les abonnements sont mensuels, sans engagement, résiliables à tout moment.
           </p>
-          <h3 className="mt-24" id="confidentialite">Politique de confidentialité</h3>
+          <h2 className="mt-24 h-sub" id="confidentialite">Politique de confidentialité</h2>
           <p className="small">
             Nous collectons uniquement les données nécessaires au fonctionnement du service : identité, coordonnées,
             informations professionnelles et données de transaction. Aucune donnée n’est revendue. Vous pouvez
             exporter ou supprimer vos données depuis les paramètres de votre compte.
           </p>
-          <h3 className="mt-24" id="communaute">Règles de la communauté</h3>
+          <h2 className="mt-24 h-sub" id="communaute">Règles de la communauté</h2>
           <p className="small">
             Sont interdits : les contenus haineux, le harcèlement, la contrefaçon, la publicité trompeuse et l’usurpation
             d’identité. Les signalements sont traités sous 48 h par l’équipe de modération, qui peut retirer un contenu,
@@ -425,13 +425,13 @@ export function Contact() {
           {sent ? (
             <div className="center-text" style={{ padding: 30 }}>
               <div style={{ fontSize: 40 }}>✉️</div>
-              <h3>Message envoyé</h3>
+              <h2 className="h-sub">Message envoyé</h2>
               <p className="small">Merci ! Notre équipe vous répondra à l’adresse indiquée dans les plus brefs délais.</p>
               <Btn variant="outline" onClick={() => setSent(false)}>Envoyer un autre message</Btn>
             </div>
           ) : (
             <>
-              <h3>Formulaire de contact</h3>
+              <h2 className="h-sub">Formulaire de contact</h2>
               <div className="form-grid">
                 <div className="field"><label>Nom complet</label><input className="input" defaultValue="Aïcha Kora" /></div>
                 <div className="field"><label>Email</label><input className="input" defaultValue="aicha.kora@horizonafrique.com" /></div>
@@ -441,7 +441,7 @@ export function Contact() {
                 <div className="field"><label>Téléphone</label><input className="input" defaultValue="+229 96 45 12 88" /></div>
               </div>
               <div className="field"><label>Objet</label>
-                <select className="select">
+                <select className="select" aria-label="Objet de la demande">
                   <option>Demande d’information générale</option>
                   <option>Support technique</option>
                   <option>Partenariat</option>
@@ -459,7 +459,7 @@ export function Contact() {
 
         <aside className="stack gap-16">
           <div className="panel">
-            <h3>Nous joindre directement</h3>
+            <h2 className="h-sub">Nous joindre directement</h2>
             <div className="stack gap-12 small">
               <div className="row gap-12"><span className="ico">✉️</span><div className="stack"><b>Email</b><span className="muted">contact@horizonafrique.com</span></div></div>
               <div className="row gap-12"><span className="ico">📞</span><div className="stack"><b>Téléphone</b><span className="muted">+229 21 30 44 12</span></div></div>
@@ -467,14 +467,14 @@ export function Contact() {
               <div className="row gap-12"><span className="ico">📍</span><div className="stack"><b>Adresse</b><span className="muted">Immeuble Horizon, quartier Ganhi, Cotonou — Bénin</span></div></div>
             </div>
             <div className="divider" />
-            <h4>Réseaux sociaux</h4>
+            <h3 className="card-h">Réseaux sociaux</h3>
             <div className="socials">
               {['Fb', 'Ig', 'Tk', 'In', 'Yt'].map((s) => <a key={s} className="social" href="#">{s}</a>)}
             </div>
           </div>
 
           <div className="panel">
-            <h3>Assistance</h3>
+            <h2 className="h-sub">Assistance</h2>
             <div className="stack gap-12 small">
               {[['Centre d’aide', 'Guides d’utilisation et FAQ'], ['Support abonnés', 'Assistance prioritaire 7j/7'], ['Support boutique', 'Commandes, paiements et livraisons']].map(([t, d]) => (
                 <div key={t} className="between">
