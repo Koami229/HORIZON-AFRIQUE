@@ -2,8 +2,9 @@
    Pour chacune des 51 sections, on vérifie sur le HTML réellement rendu :
      - la présence des écrans, des intitulés, des boutons et des champs attendus ;
      - le nombre d'éléments annoncés (onglets, filtres, catégories, entrées de menu).
-   Les éléments qui n'apparaissent qu'après un clic (étapes, onglets non actifs) sont marqués
-   « interaction » : ils sont couverts par `npm run check:interactions`.
+   Les éléments qui n'apparaissent qu'après un clic (2ᵉ étape d'un formulaire, assistant Boost,
+   actions de modération) sont vérifiés dans le code source du composant, et leur rendu après
+   clic est couvert par `npm run check:interactions`.
    Usage : npm run check:spec  */
 {
   const warn = console.warn, error = console.error
@@ -12,10 +13,24 @@
   console.error = (...a) => { if (!noise.test(String(a[0]))) error(...a) }
 }
 
+import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
 import { renderToString } from 'react-dom/server'
 import { MemoryRouter } from 'react-router-dom'
 import App from '../src/App.jsx'
 import { AppProvider } from '../src/components/ui.jsx'
+
+/* Certains éléments du cahier des charges n'apparaissent qu'après un clic (2ᵉ étape
+   d'un formulaire, assistant Boost, actions de modération). Ils sont alors vérifiés
+   dans le code source du composant qui les affiche : `S(file).includes(…)` /
+   `S(file, /regex/)`. Le rendu réellement cliqué est couvert par `check:interactions`. */
+const srcCache = new Map()
+function S(file, re) {
+  if (!srcCache.has(file)) srcCache.set(file, readFileSync(join(process.cwd(), 'src', file), 'utf8'))
+  const src = srcCache.get(file)
+  return re ? re.test(src) : src
+}
+const allOf = (file, ...markers) => markers.every((m) => S(file).includes(m))
 
 /* ------------------------------ chargement ---------------------------- */
 const screens = [
@@ -102,8 +117,8 @@ const SPEC = [
   ] },
   { n: 3, t: 'Inscription', r: '/inscription', c: [
     ['5 types de compte', (p) => p.has('Talent', 'Marque', 'Boutique', 'Partenaire', 'Sponsor')],
-    ['champs nom, e-mail, téléphone, pays, ville', (p) => true, 'interaction'],
-    ['mot de passe + confirmation', (p) => p.has('Mot de passe') || p.has('Confirmer'), 'interaction'],
+    ['champs nom, e-mail, téléphone, pays, ville', (p) => allOf('pages/Auth.jsx', '<label>Nom</label>', '<label>Adresse email</label>', 'type="email"', '<label>Numéro de téléphone</label>', '<label>Pays</label>', '<label>Ville</label>')],
+    ['mot de passe + confirmation', (p) => allOf('pages/Auth.jsx', '<label>Mot de passe</label>', '<label>Confirmer le mot de passe</label>', 'password2')],
     ['parcours en 4 étapes', (p) => p.has('Étape 1') || p.has('étapes') || p.count(/stepper/) > 0],
     ['conditions d’utilisation', (p) => p.has('conditions')],
   ] },
@@ -219,9 +234,9 @@ const SPEC = [
     ['poursuite vers le paiement', (p) => p.has('Passer au paiement') || p.has('Passer la commande')],
   ] },
   { n: 25, t: 'Paiement', r: '/paiement', c: [
-    ['Mobile Money', (p) => true, 'interaction'],
-    ['Carte bancaire', (p) => true, 'interaction'],
-    ['étape Confirmer le paiement', (p) => p.has('Confirmer le paiement'), 'interaction'],
+    ['Mobile Money', (p) => allOf('pages/Market.jsx', "'Mobile Money'", 'MTN MoMo', '<label>Opérateur</label>')],
+    ['Carte bancaire', (p) => allOf('pages/Market.jsx', "'Carte bancaire'", 'Visa, Mastercard', '<label>Numéro de carte</label>')],
+    ['étape Confirmer le paiement', (p) => allOf('pages/Market.jsx', 'Confirmer le paiement')],
   ] },
   { n: 26, t: 'Actualités', r: '/actualites', c: [
     ['8 catégories', (p) => p.has('Mode', 'Art', 'Artisanat', 'Design', 'Interviews', 'Tendances', 'Success Stories', 'Événements')],
@@ -250,9 +265,9 @@ const SPEC = [
   { n: 31, t: 'Horizon Boost', r: '/horizon-boost', c: [
     ['tarif 1 000 FCFA / 24 h', (p) => p.has('1 000 FCFA', '24 h')],
     ['7 cibles de boost', (p) => p.has('Profil', 'Publication', 'Produit', 'Collection', 'Vidéo', 'Événement', 'Opportunité')],
-    ['durées 24 h / 72 h / 168 h', (p) => true, 'interaction'],
-    ['tarifs 1 000 / 2 700 / 5 500 FCFA', (p) => p.has('1 000 FCFA', '24 h')],
-    ['étapes aperçu → durée → paiement → confirmation', (p) => true, 'interaction'],
+    ['durées 24 h / 72 h / 168 h', (p) => allOf('pages/Pricing.jsx', "'24 h — 1 jour'", "'72 h — 3 jours'", "'168 h — 7 jours'")],
+    ['tarifs 1 000 / 2 700 / 5 500 FCFA', (p) => allOf('pages/Pricing.jsx', 'price: 1000', 'price: 2700', 'price: 5500')],
+    ['étapes aperçu → durée → paiement → confirmation', (p) => allOf('pages/Pricing.jsx', "['Type de contenu', 'Contenu à promouvoir', 'Durée', 'Paiement', 'Confirmation']", 'Aperçu de votre Boost')],
   ] },
   { n: 32, t: 'Tableau de bord utilisateur', r: '/tableau-de-bord', c: [
     ['16 entrées de menu latéral', (p) => eq(linksOf('/tableau-de-bord'), 16)],
@@ -328,7 +343,7 @@ const SPEC = [
   { n: 45, t: 'Modération', r: '/administration/moderation', c: [
     ['5 files de modération', (p) => eq(tabsOf('/administration/moderation'), 5)],
     ['signalements, comptes suspendus, validations, marques, commentaires', (p) => p.has('Signalements', 'Comptes suspendus', 'Validations de profils', 'Vérification des marques', 'Commentaires')],
-    ['pouvoirs de modération (masquer, supprimer, sanctionner)', (p) => true, 'interaction'],
+    ['pouvoirs de modération (masquer, supprimer, sanctionner)', (p) => allOf('pages/dash/Admin.jsx', '>Masquer<', '>Supprimer<', '>Suspendre<', 'Retirer le contenu', 'Bloquer l’utilisateur')],
   ] },
   { n: 46, t: 'Recherche globale', r: '/recherche', c: [
     ['7 types de contenus', (p) => p.has('Talents', 'Marques', 'Créations', 'Vidéos', 'Événements', 'Produits')],
@@ -364,12 +379,13 @@ const SPEC = [
 ]
 
 /* ------------------------------- rapport ------------------------------ */
-let ok = 0, ko = 0, interactions = 0
+let ok = 0, ko = 0, interactions = 0, sources = 0
 const failures = []
 for (const s of SPEC) {
   const p = T(s.r)
   const results = s.c.map(([label, fn, kind]) => {
     if (kind === 'interaction') { interactions++; return { label, pass: true, interaction: true } }
+    if (fn.toString().includes('allOf(')) sources++
     let pass = false
     try { pass = !!fn(p) } catch (e) { pass = false }
     return { label, pass }
@@ -385,7 +401,8 @@ for (const s of SPEC) {
 }
 
 console.log(`\n${SPEC.length} sections du cahier des charges contrôlées — ${ok} points conformes, ${ko} manquants`)
-console.log(`${interactions} point(s) marqué(s) « interaction » : vérifiés par npm run check:interactions`)
+console.log(`${sources} point(s) vérifiés dans le code source des écrans atteints après un clic (${[...srcCache.keys()].length} fichiers)`)
+if (interactions) console.log(`${interactions} point(s) marqué(s) « interaction »`)
 if (ko) {
   console.log('\nÀ compléter :')
   failures.forEach((f) => console.log(`  • ${f}`))

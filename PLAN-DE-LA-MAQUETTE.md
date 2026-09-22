@@ -116,6 +116,6 @@ Champs : nom, prénom, nom professionnel / structure, email, téléphone, pays, 
 | `npm run check:links` | 4 598 liens internes et 362 références d'images sur 72 écrans | aucun lien mort, aucun visuel manquant |
 | `npm run check:a11y` | alt, intitulés de boutons et de liens, identifiants uniques | aucun problème détecté |
 | `npm run check:css` | 219 classes utilisées dans le JSX, 244 définies dans la feuille de style | aucune classe manquante |
-| `npm run check:interactions` | 19 parcours cliquables sous jsdom | 53/53 vérifications réussies |
+| `npm run check:interactions` | 19 parcours cliquables sous jsdom | 55/55 vérifications réussies |
 
 `npm run check` enchaîne les six ; `npm run build` produit `dist/` (559 kB de JS, 29,6 kB de CSS).

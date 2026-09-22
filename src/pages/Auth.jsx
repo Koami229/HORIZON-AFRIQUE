@@ -96,7 +96,7 @@ export function Inscription() {
   const [type, setType] = useState('talent')
   const [form, setForm] = useState({
     firstName: 'Aïcha', lastName: 'Kora', pro: 'Maison Kora', email: 'aicha.kora@horizonafrique.com',
-    phone: '+229 96 45 12 88', country: 'Bénin', city: 'Cotonou', password: '', category: 'Stylistes', specialty: 'Wax chic',
+    phone: '+229 96 45 12 88', country: 'Bénin', city: 'Cotonou', password: '', password2: '', category: 'Stylistes', specialty: 'Wax chic',
   })
   const set = (k) => (e) => setForm({ ...form, [k]: e.target.value })
 
@@ -169,10 +169,19 @@ export function Inscription() {
                   </select>
                 </div>
               </div>
-              <div className="field">
-                <label>Mot de passe</label>
-                <input className="input" type="password" placeholder="8 caractères minimum" value={form.password} onChange={set('password')} />
-                <span className="hint">Utilisez au moins 8 caractères, dont une majuscule et un chiffre.</span>
+              <div className="form-grid">
+                <div className="field">
+                  <label>Mot de passe</label>
+                  <input className="input" type="password" placeholder="8 caractères minimum" value={form.password} onChange={set('password')} />
+                  <span className="hint">Utilisez au moins 8 caractères, dont une majuscule et un chiffre.</span>
+                </div>
+                <div className="field">
+                  <label>Confirmer le mot de passe</label>
+                  <input className="input" type="password" placeholder="Ressaisissez le mot de passe" value={form.password2} onChange={set('password2')} />
+                  <span className={`hint ${form.password2 && form.password2 !== form.password ? 'red' : ''}`}>
+                    {form.password2 && form.password2 !== form.password ? 'Les deux mots de passe ne correspondent pas.' : 'Les deux saisies doivent être identiques.'}
+                  </span>
+                </div>
               </div>
               <div className="row gap-12 mt-8">
                 <Btn variant="outline" onClick={() => setStep(1)}>← Retour</Btn>

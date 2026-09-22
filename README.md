@@ -19,7 +19,7 @@ npm run check:spec           # 185/185 : les 51 sections du cahier des charges s
 npm run check:links          # 4 598 liens internes + 362 images : aucun lien mort, aucun visuel manquant
 npm run check:a11y           # alt, intitulés accessibles, identifiants uniques sur les 79 écrans
 npm run check:css            # classes CSS utilisées mais non définies : aucune
-npm run check:interactions   # 53/53 : parcours cliquables vérifiés sous jsdom
+npm run check:interactions   # 55/55 : parcours cliquables vérifiés sous jsdom
 ```
 
 ### Ce que couvre `check:spec`
@@ -40,7 +40,8 @@ panier (ajout, quantité, suppression), favoris et « j'aime », assistant Horiz
 onglets du profil marque TOURÉ., suivi et désabonnement d'une marque, prise de contact,
 choix d'une formule d'abonnement, recherche globale (résultats puis navigation),
 messagerie et demande de collaboration, publications, portfolio, paiement (Mobile Money
-et carte), filtres de commandes, menu mobile et modération côté administration.
+et carte), filtre des commandes, menu mobile et modération côté administration ; l'inscription
+contrôle aussi la confirmation du mot de passe et la conservation des informations saisies.
 
 ## Stack
 
