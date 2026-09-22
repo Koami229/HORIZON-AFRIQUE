@@ -15,7 +15,7 @@ npm run build           # build de production dans dist/
 npm run preview         # prévisualiser le build
 npm run check                # les six contrôles ci-dessous, à la suite
 npm run check:routes         # 79/79 : chaque route se rend sans erreur (rendu SSR)
-npm run check:spec           # 185/185 : les 51 sections du cahier des charges sont présentes
+npm run check:spec           # 186/186 : les 51 sections du cahier des charges sont présentes
 npm run check:links          # 4 598 liens internes + 362 images : aucun lien mort, aucun visuel manquant
 npm run check:a11y           # alt, intitulés accessibles, identifiants uniques sur les 79 écrans
 npm run check:css            # classes CSS utilisées mais non définies : aucune

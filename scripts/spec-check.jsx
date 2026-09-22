@@ -61,7 +61,16 @@ function page(route) {
     .replace(/&#x27;|&#39;/g, '’').replace(/&nbsp;/g, ' ')
     .replace(/\s+/g, ' ').trim()
   const attrs = [...html.matchAll(/(?:aria-label|placeholder|title|alt)="([^"]*)"/g)].map((m) => m[1]).join(' | ')
+  // même lecture, mais limitée au contenu principal (l'en-tête et le pied de page ne comptent pas)
+  const mainHtmlRaw = html.slice(Math.max(html.indexOf('<main'), 0))
+  const mainText = mainHtmlRaw
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"')
+    .replace(/&#x27;|&#39;/g, '’').replace(/&nbsp;/g, ' ')
+    .replace(/\s+/g, ' ').trim()
+  const mainAttrs = [...mainHtmlRaw.matchAll(/(?:aria-label|placeholder|title|alt)="([^"]*)"/g)].map((m) => m[1]).join(' | ')
   const p = {
+    hasMain: (...markers) => markers.every((m) => (mainText + ' ' + mainAttrs).toLowerCase().includes(m.toLowerCase())),
     html, text, attrs,
     has: (...markers) => markers.every((m) => (text + ' ' + attrs).toLowerCase().includes(m.toLowerCase())),
     missing: (...markers) => markers.filter((m) => !(text + ' ' + attrs).toLowerCase().includes(m.toLowerCase())),
@@ -93,22 +102,23 @@ const SPEC = [
     ['logo + slogan', (p) => p.has('Horizon Afrique', 'Créateurs d’Afrique')],
     ['Connexion / Inscription', (p) => p.has('Connexion', 'Inscription')],
     ['hero + 2 appels à l’action', (p) => p.has('Découvrir la plateforme', 'Créer mon profil')],
-    ['Talents en vedette', (p) => p.has('Talents en vedette')],
-    ['Marques en vedette', (p) => p.has('Marques en vedette')],
-    ['Nouvelles collections', (p) => p.has('Nouvelles collections')],
-    ['Créations', (p) => p.has('Créations')],
-    ['Actualités (via articles)', (p) => p.has('article')],
-    ['Vidéos', (p) => p.has('Vidéos')],
-    ['Événements', (p) => p.has('Événements')],
-    ['Opportunités', (p) => p.has('Opportunités')],
-    ['Produits', (p) => p.has('Produits')],
-    ['Boutiques', (p) => p.has('Boutiques')],
-    ['Pays', (p) => p.has('Pays')],
-    ['Partenaires', (p) => p.has('Partenaires')],
-    ['Sponsors', (p) => p.has('Sponsors')],
-    ['Témoignages', (p) => p.has('Témoignages')],
-    ['Abonnements', (p) => p.has('Abonnements')],
-    ['Horizon Boost', (p) => p.has('Horizon Boost', '1 000 FCFA')],
+    ['15 rubriques titrées + hero, bandeau Boost et pied de page', (p) => p.count(/class="section-head"/g) === 15],
+    ['Talents en vedette', (p) => p.hasMain('Talents en vedette')],
+    ['Marques en vedette', (p) => p.hasMain('Marques en vedette')],
+    ['Nouvelles collections', (p) => p.hasMain('Nouvelles collections')],
+    ['Créations populaires', (p) => p.hasMain('Créations populaires')],
+    ['Dernières actualités', (p) => p.hasMain('Dernières actualités')],
+    ['Vidéos récentes', (p) => p.hasMain('Vidéos récentes')],
+    ['Événements à venir', (p) => p.hasMain('Événements à venir')],
+    ['Opportunités professionnelles', (p) => p.hasMain('Opportunités professionnelles')],
+    ['Produits populaires', (p) => p.hasMain('Produits populaires')],
+    ['Boutiques recommandées', (p) => p.hasMain('Boutiques recommandées')],
+    ['Pays mis en avant', (p) => p.hasMain('Pays mis en avant')],
+    ['Partenaires', (p) => p.hasMain('Partenaires')],
+    ['Sponsors', (p) => p.hasMain('Sponsors')],
+    ['Témoignages', (p) => p.hasMain('Témoignages')],
+    ['Abonnements', (p) => p.hasMain('Abonnements')],
+    ['Horizon Boost', (p) => p.hasMain('Horizon Boost', '1 000 FCFA')],
   ] },
   { n: 2, t: 'Menu principal', r: '/', c: [
     ['13 entrées de navigation', (p) => p.has('Accueil', 'Découvrir', 'Talents', 'Marques', 'Créations', 'Galerie', 'Vidéos', 'Événements', 'Opportunités', 'Marketplace', 'Actualités', 'Partenaires', 'Sponsors')],
