@@ -118,6 +118,6 @@ Champs : nom, prénom, nom professionnel / structure, email, téléphone, pays, 
 | `npm run check:a11y` | alt, intitulés, identifiants, titres h1→h3, champs étiquetés, typographie | aucun problème sur les 8 critères |
 | `npm run check:contrast` | contraste WCAG 2.1 AA des couples texte / fond de la palette | 24 couples conformes |
 | `npm run check:css` | classes manquantes, CSS mort, responsive des grilles, mouvement réduit | aucune classe manquante, 16 mises en page reprises sur mobile, 15 transitions neutralisables |
-| `npm run check:interactions` | 24 parcours cliquables sous jsdom, filtres des 14 pages de liste, arithmétique du panier | 116/116 vérifications réussies |
+| `npm run check:interactions` | 27 parcours cliquables sous jsdom, filtres des 14 pages de liste, pagination, arithmétique du panier | 132/132 vérifications réussies |
 
 `npm run check` enchaîne les huit ; `npm run build` produit `dist/` (559 kB de JS, 29,6 kB de CSS).

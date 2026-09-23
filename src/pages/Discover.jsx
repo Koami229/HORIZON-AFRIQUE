@@ -1,8 +1,8 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import {
   ArticleCard, Badge, Btn, BrandCard, Chip, CountryChip, CreationTile, Crumbs, EmptyState, EventCard,
-  FilterBar, ProductCard, SectionHead, Tabs, TalentCard, useApp, useFilterState, VideoCard,
+  FilterBar, Pagination, ProductCard, SectionHead, Tabs, TalentCard, useApp, useFilterState, VideoCard,
 } from '../components/ui.jsx'
 import {
   COUNTRIES, CREATION_CATEGORIES, IMG, STYLES, TALENT_CATEGORIES, articles, brands, creations, events,
@@ -222,6 +222,13 @@ export function Annuaire() {
   const { state, setState, result } = useFilterState(filters, entries)
   const searched = result.filter((x) => !q || JSON.stringify(x).toLowerCase().includes(q.toLowerCase()))
 
+  /* Annuaire paginé : 12 fiches par page, comme sur l'écran réel (40 entrées au total). */
+  const PAR_PAGE = 12
+  const [page, setPage] = useState(1)
+  const pages = Math.max(1, Math.ceil(searched.length / PAR_PAGE))
+  useEffect(() => { setPage(1) }, [q, state])
+  const pageItems = searched.slice((Math.min(page, pages) - 1) * PAR_PAGE, Math.min(page, pages) * PAR_PAGE)
+
   return (
     <div className="container">
       <Crumbs items={[{ label: 'Horizon Directory' }]} />
@@ -240,7 +247,7 @@ export function Annuaire() {
       <FilterBar filters={filters} state={state} setState={setState} count={searched.length} />
 
       <div className="grid grid-4">
-        {searched.map((x) => (
+        {pageItems.map((x) => (
           <article key={`${x.kind}-${x.id}`} className="card">
             <div className="card-media card-media-tall">
               <img src={x.image} alt={x.label} loading="lazy" />
@@ -267,6 +274,14 @@ export function Annuaire() {
         ))}
       </div>
       {searched.length === 0 && <EmptyState title="Aucun profil trouvé" sub="Modifiez vos filtres ou élargissez la recherche." />}
+      {searched.length > PAR_PAGE && (
+        <>
+          <Pagination page={Math.min(page, pages)} pages={pages} onPage={setPage} />
+          <p className="tiny muted-2 center-text mt-8">
+            Page {Math.min(page, pages)} sur {pages} — {searched.length} fiches au total
+          </p>
+        </>
+      )}
     </div>
   )
 }

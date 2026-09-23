@@ -21,7 +21,7 @@ npm run check:links          # 4 601 liens internes + 362 images : aucun lien mo
 npm run check:a11y           # 8 critères : alt, intitulés, identifiants, titres h1→h3, champs, typographie
 npm run check:contrast       # contraste WCAG 2.1 AA des couples texte / fond du système de design
 npm run check:css            # classes manquantes, CSS mort et couverture responsive des grilles
-npm run check:interactions   # 116/116 : parcours cliquables vérifiés sous jsdom
+npm run check:interactions   # 132/132 : parcours cliquables vérifiés sous jsdom
 ```
 
 ### Ce que couvre `check:css`
@@ -81,7 +81,7 @@ pouvoirs de modération) sont marqués « interaction » et couverts par `check:
 
 ### Ce que couvre `check:interactions`
 
-23 parcours réels rendus sous jsdom, avec clics, saisies et assertions sur le DOM :
+27 parcours réels rendus sous jsdom, avec clics, saisies et assertions sur le DOM :
 panier (ajout, quantité, suppression), favoris et « j'aime », assistant Horizon Boost en
 5 étapes (1 000 / 2 700 / 5 500 FCFA), inscription en 4 étapes, filtres Marketplace et par pays,
 onglets du profil marque TOURÉ., suivi et désabonnement d'une marque, prise de contact,
@@ -91,9 +91,12 @@ et carte), filtre des commandes, menu mobile et modération côté administratio
 l'annuaire (apostrophes comprises), **et un balayage de toutes les pages de liste** : pour
 chacune, un filtre réduit bien la liste affichée puis le bouton « Réinitialiser » ramène la
 liste complète (ou, pour les pages à puces de catégorie, la puce active réduit la liste).
-L'inscription contrôle aussi la confirmation du mot de passe et la conservation des
-informations saisies ; le panier vérifie l'arithmétique (total = sous-total + livraison,
-+1 unité = +1 prix) et la **livraison offerte au-delà de 250 000 FCFA** dans les deux sens.
+S'y ajoutent la pagination de l'annuaire (12 fiches par page, 40 fiches, retour en page 1 dès
+qu'un filtre change), l'inscription à un événement, l'ajout au calendrier, l'achat d'un billet,
+la candidature à une offre et l'ouverture d'un book depuis la liste des mannequins. L'inscription
+contrôle aussi la confirmation du mot de passe et la conservation des informations saisies ; le
+panier vérifie l'arithmétique (total = sous-total + livraison, +1 unité = +1 prix) et la
+**livraison offerte au-delà de 250 000 FCFA** dans les deux sens.
 
 ## Stack
 

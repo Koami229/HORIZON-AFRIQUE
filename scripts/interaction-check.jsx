@@ -563,6 +563,76 @@ console.log('\n▶ Favoris : onglets comptés et retrait d’un favori')
   cleanup()
 }
 
+console.log('\n▶ Annuaire : pagination des 40 fiches')
+{
+  const { container } = await mount('/annuaire')
+  const cartes = () => container.querySelectorAll('article.card').length
+  const page = () => Number((txt(container.querySelector('.tiny.muted-2.center-text')) || '').match(/Page (\d+) sur/)?.[1] || 1)
+  await expect(container, `la première page affiche 12 fiches (${cartes()})`, cartes() === 12)
+  const premierNom = txt(container.querySelector('article.card b'))
+  const suivant = [...container.querySelectorAll('.icon-btn')].find((b) => txt(b) === '›')
+  const precedent = [...container.querySelectorAll('.icon-btn')].find((b) => txt(b) === '‹')
+  await expect(container, 'le bouton « page précédente » est inactif en page 1', precedent.disabled)
+  fireEvent.click(suivant)
+  await act(async () => {})
+  await expect(container, `la page 2 est atteinte (page ${page()})`, page() === 2)
+  await expect(container, 'les fiches de la page 2 sont différentes', txt(container.querySelector('article.card b')) !== premierNom)
+  const chiffre4 = [...container.querySelectorAll('.icon-btn')].find((b) => txt(b) === '4')
+  fireEvent.click(chiffre4)
+  await act(async () => {})
+  await expect(container, `la page 4 affiche les dernières fiches (${cartes()} fiches, page ${page()})`, page() === 4 && cartes() === 4)
+  await expect(container, 'le bouton « page suivante » est inactif en dernière page',
+    [...container.querySelectorAll('.icon-btn')].find((b) => txt(b) === '›').disabled)
+
+  // un filtre renvoie à la première page
+  const select = [...container.querySelectorAll('select')][0]
+  typeInto(select, 'Bénin')
+  await act(async () => {})
+  await expect(container, `changer de filtre revient en page 1 (page ${page()})`, page() === 1)
+  cleanup()
+}
+
+console.log('\n▶ Événement : participer, calendrier, billet')
+{
+  const { container } = await mount('/evenements/evt-1')
+  click(container, 'Participer')
+  await expect(container, 'la fenêtre d’inscription s’ouvre', has(container, 'Confirmer ma participation') && has(container, 'Nombre de places'))
+  click(container, 'Confirmer ma participation')
+  await act(async () => {})
+  await expect(container, 'l’inscription est confirmée', has(container, 'Inscription confirmée'))
+  click(container, 'Ajouter au calendrier')
+  await expect(container, 'l’ajout au calendrier est confirmé', has(container, 'calendrier'))
+  click(container, 'Partager')
+  await expect(container, 'le partage est confirmé', has(container, 'copié'))
+  click(container, 'Acheter un billet')
+  await expect(container, 'la billetterie payante est proposée', has(container, 'paiement du billet'))
+  cleanup()
+}
+
+console.log('\n▶ Opportunité : candidature complète')
+{
+  const { container } = await mount('/opportunites/opp-2')
+  click(container, 'Postuler maintenant')
+  await expect(container, 'la fenêtre de candidature s’ouvre', has(container, 'Envoyer ma candidature') || has(container, 'Lettre de motivation'))
+  const champ = container.querySelector('.modal textarea, textarea.textarea')
+  if (champ) typeInto(champ, 'Bonjour, je souhaite participer au casting.')
+  click(container, 'Envoyer ma candidature')
+  await act(async () => {})
+  await expect(container, 'la candidature est confirmée', has(container, 'Candidature envoyée'))
+  cleanup()
+}
+
+console.log('\n▶ Mannequin : ouverture du book')
+{
+  const { container } = await mount('/mannequins')
+  const liste = has(container, 'Filtres') || has(container, 'Sexe')
+  click(container, 'Voir le book')
+  await act(async () => {})
+  await expect(container, 'la fiche du mannequin s’ouvre', has(container, 'Proposer une collaboration') && has(container, 'Portfolio'))
+  await expect(container, 'la fiche remplace bien la liste', liste && !has(container, 'Voir le book'))
+  cleanup()
+}
+
 /* ---------------------------------- bilan ---------------------------------- */
 console.log(`\n${passed} vérifications réussies, ${failures.length} en échec`)
 if (failures.length) {
