@@ -18,7 +18,7 @@ npm run check:routes         # 79/79 : chaque route se rend sans erreur (rendu S
 npm run check:spec           # 187/187 : les 51 sections du cahier des charges sont présentes
 npm run check:data           # intégrité du jeu de données : identifiants, catégories, dates, montants, médias
 npm run check:links          # 4 601 liens internes + 362 images : aucun lien mort, aucune route orpheline
-npm run check:a11y           # alt, intitulés accessibles, identifiants uniques, titres h1→h3, champs étiquetés
+npm run check:a11y           # 8 critères : alt, intitulés, identifiants, titres h1→h3, champs, typographie
 npm run check:contrast       # contraste WCAG 2.1 AA des couples texte / fond du système de design
 npm run check:css            # classes manquantes, CSS mort et couverture responsive des grilles
 npm run check:interactions   # 116/116 : parcours cliquables vérifiés sous jsdom
@@ -33,6 +33,8 @@ le JSX mais absentes de la feuille de style (aucune), les classes définies mais
 réserve une colonne fixe de 200 px et plus doit être reprise dans une media query, sinon la
 maquette déborderait sur téléphone. Les grilles `auto-fill`/`minmax` et les colonnes d'icône
 sont fluides et exemptées. Les points de rupture déclarés sont 1180, 1080, 980 et 640 px.
+Le contrôle vérifie aussi le **mouvement réduit** : dès qu'une transition est déclarée, un bloc
+`@media (prefers-reduced-motion: reduce)` doit neutraliser animations et transitions.
 
 ### Ce que couvre `check:contrast`
 
@@ -61,7 +63,7 @@ valeurs numériques plausibles, dates valides et ordonnées, images réellement 
   362 images référencées existent dans `public/img/`, et **les 79 routes sont atteignables** —
   aucun écran n'est orphelin (contrôle inverse : chaque route est cherchée dans les `href`
   rendus puis dans les chemins écrits dans le JSX, y compris les tableaux de navigation).
-- **Accessibilité**, sept critères sur les 79 écrans : `alt` des images, intitulés de boutons
+- **Accessibilité**, huit critères sur les 79 écrans : `alt` des images, intitulés de boutons
   et de liens, identifiants HTML uniques, **un seul `h1` par écran**, **aucun niveau de titre
   sauté** (h1 → h2 → h3, la feuille de style conservant les tailles d'origine via `.h-sub` et
   `.card-h`) et **aucun champ de saisie sans libellé** (`label`, `aria-label`, `placeholder`

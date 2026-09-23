@@ -554,3 +554,16 @@ tbody tr:hover { background: rgba(255, 255, 255, 0.025); }
   .profile-head { margin-top: -46px; padding: 0 14px; }
   .section { padding: 40px 0; }
 }
+
+/* ------------------------- Mouvement réduit --------------------------
+   Respecte le réglage système « réduire les animations » (WCAG 2.3.3) :
+   les transitions sont neutralisées, la maquette reste entièrement utilisable. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -4,7 +4,9 @@
      - les <button> et <a> sans intitulé accessible (texte, aria-label ou title) ;
      - les identifiants HTML dupliqués dans une même page ;
      - la structure de titres : un seul h1 par écran, aucun niveau sauté ;
-     - les champs de saisie sans libellé (label, aria-label, placeholder ou title).
+     - les champs de saisie sans libellé (label, aria-label, placeholder ou title) ;
+     - la typographie française du texte affiché (apostrophe typographique, espace avant
+       la ponctuation double, guillemets insécables).
    Usage : npm run check:a11y  */
 {
   const warn = console.warn, error = console.error
@@ -41,8 +43,15 @@ const routes = [
   '/administration/verifications', '/administration/referentiel',
 ]
 
-const issues = { images: [], boutons: [], liens: [], ids: [], titres: [], structure: [], champs: [] }
-const strip = (html) => html.replace(/<[^>]+>/g, ' ').replace(/&[a-z]+;/g, ' ').replace(/\s+/g, ' ').trim()
+const issues = { images: [], boutons: [], liens: [], ids: [], titres: [], structure: [], champs: [], typo: [] }
+/* Texte lisible : on retire les balises, on décode les entités (sinon « &lt; » produirait
+   un faux « t; ») puis on normalise les espaces. */
+const strip = (html) => html
+  .replace(/<[^>]+>/g, ' ')
+  .replace(/&lt;/g, '≤').replace(/&gt;/g, '≥').replace(/&amp;/g, '&')
+  .replace(/&quot;/g, '"').replace(/&#x27;|&#39;/g, "'").replace(/&nbsp;/g, ' ')
+  .replace(/&[a-z]+;/g, ' ')
+  .replace(/\s+/g, ' ').trim()
 
 for (const route of routes) {
   let html
@@ -95,6 +104,18 @@ for (const route of routes) {
     if (!(bloc >= 0 && before.slice(bloc).includes('<label'))) issues.champs.push([route, tag.slice(0, 100)])
   }
 
+  /* --- typographie française --- */
+  const texte = strip(html)
+  for (const m of texte.matchAll(/[A-Za-zÀ-ÿ]'[A-Za-zÀ-ÿ]/g)) {
+    const at = Math.max(0, m.index - 30)
+    issues.typo.push([route, 'apostrophe droite', `…${texte.slice(at, m.index + 24)}…`])
+  }
+  // ponctuation double collée au mot (avant ou après) et guillemets sans espace insécable
+  for (const m of texte.matchAll(/[A-Za-zÀ-ÿ][?!;:]|[?!;:][A-Za-zÀ-ÿ]|«(?=\S)|(?<=\S)»/g)) {
+    const at = Math.max(0, m.index - 30)
+    issues.typo.push([route, 'ponctuation sans espace', `…${texte.slice(at, m.index + 24)}…`])
+  }
+
   const ids = [...html.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1])
   const dupes = [...new Set(ids.filter((id, i) => ids.indexOf(id) !== i))]
   if (dupes.length) issues.ids.push([route, dupes.join(', ')])
@@ -123,6 +144,7 @@ const total = report('Images sans alt', issues.images)
   + report('Écrans sans un titre h1 unique', issues.titres)
   + report('Niveaux de titre sautés', issues.structure)
   + report('Champs sans libellé accessible', issues.champs)
+  + report('Typographie française', issues.typo)
 
 console.log(`\n${total === 0 ? '✅ Aucun problème d’accessibilité détecté sur les critères vérifiés.' : `⚠️ ${total} cas à revoir.`}`)
 process.exitCode = total ? 1 : 0

@@ -114,16 +114,23 @@ const menuMobile = /\.nav\s*\{\s*display:\s*none/.test(mediaText) && /\.burger\s
 console.log(`\nMises en page multi-colonnes détectées : ${multiColumn.length ? multiColumn.join(', ') : 'aucune'}`)
 console.log(`Points de rupture déclarés : ${breakpoints.map((b) => `${b} px`).join(', ') || 'aucun'}`)
 
+/* --------------------------- mouvement réduit --------------------------- */
+const transitions = (cssSource.match(/transition:/g) || []).length
+const reducedMotion = /@media \(prefers-reduced-motion: reduce\)/.test(cssSource)
+const motionOk = transitions === 0 || reducedMotion
+
 const responsiveIssues = []
 if (sansMobile.length) responsiveIssues.push(`sans reprise mobile : ${sansMobile.join(', ')}`)
 if (breakpoints.length < 3) responsiveIssues.push(`moins de trois points de rupture (${breakpoints.length})`)
 if (!menuMobile) responsiveIssues.push('le menu principal ne bascule pas vers le menu mobile (burger)')
+if (!motionOk) responsiveIssues.push(`${transitions} transitions déclarées sans bloc @media (prefers-reduced-motion: reduce)`)
 
 if (responsiveIssues.length) {
   console.log(`\n${responsiveIssues.length} problème(s) de responsive :`)
   for (const issue of responsiveIssues) console.log(`  ✗ ${issue}`)
 } else {
   console.log(`\n✅ Responsive : chaque mise en page multi-colonnes est reprise sous ${breakpoints.join(' px, ')} px et le menu bascule vers le burger.`)
+  console.log(`✅ Mouvement réduit : ${transitions} transitions neutralisées par le bloc @media (prefers-reduced-motion: reduce).`)
 }
 
 process.exitCode = (missing.length || responsiveIssues.length) ? 1 : 0
